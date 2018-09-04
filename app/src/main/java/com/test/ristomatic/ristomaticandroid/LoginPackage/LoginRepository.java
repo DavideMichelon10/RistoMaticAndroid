@@ -1,7 +1,9 @@
 package com.test.ristomatic.ristomaticandroid.LoginPackage;
 
 import android.arch.lifecycle.LiveData;
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -20,9 +22,14 @@ import com.test.ristomatic.ristomaticandroid.R;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 public class LoginRepository{
+    private FileOutputStream outputStream;
 
     public void sendCode(final int code)  {
         JsonObjectRequest jsonUserLogged = new JsonObjectRequest(Request.Method.GET, VolleyCallApplication.checkLogin() + "/" + code, null,
@@ -34,7 +41,7 @@ public class LoginRepository{
                             LoginViewModel.setLogged(false);
                         }else{
                             //scrivi su File
-                            System.out.println(response.toString());
+                            saveOnFile(response);
                             LoginViewModel.setLogged(true);
                         }
 
@@ -49,7 +56,15 @@ public class LoginRepository{
         SingeltonVolley.getInstance(ContextApplication.getAppContext()).addToRequestQueue(jsonUserLogged);
         //Toast.makeText(ContextApplication.getAppContext(), "sdg" + contatore, Toast.LENGTH_SHORT).show();
     }
-
-
-
+    private void saveOnFile(JSONObject response){
+        try {
+            outputStream = ContextApplication.getAppContext().openFileOutput(LoginViewModel.filename, Context.MODE_PRIVATE);
+            outputStream.write(response.toString().getBytes());
+            outputStream.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

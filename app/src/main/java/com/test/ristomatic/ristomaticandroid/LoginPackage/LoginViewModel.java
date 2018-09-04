@@ -19,17 +19,21 @@ public class LoginViewModel extends ViewModel {
     LoginRepository loginRepository;
     //file dove sono salvate info su user loggato
     public static File userLoggedFile;
-    public  static MutableLiveData<Boolean> logged;
+    private static MutableLiveData<Boolean> logged;
+    public static String filename = "RistoMatic";
 
     public LoginViewModel(){
         logged = new MutableLiveData<Boolean>();
-        //this.loginRepository = loginRepository;
-        //filename = "UserCredential";
+        userLoggedFile = new File(ContextApplication.getAppContext().getFilesDir(), filename);
+
     }
     public void init(LoginRepository loginRepository){
         this.loginRepository = loginRepository;
     }
 
+    public static MutableLiveData<Boolean> getLogged(){
+        return  logged;
+    }
     //forse boolean
     public void sendCode(int code){
         loginRepository.sendCode(code);
@@ -38,9 +42,7 @@ public class LoginViewModel extends ViewModel {
     public static void setLogged(boolean bool){
         logged.setValue(bool);
     }
-    //public void getLogged(int code){
-      //  logged = loginRepository.getLogged(code);
-    //}
+
     public boolean isLogged(){
         //quando esci dal programma, elimina file
         if(userLoggedFile.exists()){

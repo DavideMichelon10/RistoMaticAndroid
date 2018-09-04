@@ -2,6 +2,7 @@ package com.test.ristomatic.ristomaticandroid.LoginPackage;
 
 import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.support.annotation.Nullable;
@@ -24,7 +25,7 @@ public class LoginActivity extends AppCompatActivity {
         loginViewModel = ViewModelProviders.of(this).get(LoginViewModel.class);
         loginViewModel.init(new LoginRepository());
         System.out.println("AAAAA");
-        LoginViewModel.logged.observe(this, new Observer<Boolean>() {
+        LoginViewModel.getLogged().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(@Nullable Boolean aBoolean) {
                 if(aBoolean == false){
@@ -38,5 +39,13 @@ public class LoginActivity extends AppCompatActivity {
 
     public void testVolley(View view){
         loginViewModel.sendCode(1234);
+    }
+    public void testSave(View view){
+        if(LoginViewModel.userLoggedFile.length() == 0){
+            Toast.makeText(this, "FILE ESISTE MA VUOTO",Toast.LENGTH_LONG).show();
+        }else{
+            Toast.makeText(this, "FILE PIENO",Toast.LENGTH_LONG).show();
+
+        }
     }
 }
