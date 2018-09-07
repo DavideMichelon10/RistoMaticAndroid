@@ -24,7 +24,6 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         loginViewModel = ViewModelProviders.of(this).get(LoginViewModel.class);
         loginViewModel.init(new LoginRepository());
-        System.out.println("AAAAA");
         LoginViewModel.getLogged().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(@Nullable Boolean aBoolean) {
@@ -35,6 +34,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+        //Toast.makeText(this, LoginViewModel, Toast.LENGTH_SHORT).show();
     }
 
     public void testVolley(View view){
