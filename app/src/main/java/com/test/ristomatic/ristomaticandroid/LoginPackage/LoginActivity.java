@@ -44,6 +44,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+        //Toast.makeText(this, LoginViewModel, Toast.LENGTH_SHORT).show();
     }
 
     public void login(View view){

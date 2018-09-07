@@ -59,7 +59,7 @@ public class LoginRepository{
     }
     private void saveOnFile(JSONObject response){
         try {
-            outputStream = ContextApplication.getAppContext().openFileOutput(LoginViewModel.filename, Context.MODE_PRIVATE);
+            outputStream = ContextApplication.getAppContext().openFileOutput(ContextApplication.getAppContext().getFilesDir() + "/" +LoginViewModel.filename, Context.MODE_PRIVATE);
             outputStream.write(response.toString().getBytes());
             outputStream.close();
         } catch (FileNotFoundException e) {

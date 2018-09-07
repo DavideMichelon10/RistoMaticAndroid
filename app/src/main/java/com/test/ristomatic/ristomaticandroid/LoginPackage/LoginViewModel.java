@@ -43,11 +43,5 @@ public class LoginViewModel extends ViewModel {
         logged.setValue(bool);
     }
 
-    public boolean isLogged(){
-        //quando esci dal programma, elimina file
-        if(userLoggedFile.exists()){
-            return true;
-        }
-        return false;
-    }
+
 }
