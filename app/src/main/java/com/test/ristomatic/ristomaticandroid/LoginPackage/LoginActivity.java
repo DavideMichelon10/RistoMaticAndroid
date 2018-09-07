@@ -38,6 +38,7 @@ public class LoginActivity extends AppCompatActivity {
                     MyAlertDialog alertWrongPassword = new MyAlertDialog("La password inserita non è corretta. Riprova.", LoginActivity.this, "Passord non corretta");
                 }else{
                     //vai a pagina Login
+                    System.out.println("PASSWORD CORRETTA");
                     Toast.makeText(ContextApplication.getAppContext(), "Password corretta!", Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(ContextApplication.getAppContext(), MainActivity.class);
                     startActivity(intent);

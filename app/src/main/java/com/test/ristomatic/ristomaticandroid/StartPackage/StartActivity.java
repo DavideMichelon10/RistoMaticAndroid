@@ -8,6 +8,7 @@ import android.os.Bundle;
 import com.test.ristomatic.ristomaticandroid.Application.ContextApplication;
 import com.test.ristomatic.ristomaticandroid.LoginPackage.LoginActivity;
 import com.test.ristomatic.ristomaticandroid.LoginPackage.LoginViewModel;
+import com.test.ristomatic.ristomaticandroid.MainPackage.MainActivity;
 import com.test.ristomatic.ristomaticandroid.R;
 
 import org.json.JSONException;
