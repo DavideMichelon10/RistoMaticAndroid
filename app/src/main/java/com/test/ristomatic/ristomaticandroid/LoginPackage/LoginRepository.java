@@ -15,6 +15,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.JsonRequest;
 import com.test.ristomatic.ristomaticandroid.Application.ContextApplication;
+import com.test.ristomatic.ristomaticandroid.Application.MyAlertDialog;
 import com.test.ristomatic.ristomaticandroid.Application.SingeltonVolley;
 import com.test.ristomatic.ristomaticandroid.Application.VolleyCallApplication;
 import com.test.ristomatic.ristomaticandroid.R;
@@ -49,8 +50,8 @@ public class LoginRepository{
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                sendCode(code);
-                Toast.makeText(ContextApplication.getAppContext(), "ERROR "+error.getMessage(), Toast.LENGTH_LONG).show();
+                //sendCode(code);
+                Toast.makeText(ContextApplication.getAppContext(), "Controlla la connessione!", Toast.LENGTH_LONG).show();
             }
         });
         SingeltonVolley.getInstance(ContextApplication.getAppContext()).addToRequestQueue(jsonUserLogged);
