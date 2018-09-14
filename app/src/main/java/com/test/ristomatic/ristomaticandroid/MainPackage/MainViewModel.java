@@ -1,14 +1,12 @@
 package com.test.ristomatic.ristomaticandroid.MainPackage;
 
 import android.arch.lifecycle.ViewModel;
-import android.content.Context;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 
 import com.google.gson.Gson;
 import com.test.ristomatic.ristomaticandroid.Application.ContextApplication;
-import com.test.ristomatic.ristomaticandroid.MainPackage.TabLayoutDirectory.PagerAdapter;
-import com.test.ristomatic.ristomaticandroid.MainPackage.TabLayoutDirectory.TablesFragment;
+import com.test.ristomatic.ristomaticandroid.MainPackage.GraphicDirectory.PagerAdapter;
+import com.test.ristomatic.ristomaticandroid.MainPackage.GraphicDirectory.TablesFragment;
 import com.test.ristomatic.ristomaticandroid.Model.Table;
 
 import org.json.JSONArray;
@@ -16,7 +14,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 

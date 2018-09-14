@@ -1,4 +1,4 @@
-package com.test.ristomatic.ristomaticandroid.Model;
+package com.test.ristomatic.ristomaticandroid.MainPackage.GraphicDirectory;
 
 
 import android.content.Context;
@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.test.ristomatic.ristomaticandroid.Model.Table;
 import com.test.ristomatic.ristomaticandroid.R;
 
 import java.util.List;
@@ -39,7 +40,6 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
         {
             holder.textViewId.setText(Integer.toString(table.getIdTable()));
         }
-        System.out.println("ON BIND VIEW HOLDER");
     }
 
     @Override

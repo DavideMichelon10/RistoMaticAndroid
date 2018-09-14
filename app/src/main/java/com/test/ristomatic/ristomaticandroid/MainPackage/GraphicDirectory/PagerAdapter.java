@@ -1,4 +1,4 @@
-package com.test.ristomatic.ristomaticandroid.MainPackage.TabLayoutDirectory;
+package com.test.ristomatic.ristomaticandroid.MainPackage.GraphicDirectory;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

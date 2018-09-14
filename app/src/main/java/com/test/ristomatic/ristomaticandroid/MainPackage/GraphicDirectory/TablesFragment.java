@@ -1,18 +1,15 @@
-package com.test.ristomatic.ristomaticandroid.MainPackage.TabLayoutDirectory;
+package com.test.ristomatic.ristomaticandroid.MainPackage.GraphicDirectory;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import com.test.ristomatic.ristomaticandroid.Application.ContextApplication;
 import com.test.ristomatic.ristomaticandroid.Model.Room;
 import com.test.ristomatic.ristomaticandroid.Model.Table;
 import com.test.ristomatic.ristomaticandroid.R;
@@ -23,6 +20,7 @@ import java.util.List;
 public class TablesFragment extends Fragment {
     private Room room;
     private LinearLayout linearLayout;
+    private boolean bool = true;
     public TablesFragment(){
         System.out.println("IN FRAGMENT");
     }
@@ -31,13 +29,24 @@ public class TablesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        System.out.println("ON CR VIEW");
         View v =  inflater.inflate(R.layout.fragment_blank, container, false);
         linearLayout = (LinearLayout) v.findViewById(R.id.linearLayout);
-        if(linearLayout.getChildCount()<1){
-            linearLayout.addView(room.getMyRecyleView());
-        }
+        linearLayout.addView(room.getMyRecyleView());
+
         return v;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        System.out.println("in pausa");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        System.out.println("in Resume");
     }
 
     public Room getRoom() {
@@ -49,12 +58,11 @@ public class TablesFragment extends Fragment {
     }
 
     public void init(List<Table> roomTables, RecyclerView recyclerView){
-        System.out.println("PRIMA");
         room = new Room(roomTables, recyclerView);
-        System.out.println("DENTRO");
-        //linearLayout = (LinearLayout) getView().findViewById(R.id.linearLayout);
-        //linearLayout.addView(room.getMyRecyleView());
+    }
 
-
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
     }
 }

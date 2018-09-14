@@ -7,13 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-import com.test.ristomatic.ristomaticandroid.MainPackage.TabLayoutDirectory.PagerAdapter;
-import com.test.ristomatic.ristomaticandroid.MainPackage.TabLayoutDirectory.TablesFragment;
-import com.test.ristomatic.ristomaticandroid.Model.Table;
+import com.test.ristomatic.ristomaticandroid.MainPackage.GraphicDirectory.PagerAdapter;
 import com.test.ristomatic.ristomaticandroid.R;
-
-import java.util.LinkedList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private MainViewModel mainViewModel;

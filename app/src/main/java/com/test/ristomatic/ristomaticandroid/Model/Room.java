@@ -6,19 +6,18 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.test.ristomatic.ristomaticandroid.Application.ContextApplication;
+import com.test.ristomatic.ristomaticandroid.MainPackage.GraphicDirectory.RoomAdapter;
 
 import java.util.List;
 
 public class Room {
-    RoomAdapter roomAdapter;
-    RecyclerView myRecyleView;
-    Context context;
+    private RoomAdapter roomAdapter;
+    private RecyclerView myRecyleView;
     public static int index;
     public Room(List<Table> newTableList, RecyclerView myRecyleView) {
-        this.roomAdapter = new RoomAdapter(newTableList, context);
+        this.roomAdapter = new RoomAdapter(newTableList, ContextApplication.getAppContext());
         this.roomAdapter = roomAdapter;
         this.myRecyleView = myRecyleView;
-        this.context = ContextApplication.getAppContext();
         this.myRecyleView.setAdapter(this.roomAdapter);
         this.myRecyleView.setLayoutManager(new GridLayoutManager(ContextApplication.getAppContext(), 3));
         this.myRecyleView.setId(index++);
