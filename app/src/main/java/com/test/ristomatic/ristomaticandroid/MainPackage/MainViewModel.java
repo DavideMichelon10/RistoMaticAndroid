@@ -6,8 +6,10 @@ import android.support.v7.widget.RecyclerView;
 import com.google.gson.Gson;
 import com.test.ristomatic.ristomaticandroid.Application.ContextApplication;
 import com.test.ristomatic.ristomaticandroid.MainPackage.GraphicDirectory.PagerAdapter;
+import com.test.ristomatic.ristomaticandroid.MainPackage.GraphicDirectory.RoomAdapter;
 import com.test.ristomatic.ristomaticandroid.MainPackage.GraphicDirectory.TablesFragment;
 import com.test.ristomatic.ristomaticandroid.Model.Table;
+import com.test.ristomatic.ristomaticandroid.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,6 +24,7 @@ public class MainViewModel extends ViewModel {
 
     public void init(MainRepository mainRepository, PagerAdapter pagerAdapter) {
         this.mainRepository = mainRepository;
+        int z = 0;
         //mainRepository.getTablesRooms(new VolleyCallback() {
           //  @Override
             //public void onSuccess(JSONArray result) {
@@ -36,13 +39,12 @@ public class MainViewModel extends ViewModel {
                             JSONObject jsonObject = jsonArray1.getJSONObject(j);
                             Table table = new Gson().fromJson(jsonObject.toString(), Table.class);
                             tablesRoom.add(table);
-                           // System.out.println(table.toString());
                             //popolare per prima volta lista tables, mettere progressDialog o qualcosa che attenda la fine
                         }
                         TablesFragment tablesFragment = new TablesFragment();
-                        pagerAdapter.rooms.add(tablesFragment);
-                        tablesFragment.init(tablesRoom, new RecyclerView(ContextApplication.getAppContext()));
 
+                        pagerAdapter.getRooms().add(tablesFragment);
+                        tablesFragment.init(tablesRoom, new RecyclerView(ContextApplication.getAppContext()));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -55,14 +57,13 @@ public class MainViewModel extends ViewModel {
         //mainRepository.getTables(new VolleyCallback() {
             //@Override
             //public void onSuccess(JSONArray result) {
-                String s = "[{id=1, state=Occupato, idRoom=1},{id=1, state=libero, idRoom=1}]";
-                JSONArray result = new JSONArray();
-
-                try {
-                    JSONArray jsonArray = new JSONArray(s);
-                    result = jsonArray;
-                } catch (JSONException e) {
-                    e.printStackTrace();
+            String s = "[{id=1, state=Occupato, idRoom=1},{id=1, state=libero, idRoom=1}]";
+            JSONArray result = new JSONArray();
+        try {
+            JSONArray jsonArray = new JSONArray(s);
+            result = jsonArray;
+        } catch (JSONException e) {
+            e.printStackTrace();
                 }
                 for(int i=0; i< result.length(); i++){
                     try {

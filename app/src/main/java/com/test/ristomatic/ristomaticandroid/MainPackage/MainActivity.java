@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.test.ristomatic.ristomaticandroid.MainPackage.GraphicDirectory.PagerAdapter;
+import com.test.ristomatic.ristomaticandroid.Model.Table;
 import com.test.ristomatic.ristomaticandroid.R;
 
 public class MainActivity extends AppCompatActivity {
@@ -24,15 +25,11 @@ public class MainActivity extends AppCompatActivity {
 
         numberRooms = 4;
         mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
-        //mainViewModel.init(new MainRepository());
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
         pagerAdapter = new PagerAdapter(getSupportFragmentManager());
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
 
-        //for(int i=0; i<numberRooms; i++){
-          //  pagerAdapter.addFragment(new TablesFragment());
-        //}
         mainViewModel.init(new MainRepository(), pagerAdapter);
         viewPager.setAdapter(pagerAdapter);
 
@@ -41,15 +38,7 @@ public class MainActivity extends AppCompatActivity {
         //titolo tab
         for(int i=0; i<numberRooms; i++){
             tabLayout.getTabAt(i).setText("Sala "+ (1+i));
-
         }
-
-    }
-
-
-    public void testJSON(View view){
-        //mainViewModel.getTable();
-        //mainViewModel.getTables().get(0).setValue(new Table(2, "aa", 4));
     }
 
     //disabilita tasto goBack

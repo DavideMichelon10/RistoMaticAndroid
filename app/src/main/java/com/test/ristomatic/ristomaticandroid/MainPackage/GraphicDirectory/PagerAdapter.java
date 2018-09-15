@@ -1,28 +1,37 @@
 package com.test.ristomatic.ristomaticandroid.MainPackage.GraphicDirectory;
 
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import java.util.LinkedList;
 import java.util.List;
 
+//contiene lista fragment presenti nella viewPager
 public class PagerAdapter extends FragmentStatePagerAdapter {
-    public List<TablesFragment> rooms = new LinkedList<>();
+    private List<TablesFragment> rooms = new LinkedList<>();
     public PagerAdapter(FragmentManager fm) {
         super(fm);
     }
 
     public void addFragment(TablesFragment tablesFragment){
-        rooms.add(tablesFragment);
+        getRooms().add(tablesFragment);
     }
     @Override
-    public Fragment getItem(int position) {
-        return rooms.get(position);
+    public TablesFragment getItem(int position) {
+        return getRooms().get(position);
     }
 
     @Override
     public int getCount() {
-        return rooms.size();
+        return getRooms().size();
     }
+
+    public List<TablesFragment> getRooms() {
+        return rooms;
+    }
+
+    public void setRooms(List<TablesFragment> rooms) {
+        this.rooms = rooms;
+    }
+
 }

@@ -15,16 +15,22 @@ import com.test.ristomatic.ristomaticandroid.R;
 import java.util.List;
 
 public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
-
-    public List<Table> tables;
+    private List<Table> tables;
     private Context context;
     private int list_item;
 
     public RoomAdapter(List<Table> tables, Context context) {
-        this.tables = tables;
+        this.setTables(tables);
         this.context = context;
     }
 
+    public List<Table> getTables() {
+        return tables;
+    }
+
+    public void setTables(List<Table> tables) {
+        this.tables = tables;
+    }
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -34,26 +40,30 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
     }
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Table table = tables.get(position);
+        Table table = getTables().get(position);
         //holder contiene la view attuale collegata table.get(position)
-        if(holder.textViewId.getText() != Integer.toString(table.getIdTable()))
-        {
+        if(holder.textViewId.getText() != Integer.toString(table.getIdTable())) {
             holder.textViewId.setText(Integer.toString(table.getIdTable()));
         }
     }
 
     @Override
     public int getItemCount() {
-        return tables.size();
+        return getTables().size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-
         public TextView textViewId;
         public ViewHolder(@NonNull final View itemView) {
             super(itemView);
             //all'interno di list_item
             textViewId = (TextView)itemView.findViewById(R.id.textViewIdTavolo);
+            textViewId.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //gestisci click
+                }
+            });
         }
     }
 }

@@ -26,46 +26,42 @@ public class Room {
     public RoomAdapter getRoomAdapter() {
         return roomAdapter;
     }
-
-    public RecyclerView getMyRecyleView() {
-        return myRecyleView;
-    }
-
     public void setRoomAdapter(RoomAdapter roomAdapter) {
         this.roomAdapter = roomAdapter;
     }
 
+
+    public RecyclerView getMyRecyleView() {
+        return myRecyleView;
+    }
     public void setMyRecyleView(RecyclerView myRecyleView) {
         this.myRecyleView = myRecyleView;
     }
 
     public void addTable(Table newTable){
-        for (int i = 0; i< roomAdapter.tables.size(); i++){
+        for (int i = 0; i< roomAdapter.getTables().size(); i++){
 
-            if(i!= roomAdapter.tables.size()-1 && i!= 0){
+            if(i!= roomAdapter.getTables().size()-1 && i!= 0){
                 System.out.println("NEL addTable IF: " + i);
-                if (newTable.getIdTable() < roomAdapter.tables.get(i+1).getIdTable() && newTable.getIdTable() > roomAdapter.tables.get(i-1).getIdTable()){
-                    roomAdapter.tables.add(i, newTable);
+                if (newTable.getIdTable() < roomAdapter.getTables().get(i+1).getIdTable() && newTable.getIdTable() > roomAdapter.getTables().get(i-1).getIdTable()){
+                    roomAdapter.getTables().add(i, newTable);
                     break;
                 }
             }
-            else if(i == 0)
-            {
+            else if(i == 0) {
                 System.out.println("NEL addTable ELSE IF: " + i);
-                if (newTable.getIdTable() < roomAdapter.tables.get(i).getIdTable()){
-                    roomAdapter.tables.add(i, newTable);
+                if (newTable.getIdTable() < roomAdapter.getTables().get(i).getIdTable()){
+                    roomAdapter.getTables().add(i, newTable);
                     break;
                 }
             }
             else {
                 System.out.println("NEL addTable ELSE: " + i);
-                if (newTable.getIdTable() > roomAdapter.tables.get(i).getIdTable())
-                    roomAdapter.tables.add(newTable);
+                if (newTable.getIdTable() > roomAdapter.getTables().get(i).getIdTable())
+                    roomAdapter.getTables().add(newTable);
             }
         }
     }
 
-    public void setTableList(List<Table> newTableList){
-        roomAdapter.tables = newTableList;
-    }
+
 }

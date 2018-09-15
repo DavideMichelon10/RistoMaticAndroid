@@ -25,7 +25,6 @@ public class Table {
         this.idRoom = idRoom;
     }
 
-
     public Table( int idRoom, int idTable, String state,List<Date> reservations){
         this.idTable = idTable;
         this.state = state;
