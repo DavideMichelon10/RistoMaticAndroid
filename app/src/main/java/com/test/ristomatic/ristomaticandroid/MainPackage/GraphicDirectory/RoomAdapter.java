@@ -62,6 +62,8 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
                 @Override
                 public void onClick(View view) {
                     //gestisci click
+                    System.out.println("clicked");
+                    System.out.println(textViewId.getText().toString());
                 }
             });
         }

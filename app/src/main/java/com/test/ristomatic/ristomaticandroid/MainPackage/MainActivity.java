@@ -7,13 +7,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+import com.test.ristomatic.ristomaticandroid.Application.VolleyCallback;
 import com.test.ristomatic.ristomaticandroid.MainPackage.GraphicDirectory.PagerAdapter;
 import com.test.ristomatic.ristomaticandroid.Model.Table;
 import com.test.ristomatic.ristomaticandroid.R;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class MainActivity extends AppCompatActivity {
     private MainViewModel mainViewModel;
-    private ViewPager viewPager;
+    public ViewPager viewPager;
     private TabLayout tabLayout;
     private PagerAdapter pagerAdapter;
     private int numberRooms;
@@ -23,22 +27,22 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        numberRooms = 4;
+        numberRooms = 2;
         mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
         pagerAdapter = new PagerAdapter(getSupportFragmentManager());
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
 
-        mainViewModel.init(new MainRepository(), pagerAdapter);
-        viewPager.setAdapter(pagerAdapter);
+        mainViewModel.init(new MainRepository(), pagerAdapter, viewPager, tabLayout);
 
-        tabLayout.setupWithViewPager(viewPager);
+        //viewPager.setAdapter(pagerAdapter);
+        //tabLayout.setupWithViewPager(viewPager);
 
         //titolo tab
-        for(int i=0; i<numberRooms; i++){
-            tabLayout.getTabAt(i).setText("Sala "+ (1+i));
-        }
+       // for(int i=0; i<numberRooms; i++){
+        //    tabLayout.getTabAt(i).setText("Sala "+ (1+i));
+       // }
     }
 
     //disabilita tasto goBack

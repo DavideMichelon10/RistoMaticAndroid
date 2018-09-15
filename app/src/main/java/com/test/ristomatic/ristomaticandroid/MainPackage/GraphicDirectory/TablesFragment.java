@@ -1,6 +1,7 @@
 package com.test.ristomatic.ristomaticandroid.MainPackage.GraphicDirectory;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
@@ -15,6 +16,7 @@ import com.test.ristomatic.ristomaticandroid.R;
 
 import java.util.List;
 import java.util.Timer;
+import java.util.TimerTask;
 
 public class TablesFragment extends Fragment {
     private Room room;
@@ -23,7 +25,8 @@ public class TablesFragment extends Fragment {
     private int idFragment;
     private View v;
     Timer timer;
-    int i = 123;
+    int i = 1333;
+    TimerTask hourlyTask;
     public TablesFragment(){
         System.out.println("IN FRAGMENT");
     }
@@ -42,6 +45,21 @@ public class TablesFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         System.out.println("ON CREATE");
+        Timer timer = new Timer ();
+        /*hourlyTask = new TimerTask () {
+            @Override
+            public void run () {
+                room.getRoomAdapter().getTables().add(new Table(++i,"a"));
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        room.getRoomAdapter().notifyDataSetChanged();
+                    }
+                });
+            }
+        };
+        timer.schedule (hourlyTask, 0l, 1000);   // 1000*10*60 every 10 minut
+*/
     }
 
     @Override
@@ -53,6 +71,7 @@ public class TablesFragment extends Fragment {
             linearLayout = (LinearLayout) v.findViewById(R.id.linearLayout);
             linearLayout.addView(room.getMyRecyleView());
         }
+
         return v;
 
     }
@@ -60,15 +79,15 @@ public class TablesFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-
+        //hourlyTask.cancel();
         System.out.println("in pausa");
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        room.getRoomAdapter().getTables().get(0).setIdTable(++i);
-        room.getRoomAdapter().notifyDataSetChanged();
+        //room.getRoomAdapter().getTables().get(0).setIdTable(++i);
+        //room.getRoomAdapter().notifyDataSetChanged();
         System.out.println("in onResume");
     }
 }
