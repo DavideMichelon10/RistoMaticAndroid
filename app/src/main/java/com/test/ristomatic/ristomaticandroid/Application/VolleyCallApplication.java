@@ -10,8 +10,8 @@ public class VolleyCallApplication extends Application {
         return GlobalVariableApplication.serverAddress() +"CheckLogIn";
     }
 
-    public static String getTables(){
-        return GlobalVariableApplication.serverAddress() +"getTables";
+    public static String getTablesInRoom(){
+        return GlobalVariableApplication.serverAddress() +"getTablesInRoom";
     }
     public static String getTablesRooms(){
         return GlobalVariableApplication.serverAddress() +"getTablesRooms";

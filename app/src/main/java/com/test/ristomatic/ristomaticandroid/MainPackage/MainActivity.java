@@ -1,6 +1,9 @@
 package com.test.ristomatic.ristomaticandroid.MainPackage;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -16,7 +19,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
-    private MainViewModel mainViewModel;
+    private static MainViewModel mainViewModel;
     public ViewPager viewPager;
     private TabLayout tabLayout;
     private PagerAdapter pagerAdapter;
@@ -35,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
 
         mainViewModel.init(new MainRepository(), pagerAdapter, viewPager, tabLayout);
-
         //viewPager.setAdapter(pagerAdapter);
         //tabLayout.setupWithViewPager(viewPager);
 
@@ -43,6 +45,10 @@ public class MainActivity extends AppCompatActivity {
        // for(int i=0; i<numberRooms; i++){
         //    tabLayout.getTabAt(i).setText("Sala "+ (1+i));
        // }
+    }
+
+    public static MainViewModel getMainViewModel() {
+        return mainViewModel;
     }
 
     //disabilita tasto goBack

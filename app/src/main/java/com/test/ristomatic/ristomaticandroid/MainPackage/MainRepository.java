@@ -31,8 +31,10 @@ public class MainRepository {
         });
         SingeltonVolley.getInstance(ContextApplication.getAppContext()).addToRequestQueue(jsonArrayTableRoom);
     }
-    public void getTables(final VolleyCallback volleyCallback) {
-        JsonArrayRequest jsonArrayTable = new JsonArrayRequest(Request.Method.GET, VolleyCallApplication.getTables(), null,
+
+
+    public void getTablesInRoom(final VolleyCallback volleyCallback, int room) {
+        JsonArrayRequest jsonArrayTableRoom = new JsonArrayRequest(Request.Method.GET, VolleyCallApplication.getTablesInRoom() + "/" + room, null,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
@@ -41,9 +43,9 @@ public class MainRepository {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                getTablesRooms(volleyCallback);
             }
         });
-        SingeltonVolley.getInstance(ContextApplication.getAppContext()).addToRequestQueue(jsonArrayTable);
+        SingeltonVolley.getInstance(ContextApplication.getAppContext()).addToRequestQueue(jsonArrayTableRoom);
     }
 }

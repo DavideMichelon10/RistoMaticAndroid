@@ -36,7 +36,10 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         //Bisogna ancora creare la list_item
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.table_layout, parent, false);
-        return new ViewHolder(v);
+        ViewHolder viewHolder = new ViewHolder(v);
+        if(viewHolder.getAdapterPosition() >= 0)
+            viewHolder.setState(tables.get(viewHolder.getAdapterPosition()).getState());
+        return viewHolder;
     }
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
@@ -45,6 +48,8 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
         if(holder.textViewId.getText() != Integer.toString(table.getIdTable())) {
             holder.textViewId.setText(Integer.toString(table.getIdTable()));
         }
+        if(holder.getState() != table.getState())
+            holder.setState(table.getState());
     }
 
     @Override
@@ -52,10 +57,15 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
         return getTables().size();
     }
 
+
+
     public class ViewHolder extends RecyclerView.ViewHolder{
         public TextView textViewId;
+        public String State;
+        View itemView;
         public ViewHolder(@NonNull final View itemView) {
             super(itemView);
+            this.itemView = itemView;
             //all'interno di list_item
             textViewId = (TextView)itemView.findViewById(R.id.textViewIdTavolo);
             textViewId.setOnClickListener(new View.OnClickListener() {
@@ -66,6 +76,18 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
                     System.out.println(textViewId.getText().toString());
                 }
             });
+        }
+
+        public String getState() {
+            return State;
+        }
+
+        public void setState(String state) {
+            State = state;
+            if(State.compareTo("Occupato") == 0)
+                itemView.setBackgroundColor(0xFFFF0000);
+            else
+                this.itemView.setBackgroundColor(0xFF00FF00);
         }
     }
 }

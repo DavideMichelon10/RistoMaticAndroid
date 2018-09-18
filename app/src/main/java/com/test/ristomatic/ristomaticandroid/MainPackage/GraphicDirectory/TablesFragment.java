@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.test.ristomatic.ristomaticandroid.MainPackage.MainActivity;
+import com.test.ristomatic.ristomaticandroid.MainPackage.MainViewModel;
 import com.test.ristomatic.ristomaticandroid.Model.Room;
 import com.test.ristomatic.ristomaticandroid.Model.Table;
 import com.test.ristomatic.ristomaticandroid.R;
@@ -20,11 +22,12 @@ import java.util.TimerTask;
 
 public class TablesFragment extends Fragment {
     private Room room;
+    int fragmentId;
     private LinearLayout linearLayout;
     private RecyclerView recyclerView;
     private int idFragment;
     private View v;
-    Timer timer;
+    private Timer timer;
     int i = 1333;
     TimerTask hourlyTask;
     public TablesFragment(){
@@ -71,6 +74,17 @@ public class TablesFragment extends Fragment {
             linearLayout = (LinearLayout) v.findViewById(R.id.linearLayout);
             linearLayout.addView(room.getMyRecyleView());
         }
+        room.getRoomAdapter().notifyDataSetChanged();
+        timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                MainActivity.getMainViewModel().getTablesUpToDate(getFragmentId());
+                System.out.println("FRAGMENT ID: " + getFragmentId());
+
+            }
+        },0,3000);
+
 
         return v;
 
@@ -81,6 +95,7 @@ public class TablesFragment extends Fragment {
         super.onPause();
         //hourlyTask.cancel();
         System.out.println("in pausa");
+        timer.cancel();
     }
 
     @Override
@@ -89,5 +104,13 @@ public class TablesFragment extends Fragment {
         //room.getRoomAdapter().getTables().get(0).setIdTable(++i);
         //room.getRoomAdapter().notifyDataSetChanged();
         System.out.println("in onResume");
+    }
+
+    public int getFragmentId() {
+        return fragmentId;
+    }
+
+    public void setFragmentId(int fragmentId) {
+        this.fragmentId = fragmentId;
     }
 }

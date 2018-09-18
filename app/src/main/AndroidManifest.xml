@@ -14,18 +14,20 @@
         android:theme="@style/AppTheme">
         <activity android:name=".LoginPackage.LoginActivity" />
         <activity android:name=".StartPackage.StartActivity">
-
-        </activity>
-        <activity
-            android:name=".MainPackage.MainActivity"
-            android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".MainPackage.MainActivity"
+            android:label="@string/title_activity_main"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+
+        <service
+            android:name=".MainPackage.ServicePackage.TablesUpToDateIntentService"
+            android:exported="false"></service>
     </application>
 
 </manifest>

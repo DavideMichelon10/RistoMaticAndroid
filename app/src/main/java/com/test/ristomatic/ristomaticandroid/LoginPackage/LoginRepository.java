@@ -51,7 +51,7 @@ public class LoginRepository{
             @Override
             public void onErrorResponse(VolleyError error) {
                 //sendCode(code);
-                Toast.makeText(ContextApplication.getAppContext(), "Controlla la connessione!", Toast.LENGTH_LONG).show();
+                Toast.makeText(ContextApplication.getAppContext(), "Controlla la connessione!, " + error.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
         SingeltonVolley.getInstance(ContextApplication.getAppContext()).addToRequestQueue(jsonUserLogged);
