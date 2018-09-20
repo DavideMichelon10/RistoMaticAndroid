@@ -11,7 +11,7 @@ import com.test.ristomatic.ristomaticandroid.MainPackage.GraphicDirectory.RoomAd
 import java.util.List;
 
 public class Room {
-    private static int columnNumber;
+    private final static int COLUMN_NUMBER = 3;
     private RoomAdapter roomAdapter;
     private RecyclerView myRecyleView;
     public static int index;
@@ -20,17 +20,8 @@ public class Room {
         this.roomAdapter = roomAdapter;
         this.myRecyleView = myRecyleView;
         this.myRecyleView.setAdapter(this.roomAdapter);
-        setColumnNumber(3);
-        this.myRecyleView.setLayoutManager(new GridLayoutManager(ContextApplication.getAppContext(), getColumnNumber()));
+        this.myRecyleView.setLayoutManager(new GridLayoutManager(ContextApplication.getAppContext(), COLUMN_NUMBER));
         this.myRecyleView.setId(index++);
-    }
-
-    public static int getColumnNumber() {
-        return columnNumber;
-    }
-
-    public static void setColumnNumber(int columnNumber) {
-        Room.columnNumber = columnNumber;
     }
 
     public RoomAdapter getRoomAdapter() {

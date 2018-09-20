@@ -1,7 +1,9 @@
 package com.test.ristomatic.ristomaticandroid.MainPackage.GraphicDirectory;
 
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
 import android.graphics.Paint;
@@ -11,6 +13,7 @@ import android.graphics.drawable.DrawableContainer;
 import android.graphics.drawable.shapes.Shape;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +21,10 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.test.ristomatic.ristomaticandroid.Application.ContextApplication;
+import com.test.ristomatic.ristomaticandroid.LoginPackage.LoginActivity;
+import com.test.ristomatic.ristomaticandroid.MainPackage.Main2Activity;
+import com.test.ristomatic.ristomaticandroid.MainPackage.MainActivity;
 import com.test.ristomatic.ristomaticandroid.Model.Table;
 import com.test.ristomatic.ristomaticandroid.R;
 
@@ -26,7 +33,6 @@ import java.util.List;
 public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
     private List<Table> tables;
     private Context context;
-    private int list_item;
 
     public RoomAdapter(List<Table> tables, Context context) {
         this.setTables(tables);
@@ -77,10 +83,15 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
             this.itemView = itemView;
             //all'interno di list_item
             textViewId = (TextView)itemView.findViewById(R.id.textViewIdTavolo);
+
             textViewId.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     //gestisci click
+                    Intent intent = new Intent(ContextApplication.getAppContext(), Main2Activity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.putExtra("idTavolo", textViewId.getText());
+                    ContextApplication.getAppContext().startActivity(intent);
                     System.out.println("clicked");
                     System.out.println(textViewId.getText().toString());
                 }
@@ -94,9 +105,9 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
         public void setState(String state) {
             State = state;
             if(State.compareTo("Occupato") == 0)
-                textViewId.setBackgroundColor(0xFFFF0000);
+                textViewId.setBackgroundColor(0xFFAFAFAF);
             else
-                this.textViewId.setBackgroundColor(0xFF00FF00);
+                this.textViewId.setBackgroundColor(0xFF32E567);
         }
     }
 }

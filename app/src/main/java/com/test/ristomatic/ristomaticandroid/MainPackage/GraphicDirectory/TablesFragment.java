@@ -21,19 +21,23 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class TablesFragment extends Fragment {
+    //Time in mills
+    final int DELAY_REQUEST_TIME = 3000;
     private Room room;
-    int fragmentId;
+    private int fragmentId;
+    private Handler handler;
+    private Runnable runnable;
     private LinearLayout linearLayout;
-    private RecyclerView recyclerView;
-    private int idFragment;
     private View v;
-    private Timer timer;
-    int i = 1333;
-    TimerTask hourlyTask;
     public TablesFragment(){
-        System.out.println("IN FRAGMENT");
+    }
+    public int getFragmentId() {
+        return fragmentId;
     }
 
+    public void setFragmentId(int fragmentId) {
+        this.fragmentId = fragmentId;
+    }
     public Room getRoom() {
         return room;
     }
@@ -48,22 +52,14 @@ public class TablesFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        System.out.println("ON CREATE");
-        timer = new Timer();
-        /*hourlyTask = new TimerTask () {
+        handler = new Handler();
+        runnable = new Runnable() {
             @Override
-            public void run () {
-                room.getRoomAdapter().getTables().add(new Table(++i,"a"));
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        room.getRoomAdapter().notifyDataSetChanged();
-                    }
-                });
+            public void run() {
+                MainActivity.getMainViewModel().getTablesUpToDate(getFragmentId());
+                handler.postDelayed(runnable, DELAY_REQUEST_TIME);
             }
         };
-        timer.schedule (hourlyTask, 0l, 1000);   // 1000*10*60 every 10 minut
-*/
     }
     static int counter = 0;
     @Override
@@ -83,32 +79,12 @@ public class TablesFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        //hourlyTask.cancel();
-        System.out.println("in pausa");
-        timer.cancel();
-        timer.purge();
+        handler.removeCallbacksAndMessages(null);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        //room.getRoomAdapter().getTables().get(0).setIdTable(++i);
-        //room.getRoomAdapter().notifyDataSetChanged();
-        System.out.println("in onResume");
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                MainActivity.getMainViewModel().getTablesUpToDate(getFragmentId());
-                System.out.println("CONTATORE: " + counter++);
-            }
-        },0,3000);
-    }
-
-    public int getFragmentId() {
-        return fragmentId;
-    }
-
-    public void setFragmentId(int fragmentId) {
-        this.fragmentId = fragmentId;
+        handler.postDelayed(runnable, 0);
     }
 }

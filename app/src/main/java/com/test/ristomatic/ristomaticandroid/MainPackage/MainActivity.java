@@ -23,14 +23,12 @@ public class MainActivity extends AppCompatActivity {
     public ViewPager viewPager;
     private TabLayout tabLayout;
     private PagerAdapter pagerAdapter;
-    private int numberRooms;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        numberRooms = 2;
         mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
@@ -38,13 +36,6 @@ public class MainActivity extends AppCompatActivity {
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
 
         mainViewModel.init(new MainRepository(), pagerAdapter, viewPager, tabLayout);
-        //viewPager.setAdapter(pagerAdapter);
-        //tabLayout.setupWithViewPager(viewPager);
-
-        //titolo tab
-       // for(int i=0; i<numberRooms; i++){
-        //    tabLayout.getTabAt(i).setText("Sala "+ (1+i));
-       // }
     }
 
     public static MainViewModel getMainViewModel() {

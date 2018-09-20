@@ -74,60 +74,26 @@ public class MainViewModel extends ViewModel {
     }
     //Richiede le informazioni di tutti i tavoli
     public void getTablesUpToDate(final int room){
+        mainRepository.getTablesInRoom(new VolleyCallback() {
+            @Override
+            public void onSuccess(JSONArray result) {
+                try {
+                    //cicla per ogni tavolo in sala
+                    for(int j=0;j<result.length();j++)
+                    {
+                        Table newTable = new Gson().fromJson(result.getJSONObject(j).toString(), Table.class);
 
-            mainRepository.getTablesInRoom(new VolleyCallback() {
-                @Override
-                public void onSuccess(JSONArray result) {
-                    try {
-                        //jsonTablesInRoom = result.getJSONArray();
-                        //cicla per ogni tavolo in sala
-                        for(int j=0;j<result.length();j++)
-                        {
-                            Table newTable = new Gson().fromJson(result.getJSONObject(j).toString(), Table.class);
-
-                            Table currentTable = pagerAdapter.getItem(room).getRoom().getRoomAdapter().getTables().get(j);
-                            if (newTable.hashCode() != currentTable.hashCode()) {
-                                pagerAdapter.getItem(room).getRoom().getRoomAdapter().getTables().get(j).setState(newTable.getState());
-                                pagerAdapter.getItem(room).getRoom().getRoomAdapter().notifyDataSetChanged();
-                            }
+                        Table currentTable = pagerAdapter.getItem(room).getRoom().getRoomAdapter().getTables().get(j);
+                        if (newTable.hashCode() != currentTable.hashCode()) {
+                            pagerAdapter.getItem(room).getRoom().getRoomAdapter().getTables().get(j).setState(newTable.getState());
+                            pagerAdapter.getItem(room).getRoom().getRoomAdapter().notifyDataSetChanged();
                         }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
                     }
-
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-            }, room);
 
-    }
-
-    public void getTable(){
-        //mainRepository.getTables(new VolleyCallback() {
-            //@Override
-            //public void onSuccess(JSONArray result) {
-            String s = "[{id=1, state=Occupato, idRoom=1},{id=1, state=libero, idRoom=1}]";
-            JSONArray result = new JSONArray();
-        try {
-            JSONArray jsonArray = new JSONArray(s);
-            result = jsonArray;
-        } catch (JSONException e) {
-            e.printStackTrace();
-                }
-                for(int i=0; i< result.length(); i++){
-                    try {
-                        JSONObject jsonObject = result.getJSONObject(i);
-                        Table table = new Gson().fromJson(jsonObject.toString(), Table.class);
-                       //if (table.hashCode() == getTables().get(0).getValue().hashCode()) {
-                            System.out.println("TAVOLI UGUALI");
-                        //}else if(table == null){
-                            //getTables().get()
-                        //}
-                        //else{
-                          //  getTables().get(i).getValue().setState(table.getState());
-                       // }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
             }
-
+        }, room);
+    }
 }
