@@ -74,7 +74,7 @@ public class TablesFragment extends Fragment {
             v =  inflater.inflate(R.layout.fragment_blank, container, false);
             linearLayout = (LinearLayout) v.findViewById(R.id.linearLayout);
             linearLayout.addView(room.getMyRecyleView());
-            linearLayout.setBackgroundColor(0xFF000000);
+            linearLayout.setBackgroundColor(0xFFFFFF);
         }
         room.getRoomAdapter().notifyDataSetChanged();
         return v;

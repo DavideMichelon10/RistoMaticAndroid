@@ -94,9 +94,9 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
         public void setState(String state) {
             State = state;
             if(State.compareTo("Occupato") == 0)
-                itemView.setBackgroundColor(0xFFFF0000);
+                textViewId.setBackgroundColor(0xFFFF0000);
             else
-                this.itemView.setBackgroundColor(0xFF00FF00);
+                this.textViewId.setBackgroundColor(0xFF00FF00);
         }
     }
 }
