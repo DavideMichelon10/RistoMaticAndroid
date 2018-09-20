@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="25dp">
-
-    <TextView
-        android:id="@+id/textViewIdTavolo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="idTavolo"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
+        android:layout_height="200px">
+        <TextView
+            android:id="@+id/textViewIdTavolo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="idTavolo"
+            android:textAlignment="center"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+            android:textStyle="bold" />
 
 </LinearLayout>

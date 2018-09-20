@@ -79,7 +79,6 @@ public class MainViewModel extends ViewModel {
                 @Override
                 public void onSuccess(JSONArray result) {
                     try {
-                        System.out.println(result);
                         //jsonTablesInRoom = result.getJSONArray();
                         //cicla per ogni tavolo in sala
                         for(int j=0;j<result.length();j++)

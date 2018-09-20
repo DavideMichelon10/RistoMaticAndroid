@@ -11,6 +11,7 @@ import com.test.ristomatic.ristomaticandroid.MainPackage.GraphicDirectory.RoomAd
 import java.util.List;
 
 public class Room {
+    private static int columnNumber;
     private RoomAdapter roomAdapter;
     private RecyclerView myRecyleView;
     public static int index;
@@ -19,8 +20,17 @@ public class Room {
         this.roomAdapter = roomAdapter;
         this.myRecyleView = myRecyleView;
         this.myRecyleView.setAdapter(this.roomAdapter);
-        this.myRecyleView.setLayoutManager(new GridLayoutManager(ContextApplication.getAppContext(), 3));
+        setColumnNumber(3);
+        this.myRecyleView.setLayoutManager(new GridLayoutManager(ContextApplication.getAppContext(), getColumnNumber()));
         this.myRecyleView.setId(index++);
+    }
+
+    public static int getColumnNumber() {
+        return columnNumber;
+    }
+
+    public static void setColumnNumber(int columnNumber) {
+        Room.columnNumber = columnNumber;
     }
 
     public RoomAdapter getRoomAdapter() {
@@ -42,21 +52,18 @@ public class Room {
         for (int i = 0; i< roomAdapter.getTables().size(); i++){
 
             if(i!= roomAdapter.getTables().size()-1 && i!= 0){
-                System.out.println("NEL addTable IF: " + i);
                 if (newTable.getIdTable() < roomAdapter.getTables().get(i+1).getIdTable() && newTable.getIdTable() > roomAdapter.getTables().get(i-1).getIdTable()){
                     roomAdapter.getTables().add(i, newTable);
                     break;
                 }
             }
             else if(i == 0) {
-                System.out.println("NEL addTable ELSE IF: " + i);
                 if (newTable.getIdTable() < roomAdapter.getTables().get(i).getIdTable()){
                     roomAdapter.getTables().add(i, newTable);
                     break;
                 }
             }
             else {
-                System.out.println("NEL addTable ELSE: " + i);
                 if (newTable.getIdTable() > roomAdapter.getTables().get(i).getIdTable())
                     roomAdapter.getTables().add(newTable);
             }
