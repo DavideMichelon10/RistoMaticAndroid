@@ -3,8 +3,8 @@ package com.test.ristomatic.ristomaticandroid.OrderPackage.OrderModel;
 import java.util.List;
 
 public class Course {
-    private List<UserDish> selectedDishes;
     private int diCourse;
+    private List<UserDish> selectedDishes;
 
     public Course(int diCourse) {
         this.diCourse = diCourse;

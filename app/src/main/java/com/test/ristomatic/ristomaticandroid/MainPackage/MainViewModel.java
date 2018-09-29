@@ -33,10 +33,7 @@ public class MainViewModel extends ViewModel {
     private MainRepository mainRepository;
     private static int numberRooms;
     PagerAdapter pagerAdapter;
-
-    public static Lock lock;
     public void init(MainRepository mainRepository, final PagerAdapter pagerAdapter, final ViewPager viewPager, final TabLayout tabLayout) {
-        lock = new ReentrantLock();
         this.mainRepository = mainRepository;
         this.pagerAdapter = pagerAdapter;
         mainRepository.getTablesRooms(new VolleyCallback() {
