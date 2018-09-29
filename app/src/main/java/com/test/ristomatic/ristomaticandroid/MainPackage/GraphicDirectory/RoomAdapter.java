@@ -1,31 +1,19 @@
 package com.test.ristomatic.ristomaticandroid.MainPackage.GraphicDirectory;
 
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Canvas;
-import android.graphics.ColorFilter;
-import android.graphics.Paint;
-import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.DrawableContainer;
-import android.graphics.drawable.shapes.Shape;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.test.ristomatic.ristomaticandroid.Application.ContextApplication;
-import com.test.ristomatic.ristomaticandroid.LoginPackage.LoginActivity;
-import com.test.ristomatic.ristomaticandroid.MainPackage.Main2Activity;
 import com.test.ristomatic.ristomaticandroid.MainPackage.MainActivity;
 import com.test.ristomatic.ristomaticandroid.Model.Table;
+import com.test.ristomatic.ristomaticandroid.OrderPackage.OrderActivity;
 import com.test.ristomatic.ristomaticandroid.R;
 
 import java.util.List;
@@ -88,12 +76,11 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
                 @Override
                 public void onClick(View view) {
                     //gestisci click
-                    Intent intent = new Intent(ContextApplication.getAppContext(), Main2Activity.class);
+                    Intent intent = new Intent(ContextApplication.getAppContext(), OrderActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     intent.putExtra("idTavolo", textViewId.getText());
+                    MainActivity.getMainViewModel().changeTableState(Integer.parseInt((String) textViewId.getText()), "Occupato");
                     ContextApplication.getAppContext().startActivity(intent);
-                    System.out.println("clicked");
-                    System.out.println(textViewId.getText().toString());
                 }
             });
         }

@@ -24,13 +24,7 @@
             android:name=".MainPackage.MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".MainPackage.Main2Activity"
-            android:parentActivityName=".MainPackage.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainPackage.MainActivity"/>
-        </activity>
+        <activity android:name=".OrderPackage.OrderActivity"></activity>
     </application>
 
 </manifest>

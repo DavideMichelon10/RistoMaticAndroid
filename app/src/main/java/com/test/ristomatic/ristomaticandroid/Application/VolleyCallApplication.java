@@ -17,4 +17,7 @@ public class VolleyCallApplication extends Application {
         return GlobalVariableApplication.serverAddress() +"getTablesRooms";
     }
 
+    public static String changeTableState(){
+        return GlobalVariableApplication.serverAddress() + "changeTableState";
+    }
 }

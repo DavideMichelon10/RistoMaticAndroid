@@ -65,6 +65,7 @@ public class MainViewModel extends ViewModel {
                     tabLayout.setupWithViewPager(viewPager);
                     for(int a=0; a<numberRooms; a++){
                         tabLayout.getTabAt(a).setText("sala "+ (1+a));
+
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -95,5 +96,15 @@ public class MainViewModel extends ViewModel {
 
             }
         }, room);
+    }
+
+    //Cambia lo stato del tavolo indicato nello stato specificato
+    public void changeTableState(final int idTavolo, final String stato){
+        mainRepository.changeTableState(new VolleyCallback() {
+            @Override
+            public void onSuccess(JSONArray result) {
+                System.out.println("STATO CAMBIATO");
+            }
+        }, idTavolo, stato);
     }
 }
