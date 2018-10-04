@@ -6,17 +6,12 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonRequest;
 import com.test.ristomatic.ristomaticandroid.Application.ContextApplication;
 import com.test.ristomatic.ristomaticandroid.Application.SingeltonVolley;
 import com.test.ristomatic.ristomaticandroid.Application.VolleyCallApplication;
 import com.test.ristomatic.ristomaticandroid.Application.VolleyCallback;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class MainRepository {
 
@@ -71,5 +66,37 @@ public class MainRepository {
             }
         });
         SingeltonVolley.getInstance(ContextApplication.getAppContext()).addToRequestQueue(changeState);
+    }
+
+    public void getMenu(final VolleyCallback volleyCallback){
+        final JsonArrayRequest getMenu = new JsonArrayRequest(Request.Method.GET, VolleyCallApplication.getMenu(), null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        volleyCallback.onSuccess(response);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                getMenu(volleyCallback);
+            }
+        });
+        SingeltonVolley.getInstance(ContextApplication.getAppContext()).addToRequestQueue(getMenu);
+    }
+
+    public  void getVariants(final  VolleyCallback volleyCallback){
+        final JsonArrayRequest getVariants = new JsonArrayRequest(Request.Method.GET, VolleyCallApplication.getVariants(), null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        volleyCallback.onSuccess(response);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                getVariants(volleyCallback);
+            }
+        });
+        SingeltonVolley.getInstance(ContextApplication.getAppContext()).addToRequestQueue(getVariants);
     }
 }

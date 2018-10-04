@@ -1,23 +1,14 @@
 package com.test.ristomatic.ristomaticandroid.MainPackage;
 
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Intent;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
 
-import com.test.ristomatic.ristomaticandroid.Application.VolleyCallback;
 import com.test.ristomatic.ristomaticandroid.MainPackage.GraphicDirectory.PagerAdapter;
-import com.test.ristomatic.ristomaticandroid.Model.Table;
-import com.test.ristomatic.ristomaticandroid.OrderPackage.OrderActivity;
 import com.test.ristomatic.ristomaticandroid.R;
 
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
     private static MainViewModel mainViewModel;

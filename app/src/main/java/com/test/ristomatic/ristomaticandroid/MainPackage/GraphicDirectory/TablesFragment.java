@@ -11,14 +11,12 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.test.ristomatic.ristomaticandroid.MainPackage.MainActivity;
-import com.test.ristomatic.ristomaticandroid.MainPackage.MainViewModel;
 import com.test.ristomatic.ristomaticandroid.Model.Room;
 import com.test.ristomatic.ristomaticandroid.Model.Table;
 import com.test.ristomatic.ristomaticandroid.R;
 
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
+
 
 public class TablesFragment extends Fragment {
     //Time in mills

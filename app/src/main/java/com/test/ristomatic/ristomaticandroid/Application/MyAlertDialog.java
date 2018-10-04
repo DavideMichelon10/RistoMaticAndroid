@@ -3,8 +3,6 @@ package com.test.ristomatic.ristomaticandroid.Application;
 import android.app.AlertDialog;
 import android.content.Context;
 
-import com.test.ristomatic.ristomaticandroid.LoginPackage.LoginActivity;
-
 public class MyAlertDialog {
     AlertDialog.Builder builder;
 
