@@ -1,7 +1,5 @@
 package com.test.ristomatic.ristomaticandroid.MainPackage;
 
-
-
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -26,6 +24,8 @@ public class MainRepository {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                System.out.println("ONERROR");
+                System.out.println(error.getMessage());
                 getTablesRooms(volleyCallback);
             }
         });
@@ -43,6 +43,7 @@ public class MainRepository {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                System.out.println("OnError getTablesInRoom");
                 getTablesRooms(volleyCallback);
             }
         });
@@ -51,7 +52,6 @@ public class MainRepository {
 
     public void changeTableState(final VolleyCallback volleyCallback, final int idTable, final String state){
         String urlAndParameters = String.format(VolleyCallApplication.changeTableState() + "/{\"idTavolo\":\"%1$s\",\"stato\":\"%2$s\"}", idTable, state);
-        System.out.println(urlAndParameters);
         JsonArrayRequest changeState = new JsonArrayRequest(Request.Method.POST, urlAndParameters, null,
                 new Response.Listener<JSONArray>() {
                     @Override
@@ -78,6 +78,7 @@ public class MainRepository {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                System.out.println("OnError getMenu");
                 getMenu(volleyCallback);
             }
         });

@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.test.ristomatic.ristomaticandroid.Application.ContextApplication;
+import com.test.ristomatic.ristomaticandroid.Application.GlobalVariableApplication;
 import com.test.ristomatic.ristomaticandroid.MainPackage.MainActivity;
 import com.test.ristomatic.ristomaticandroid.Model.Table;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.OrderActivity;
@@ -75,20 +76,25 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
             textViewId.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //gestisci click
-                    //aggiungere le due stringhe
-                    Intent intent = new Intent(ContextApplication.getAppContext(), OrderActivity.class);
-                    if(MainActivity.getMainViewModel().firstTime == true){
-                        intent.putExtra("variants", MainActivity.getMainViewModel().variants);
-                        intent.putExtra("categories", MainActivity.getMainViewModel().categories);
-                        MainActivity.getMainViewModel().variants = null;
-                        MainActivity.getMainViewModel().categories = null;
-                        MainActivity.getMainViewModel().firstTime = false;
+
+                    switch(State){
+                        case "Libero":
+                                Intent intent = new Intent(ContextApplication.getAppContext(), OrderActivity.class);
+                                if(GlobalVariableApplication.firstTime == true){
+                                    intent.putExtra("variants", MainActivity.getMainViewModel().variants);
+                                    intent.putExtra("getMenu", MainActivity.getMainViewModel().categories);
+                                    MainActivity.getMainViewModel().variants = null;
+                                    MainActivity.getMainViewModel().categories = null;
+                                    GlobalVariableApplication.firstTime = false;
+                                }
+                                intent.putExtra("idTavolo", textViewId.getText());
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                MainActivity.getMainViewModel().changeTableState(Integer.parseInt((String) textViewId.getText()), "Occupato");
+                                ContextApplication.getAppContext().startActivity(intent);
+                            break;
+                        case "Occupato": System.out.print("Occupato");
+                        default: System.out.println();
                     }
-                    intent.putExtra("idTavolo", textViewId.getText());
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    MainActivity.getMainViewModel().changeTableState(Integer.parseInt((String) textViewId.getText()), "Occupato");
-                    ContextApplication.getAppContext().startActivity(intent);
                 }
             });
         }
