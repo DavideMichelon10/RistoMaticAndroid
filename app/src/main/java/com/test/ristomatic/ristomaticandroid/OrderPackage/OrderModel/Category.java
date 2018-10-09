@@ -4,22 +4,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Category {
-    List<Dish> category;
-    String categoryName;
+    private List<Dish> dishes;
+    private String categoryName;
     
 
     public Category(List<Dish> category, String categoryName) {
-        this.category = category;
+        this.dishes = category;
         this.categoryName = categoryName;
     }
 
     public Category(String categoryName) {
         this.categoryName = categoryName;
-        this.category = new ArrayList<>();
+        this.dishes = new ArrayList<>();
     }
 
     public List<Dish> getCategory() {
-        return category;
+        return dishes;
     }
 
     public String getCategoryName() {
@@ -27,7 +27,7 @@ public class Category {
     }
 
     public void setCategory(List<Dish> category) {
-        this.category = category;
+        this.dishes = category;
     }
 
     public void setCategoryName(String categoryName) {

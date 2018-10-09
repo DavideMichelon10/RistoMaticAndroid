@@ -3,7 +3,6 @@ package com.test.ristomatic.ristomaticandroid.MainPackage.GraphicDirectory;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -77,9 +76,17 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
                 @Override
                 public void onClick(View view) {
                     //gestisci click
+                    //aggiungere le due stringhe
                     Intent intent = new Intent(ContextApplication.getAppContext(), OrderActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    if(MainActivity.getMainViewModel().firstTime == true){
+                        intent.putExtra("variants", MainActivity.getMainViewModel().variants);
+                        intent.putExtra("categories", MainActivity.getMainViewModel().categories);
+                        MainActivity.getMainViewModel().variants = null;
+                        MainActivity.getMainViewModel().categories = null;
+                        MainActivity.getMainViewModel().firstTime = false;
+                    }
                     intent.putExtra("idTavolo", textViewId.getText());
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     MainActivity.getMainViewModel().changeTableState(Integer.parseInt((String) textViewId.getText()), "Occupato");
                     ContextApplication.getAppContext().startActivity(intent);
                 }

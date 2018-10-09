@@ -1,13 +1,11 @@
 package com.test.ristomatic.ristomaticandroid.MainPackage;
 
 import android.arch.lifecycle.ViewModel;
-import android.graphics.pdf.PdfDocument;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import com.test.ristomatic.ristomaticandroid.Application.ContextApplication;
 import com.test.ristomatic.ristomaticandroid.Application.VolleyCallback;
 import com.test.ristomatic.ristomaticandroid.MainPackage.GraphicDirectory.PagerAdapter;
@@ -18,37 +16,33 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-
-import java.util.ArrayList;
-import java.util.Dictionary;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 public class MainViewModel extends ViewModel {
-
+    //boolean utile quando è prima volta e deve inviare le due stringhe
+    public boolean firstTime = true;
+    public String variants, categories;
     private MainRepository mainRepository;
     private static int numberRooms;
-    PagerAdapter pagerAdapter;
-    public void init(MainRepository mainRepository, final PagerAdapter pagerAdapter, final ViewPager viewPager, final TabLayout tabLayout) {
+    private PagerAdapter pagerAdapter;
+    //metodo chiamato una sola volta, inizilizza tutte le sale con i tavoli e
+    //popola 2 strighe con tutte le varianti e tutte le categorie con i piatti e l'id delle varianti
+    //queste due stringhe vengono iniviate nell' intent all' OrderPackage, cosicchè si debba riutilizzare la rete
+    public void init(final MainRepository mainRepository, final PagerAdapter pagerAdapter, final ViewPager viewPager, final TabLayout tabLayout) {
         this.mainRepository = mainRepository;
         this.pagerAdapter = pagerAdapter;
         mainRepository.getTablesRooms(new VolleyCallback() {
             @Override
             public void onSuccess(JSONArray result) {
                 try {
+                    //chiamata sale e tavoli iniziali
                     for(int i=0; i<result.length(); i++){
                         JSONArray jsonArray1 = result.getJSONArray(i);
                         List<Table> tablesRoom = new LinkedList<>();
                         for(int j=0; j<jsonArray1.length(); j++){
                             JSONObject jsonObject = jsonArray1.getJSONObject(j);
-                            System.out.println("PRIMA DEL NEW GSON");
                             Table table = new Gson().fromJson(jsonObject.toString(), Table.class);
-                            System.out.println(table.toString());
-                            System.out.println("--------------------------------");
                             tablesRoom.add(table);
                             //popolare per prima volta lista tables, mettere progressDialog o qualcosa che attenda la fine
                         }
@@ -67,6 +61,19 @@ public class MainViewModel extends ViewModel {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                //chiamata per categoria
+                mainRepository.getMenu(new VolleyCallback() {
+                    @Override
+                    public void onSuccess(JSONArray result) {
+                        categories = result.toString();
+                        mainRepository.getVariants(new VolleyCallback() {
+                            @Override
+                            public void onSuccess(JSONArray result) {
+                                variants = result.toString();
+                            }
+                        });
+                    }
+                });
             }
         });
     }

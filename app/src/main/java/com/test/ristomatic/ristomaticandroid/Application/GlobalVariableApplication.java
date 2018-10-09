@@ -2,6 +2,7 @@ package com.test.ristomatic.ristomaticandroid.Application;
 
 import android.app.Application;
 
+//variabli globali
 public class GlobalVariableApplication extends Application {
     private static String ipServer;
     private static String port;
