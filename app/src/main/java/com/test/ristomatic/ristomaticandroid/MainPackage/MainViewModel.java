@@ -54,8 +54,8 @@ public class MainViewModel extends ViewModel {
                     numberRooms = result.length();
                     viewPager.setAdapter(pagerAdapter);
                     tabLayout.setupWithViewPager(viewPager);
-                    for(int a=0; a<numberRooms; a++){
-                        tabLayout.getTabAt(a).setText("sala "+ (1+a));
+                    for(int i=0; i<numberRooms; i++){
+                        tabLayout.getTabAt(i).setText("sala "+ (1+i));
 
                     }
                 } catch (JSONException e) {
@@ -65,6 +65,7 @@ public class MainViewModel extends ViewModel {
                 mainRepository.getMenu(new VolleyCallback() {
                     @Override
                     public void onSuccess(JSONArray result) {
+
                         categories = result.toString();
                         mainRepository.getVariants(new VolleyCallback() {
                             @Override

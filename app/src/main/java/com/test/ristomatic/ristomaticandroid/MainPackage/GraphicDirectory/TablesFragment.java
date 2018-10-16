@@ -17,10 +17,11 @@ import com.test.ristomatic.ristomaticandroid.R;
 
 import java.util.List;
 
+import static com.test.ristomatic.ristomaticandroid.Application.GlobalVariableApplication.DELAY_REQUEST_TIME;
+
 
 public class TablesFragment extends Fragment {
     //Time in mills
-    final int DELAY_REQUEST_TIME = 3000;
     private Room room;
     private int fragmentId;
     private Handler handler;
