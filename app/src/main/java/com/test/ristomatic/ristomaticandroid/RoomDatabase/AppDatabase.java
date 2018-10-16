@@ -5,10 +5,9 @@ import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
-import com.test.ristomatic.ristomaticandroid.OrderPackage.OrderModel.Dish;
 
 
-@Database(entities = {VariantModel.class, DishModel.class} , version = 2)
+@Database(entities = {VariantModel.class, DishModel.class, DishVariantJoin.class} , version = 1)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static AppDatabase INSTANCE;
@@ -23,6 +22,8 @@ public abstract class AppDatabase extends RoomDatabase {
         return INSTANCE;
     }
 
-    public abstract VariantModelDao getVariantModelDao();
     public abstract DishModelDao getDishModelDao();
+    public abstract VariantModelDao getVariantModelDao();
+    public abstract DishVariantJoinDao getdishVariantJoinDao();
+
 }

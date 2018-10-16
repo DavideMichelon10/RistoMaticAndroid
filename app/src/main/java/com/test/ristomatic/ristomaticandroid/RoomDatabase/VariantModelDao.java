@@ -15,4 +15,7 @@ public interface VariantModelDao {
 
     @Insert(onConflict = REPLACE)
     void addVariant(VariantModel variantModel);
+
+    @Query("DELETE FROM VariantModel")
+    public void nukeTableVariant();
 }

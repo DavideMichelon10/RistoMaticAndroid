@@ -17,20 +17,16 @@ public class DishModel {
     private String dishName;
     @ColumnInfo(name = "dish_price")
     private float dishPrice;
-    /*@Relation(parentColumn = "idDish", entityColumn = "idVariant", entity = DishModel.class)
-    private List<VariantModel> variants;+*/
 
     public DishModel(int idDish, String dishName, float dishPrice) {
         this.idDish = idDish;
         this.dishName = dishName;
         this.dishPrice = dishPrice;
-       // this.variants = new ArrayList<>();
     }
 
     public DishModel(int idDish, String dishName, float dishPrice, List<VariantModel> variants) {
         this.idDish = idDish;
         this.dishName = dishName;
-        //this.variants = variants;
         this.dishPrice = dishPrice;
     }
 
@@ -41,10 +37,6 @@ public class DishModel {
     public String getDishName() {
         return dishName;
     }
-
-    /*public List<VariantModel> getVariants() {
-        return variants;
-    }*/
 
     public float getDishPrice() {
         return dishPrice;

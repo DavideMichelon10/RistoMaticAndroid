@@ -4,18 +4,16 @@ import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 
+
 import java.util.List;
 
 import static android.arch.persistence.room.OnConflictStrategy.REPLACE;
 
 @Dao
-public interface DishModelDao {
-    @Query("select * from DishModel")
-    List<DishModel> getAllDishes();
+public interface DishVariantJoinDao {
+    @Insert
+    void insert(DishVariantJoin dishVariantJoin);
 
-    @Insert(onConflict = REPLACE)
-    void addDish(DishModel dishModel);
-
-    @Query("DELETE FROM DishModel")
-    public void nukeTableDish();
+    @Query("SELECT * FROM DishVariantJoin")
+    List<DishVariantJoin> getAllDishVariantJoin();
 }
