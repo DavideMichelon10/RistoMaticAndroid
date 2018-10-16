@@ -9,11 +9,13 @@ public class VariantModel {
     private int idVariant;
     private String variantName;
     private float variantPrice;
+    private int idDish;
 
-    public VariantModel(int idVariant, String variantName, float variantPrice) {
+    public VariantModel(int idVariant, String variantName, float variantPrice, int idDish) {
         this.idVariant = idVariant;
         this.variantName = variantName;
         this.variantPrice = variantPrice;
+        this.setIdDish(idDish);
     }
 
     public int getIdVariant() {
@@ -26,5 +28,13 @@ public class VariantModel {
 
     public float getVariantPrice() {
         return variantPrice;
+    }
+
+    public int getIdDish() {
+        return idDish;
+    }
+
+    public void setIdDish(int idDish) {
+        this.idDish = idDish;
     }
 }
