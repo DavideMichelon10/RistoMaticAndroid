@@ -35,6 +35,8 @@ dependencies {
     implementation 'android.arch.lifecycle:viewmodel:1.1.1'
     //GSON
     implementation 'com.google.code.gson:gson:2.8.5'
+
+    implementation 'com.android.support:cardview-v7:27.1.1'
     //ROOM
     implementation "android.arch.lifecycle:extensions:1.0.0"
     implementation "android.arch.persistence.room:runtime:1.0.0"
