@@ -16,16 +16,25 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
 public class MainViewModel extends ViewModel {
+    //file dove viene salvata data ultima modifica
+    private File dataUpdated;
+    private String filename = "dataUpdated";
     //boolean utile quando è prima volta e deve inviare le due stringhe
     public boolean firstTime = true;
+
     public String variants, categories;
     private MainRepository mainRepository;
     private static int numberRooms;
     private PagerAdapter pagerAdapter;
+
+    public MainViewModel(){
+        dataUpdated = new File(ContextApplication.getAppContext().getFilesDir(), filename);
+    }
     //metodo chiamato una sola volta, inizilizza tutte le sale con i tavoli e
     //popola 2 strighe con tutte le varianti e tutte le categorie con i piatti e l'id delle varianti
     //queste due stringhe vengono iniviate nell' intent all' OrderPackage, cosicchè si debba riutilizzare la rete
@@ -61,11 +70,14 @@ public class MainViewModel extends ViewModel {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                //eseguire chiamata a server e confrontare data in locale e sul server
+
+
+
                 //chiamata per categoria
-                mainRepository.getMenu(new VolleyCallback() {
+                /*mainRepository.getMenu(new VolleyCallback() {
                     @Override
                     public void onSuccess(JSONArray result) {
-
                         categories = result.toString();
                         mainRepository.getVariants(new VolleyCallback() {
                             @Override
@@ -74,7 +86,7 @@ public class MainViewModel extends ViewModel {
                             }
                         });
                     }
-                });
+                });*/
             }
         });
     }

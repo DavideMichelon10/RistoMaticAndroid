@@ -45,7 +45,6 @@ public class LoginRepository{
                             saveOnFile(response);
                             LoginViewModel.setLogged(true);
                         }
-
                     }
                 }, new Response.ErrorListener() {
             @Override

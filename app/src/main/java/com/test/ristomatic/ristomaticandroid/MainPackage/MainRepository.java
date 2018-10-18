@@ -12,8 +12,6 @@ import com.test.ristomatic.ristomaticandroid.Application.VolleyCallback;
 import org.json.JSONArray;
 
 public class MainRepository {
-
-
     public  void getTablesRooms(final VolleyCallback volleyCallback) {
         JsonArrayRequest jsonArrayTableRoom = new JsonArrayRequest(Request.Method.GET, VolleyCallApplication.getTablesRooms(), null,
                 new Response.Listener<JSONArray>() {
