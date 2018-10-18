@@ -1,12 +1,11 @@
 package com.test.ristomatic.ristomaticandroid.RoomDatabase;
 
-import android.arch.persistence.room.Embedded;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
-import android.arch.persistence.room.Relation;
 
 
-import java.util.List;
+import com.test.ristomatic.ristomaticandroid.RoomDatabase.Dish.DishModel;
+import com.test.ristomatic.ristomaticandroid.RoomDatabase.Variant.VariantModel;
 
 @Entity(
             primaryKeys = { "idDish", "idVariant" },

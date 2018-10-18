@@ -5,6 +5,10 @@ import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
+import com.test.ristomatic.ristomaticandroid.RoomDatabase.Dish.DishModel;
+import com.test.ristomatic.ristomaticandroid.RoomDatabase.Dish.DishModelDao;
+import com.test.ristomatic.ristomaticandroid.RoomDatabase.Variant.VariantModel;
+import com.test.ristomatic.ristomaticandroid.RoomDatabase.Variant.VariantModelDao;
 
 
 @Database(entities = {VariantModel.class, DishModel.class, DishVariantJoin.class} , version = 1)

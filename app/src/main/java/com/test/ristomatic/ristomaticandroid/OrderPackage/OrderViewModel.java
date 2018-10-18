@@ -5,14 +5,13 @@ import android.arch.lifecycle.AndroidViewModel;
 
 
 import com.test.ristomatic.ristomaticandroid.RoomDatabase.AppDatabase;
-import com.test.ristomatic.ristomaticandroid.RoomDatabase.DishModel;
-import com.test.ristomatic.ristomaticandroid.RoomDatabase.DishModelDao;
+import com.test.ristomatic.ristomaticandroid.RoomDatabase.Dish.DishModel;
+import com.test.ristomatic.ristomaticandroid.RoomDatabase.Dish.DishModelDao;
 import com.test.ristomatic.ristomaticandroid.RoomDatabase.DishVariantJoin;
 import com.test.ristomatic.ristomaticandroid.RoomDatabase.DishVariantJoinDao;
-import com.test.ristomatic.ristomaticandroid.RoomDatabase.VariantModel;
-import com.test.ristomatic.ristomaticandroid.RoomDatabase.VariantModelDao;
+import com.test.ristomatic.ristomaticandroid.RoomDatabase.Variant.VariantModel;
+import com.test.ristomatic.ristomaticandroid.RoomDatabase.Variant.VariantModelDao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class OrderViewModel extends AndroidViewModel {

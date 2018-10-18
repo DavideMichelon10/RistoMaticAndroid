@@ -1,4 +1,4 @@
-package com.test.ristomatic.ristomaticandroid.RoomDatabase;
+package com.test.ristomatic.ristomaticandroid.RoomDatabase.Variant;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
