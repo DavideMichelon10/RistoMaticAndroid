@@ -12,6 +12,7 @@ import com.test.ristomatic.ristomaticandroid.Application.VolleyCallback;
 import org.json.JSONArray;
 
 public class MainRepository {
+    //riceve json con tutte sale e tavoli, ricorsivo
     public  void getTablesRooms(final VolleyCallback volleyCallback) {
         JsonArrayRequest jsonArrayTableRoom = new JsonArrayRequest(Request.Method.GET, VolleyCallApplication.getTablesRooms(), null,
                 new Response.Listener<JSONArray>() {
@@ -29,8 +30,7 @@ public class MainRepository {
         });
         SingeltonVolley.getInstance(ContextApplication.getAppContext()).addToRequestQueue(jsonArrayTableRoom);
     }
-
-
+    //
     public void getTablesInRoom(final VolleyCallback volleyCallback, int room) {
         JsonArrayRequest jsonArrayTableRoom = new JsonArrayRequest(Request.Method.GET, VolleyCallApplication.getTablesInRoom() + "/" + room, null,
                 new Response.Listener<JSONArray>() {
@@ -66,6 +66,22 @@ public class MainRepository {
         SingeltonVolley.getInstance(ContextApplication.getAppContext()).addToRequestQueue(changeState);
     }
 
+    public void updateablesDate(final JSONArray currentDates, final VolleyCallback volleyCallback){
+        JsonArrayRequest jsonArrayDateUpdated = new JsonArrayRequest(Request.Method.GET, VolleyCallApplication.updateablesDate(), currentDates,
+                new Response.Listener<JSONArray>(){
+                    @Override
+                    public void onResponse(JSONArray response) {
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                updateablesDate(currentDates, volleyCallback);
+            }
+        });
+        SingeltonVolley.getInstance(ContextApplication.getAppContext()).addToRequestQueue(jsonArrayDateUpdated);
+    }
+    /*
     public void getMenu(final VolleyCallback volleyCallback){
         final JsonArrayRequest getMenu = new JsonArrayRequest(Request.Method.GET, VolleyCallApplication.getMenu(), null,
                 new Response.Listener<JSONArray>() {
@@ -97,5 +113,5 @@ public class MainRepository {
             }
         });
         SingeltonVolley.getInstance(ContextApplication.getAppContext()).addToRequestQueue(getVariants);
-    }
+    }*/
 }

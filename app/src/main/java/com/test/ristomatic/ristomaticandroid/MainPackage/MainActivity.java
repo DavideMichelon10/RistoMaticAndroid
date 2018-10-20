@@ -9,7 +9,6 @@ import android.os.Bundle;
 import com.test.ristomatic.ristomaticandroid.MainPackage.GraphicDirectory.PagerAdapter;
 import com.test.ristomatic.ristomaticandroid.R;
 
-
 public class MainActivity extends AppCompatActivity {
     private static MainViewModel mainViewModel;
     public ViewPager viewPager;

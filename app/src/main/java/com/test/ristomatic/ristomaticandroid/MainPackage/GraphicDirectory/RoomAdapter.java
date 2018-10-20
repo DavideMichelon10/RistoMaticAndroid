@@ -81,11 +81,11 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
                         case "Libero":
                                 Intent intent = new Intent(ContextApplication.getAppContext(), OrderActivity.class);
                                 if(GlobalVariableApplication.firstTime == true){
-                                    intent.putExtra("variants", MainActivity.getMainViewModel().variants);
-                                    intent.putExtra("getMenu", MainActivity.getMainViewModel().categories);
-                                    MainActivity.getMainViewModel().variants = null;
-                                    MainActivity.getMainViewModel().categories = null;
-                                    GlobalVariableApplication.firstTime = false;
+                                  //  intent.putExtra("variants", MainActivity.getMainViewModel().variants);
+                                   // intent.putExtra("getMenu", MainActivity.getMainViewModel().categories);
+                                    //MainActivity.getMainViewModel().variants = null;
+                                    //MainActivity.getMainViewModel().categories = null;
+                                    //GlobalVariableApplication.firstTime = false;
                                 }
                                 intent.putExtra("idTavolo", textViewId.getText());
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
