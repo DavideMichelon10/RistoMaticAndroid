@@ -12,7 +12,7 @@ import static android.arch.persistence.room.OnConflictStrategy.REPLACE;
 @Dao
 public interface DishVariantJoinDao {
     @Insert
-    void insert(DishVariantJoin dishVariantJoin);
+    void addDishVariant(DishVariantJoin dishVariantJoin);
 
     @Query("SELECT * FROM DishVariantJoin")
     List<DishVariantJoin> getAllDishVariantJoin();

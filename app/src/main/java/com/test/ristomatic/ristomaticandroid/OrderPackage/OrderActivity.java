@@ -12,8 +12,11 @@ import android.widget.RadioGroup;
 import com.test.ristomatic.ristomaticandroid.Application.ContextApplication;
 import com.test.ristomatic.ristomaticandroid.MainPackage.MainActivity;
 import com.test.ristomatic.ristomaticandroid.R;
+import com.test.ristomatic.ristomaticandroid.RoomDatabase.AppDatabase;
+import com.test.ristomatic.ristomaticandroid.RoomDatabase.Variant.VariantModel;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class OrderActivity extends AppCompatActivity {
@@ -43,7 +46,6 @@ public class OrderActivity extends AppCompatActivity {
             }
         }
         orderViewModel = ViewModelProviders.of(this).get(OrderViewModel.class);
-        //orderViewModel.init();
 
 
         /*Intent intent = getIntent();
@@ -51,8 +53,7 @@ public class OrderActivity extends AppCompatActivity {
         String getVariants = intent.getStringExtra("variants");
         System.out.println(getMenu);
         System.out.println(getVariants);
-
-        System.out.println("IN ONCREATE");*/
+*/
     }
 
     @Override

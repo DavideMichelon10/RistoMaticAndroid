@@ -7,13 +7,17 @@ import android.arch.persistence.room.ForeignKey;
 import com.test.ristomatic.ristomaticandroid.RoomDatabase.Dish.DishModel;
 import com.test.ristomatic.ristomaticandroid.RoomDatabase.Variant.VariantModel;
 
+import static android.arch.persistence.room.ForeignKey.CASCADE;
+
 @Entity(
             primaryKeys = { "idDish", "idVariant" },
             foreignKeys = {
-                    @ForeignKey(entity = DishModel.class,
+                    @ForeignKey(onDelete = CASCADE,
+                            entity = DishModel.class,
                             parentColumns = "idDish",
                             childColumns = "idDish"),
-                    @ForeignKey(entity = VariantModel.class,
+                    @ForeignKey(onDelete = CASCADE,
+                                entity = VariantModel.class,
                             parentColumns = "idVariant",
                             childColumns = "idVariant")
             })

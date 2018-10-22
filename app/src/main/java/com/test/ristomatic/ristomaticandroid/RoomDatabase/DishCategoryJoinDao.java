@@ -9,7 +9,7 @@ import java.util.List;
 @Dao
 public interface DishCategoryJoinDao {
     @Insert
-    void insert(DishCategoryJoin dishCategoryJoin);
+    void addDishCategory(DishCategoryJoin dishCategoryJoin);
 
     @Query("SELECT * FROM DishCategoryJoin")
     List<DishCategoryJoin> getAllDishCategoryJoin();

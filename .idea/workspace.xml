@@ -25,11 +25,15 @@
       <change beforePath="$PROJECT_DIR$/.gradle/4.6/taskHistory/taskHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.6/taskHistory/taskHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/MainPackage/MainRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/MainPackage/MainRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/MainPackage/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/MainPackage/MainActivity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/MainPackage/MainViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/MainPackage/MainViewModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/OrderPackage/OrderViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/OrderPackage/OrderViewModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/RoomDatabase/AppDatabase.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/RoomDatabase/AppDatabase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/OrderPackage/OrderActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/OrderPackage/OrderActivity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/RoomDatabase/DishCategoryJoin.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/RoomDatabase/DishCategoryJoin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/RoomDatabase/DishCategoryJoinDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/RoomDatabase/DishCategoryJoinDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/RoomDatabase/DishVariantJoin.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/RoomDatabase/DishVariantJoin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/RoomDatabase/DishVariantJoinDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/RoomDatabase/DishVariantJoinDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/RoomDatabase/Variant/VariantModelDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/RoomDatabase/Variant/VariantModelDao.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -52,23 +56,13 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="MainRepository.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/MainPackage/MainRepository.java">
+      <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/MainPackage/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="152">
-              <caret line="75" selection-start-line="75" selection-end-line="75" />
+            <state relative-caret-position="35">
+              <caret line="33" column="9" selection-start-line="33" selection-start-column="9" selection-end-line="33" selection-end-column="9" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#858#1089#0" expanded="true" />
-                <element signature="e#1088#1089#0" expanded="true" />
-                <element signature="e#1091#1379#0" expanded="true" />
-                <element signature="e#1378#1379#0" expanded="true" />
-                <element signature="method#getTablesInRoom#0;class#MainRepository#0" />
-                <element signature="method#changeTableState#0;class#MainRepository#0" />
-                <element signature="e#3699#3921#0" expanded="true" />
-                <element signature="e#3920#3921#0" expanded="true" />
-                <element signature="e#3872#4216#0" expanded="true" />
-                <element signature="e#4215#4216#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -77,13 +71,11 @@
       <file leaf-file-name="MainViewModel.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/MainPackage/MainViewModel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="111">
-              <caret line="104" column="3" selection-start-line="104" selection-start-column="3" selection-end-line="104" selection-end-column="3" />
+            <state relative-caret-position="167">
+              <caret line="130" column="24" selection-start-line="130" selection-start-column="24" selection-end-line="130" selection-end-column="38" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#init#0;class#MainViewModel#0" />
-                <element signature="e#5046#5589#0" expanded="true" />
-                <element signature="e#5588#5589#0" expanded="true" />
                 <element signature="method#getTablesUpToDate#0;class#MainViewModel#0" />
                 <element signature="method#changeTableState#0;class#MainViewModel#0" />
               </folding>
@@ -91,23 +83,50 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="JSONArray.class" pinned="false" current-in-tab="false">
-        <entry file="jar://$USER_HOME$/AppData/Local/Android/android-sdk/platforms/android-27/android.jar!/org/json/JSONArray.class">
+      <file leaf-file-name="DishCategoryJoin.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/RoomDatabase/DishCategoryJoin.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="78" column="55" selection-start-line="78" selection-start-column="55" selection-end-line="78" selection-end-column="55" />
+            <state relative-caret-position="238">
+              <caret line="20" column="24" selection-start-line="20" selection-start-column="24" selection-end-line="20" selection-end-column="24" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/MainPackage/MainActivity.java">
+      <file leaf-file-name="DishVariantJoin.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/RoomDatabase/DishVariantJoin.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="139">
-              <caret line="29" column="8" selection-start-line="29" selection-start-column="8" selection-end-line="29" selection-end-column="8" />
+            <state relative-caret-position="198">
+              <caret line="19" column="32" selection-start-line="19" selection-start-column="32" selection-end-line="19" selection-end-column="32" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DishModel.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/RoomDatabase/Dish/DishModel.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="34">
+              <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DishModelDao.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/RoomDatabase/Dish/DishModelDao.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="170">
+              <caret line="18" column="7" selection-start-line="18" selection-start-column="7" selection-end-line="18" selection-end-column="7" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="VariantModelDao.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/RoomDatabase/Variant/VariantModelDao.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="238">
+              <caret line="23" column="4" selection-start-line="23" selection-start-column="4" selection-end-line="23" selection-end-column="4" />
             </state>
           </provider>
         </entry>
@@ -2380,30 +2399,31 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/OrderPackage/OrderActivity.java" />
         <option value="$PROJECT_DIR$/app/build.gradle" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_order.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/category_layout.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/dish_layout.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/radio_button_flow.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/table_layout.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/RoomDatabase/DishVariantJoin.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/RoomDatabase/Category/CategoryModel.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/LoginPackage/LoginRepository.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/LoginPackage/LoginViewModel.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/MainPackage/GraphicDirectory/RoomAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/Application/VolleyCallApplication.java" />
-        <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/MainPackage/MainActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/Application/GlobalVariableApplication.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/RoomDatabase/Category/CategoryModelDao.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/RoomDatabase/DishCategoryJoinDao.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/RoomDatabase/DishVariantJoinDao.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/OrderPackage/OrderViewModel.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/RoomDatabase/AppDatabase.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/RoomDatabase/DishCategoryJoin.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/MainPackage/MainViewModel.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/MainPackage/MainRepository.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/OrderPackage/OrderActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/RoomDatabase/DishCategoryJoinDao.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/RoomDatabase/DishVariantJoinDao.java" />
+        <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/MainPackage/MainActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/RoomDatabase/Variant/VariantModelDao.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/RoomDatabase/DishCategoryJoin.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/RoomDatabase/DishVariantJoin.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/MainPackage/MainViewModel.java" />
       </list>
     </option>
   </component>
@@ -2418,8 +2438,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="ProjectPane" />
       <pane id="PackagesPane" />
+      <pane id="ProjectPane" />
       <pane id="Scope" />
       <pane id="AndroidView">
         <subPane>
@@ -2449,14 +2469,29 @@
               <item name="app" type="feadf853:AndroidModuleNode" />
               <item name="java" type="edd41e36:AndroidSourceTypeNode" />
               <item name="ristomaticandroid" type="cbb59c9e:AndroidPsiDirectoryNode" />
-              <item name="Application" type="462c0819:PsiDirectoryNode" />
+              <item name="MainPackage" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="RistoMaticAndroid" type="1abcf292:AndroidViewProjectNode" />
               <item name="app" type="feadf853:AndroidModuleNode" />
               <item name="java" type="edd41e36:AndroidSourceTypeNode" />
               <item name="ristomaticandroid" type="cbb59c9e:AndroidPsiDirectoryNode" />
-              <item name="MainPackage" type="462c0819:PsiDirectoryNode" />
+              <item name="OrderPackage" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="RistoMaticAndroid" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="ristomaticandroid" type="cbb59c9e:AndroidPsiDirectoryNode" />
+              <item name="RoomDatabase" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="RistoMaticAndroid" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="ristomaticandroid" type="cbb59c9e:AndroidPsiDirectoryNode" />
+              <item name="RoomDatabase" type="462c0819:PsiDirectoryNode" />
+              <item name="Dish" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="RistoMaticAndroid" type="1abcf292:AndroidViewProjectNode" />
@@ -2640,7 +2675,14 @@
       <option name="project" value="LOCAL" />
       <updated>1540202466446</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Aggiungi switch case">
+      <created>1540213757850</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1540213757850</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -2654,20 +2696,20 @@
       <window_info id="Build Variants" order="2" side_tool="true" />
       <window_info anchor="right" id="Capture Analysis" order="5" />
       <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.3293718" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.4074703" />
       <window_info anchor="bottom" id="Version Control" order="11" weight="0.3293718" />
       <window_info anchor="bottom" id="Terminal" order="12" weight="0.3293718" />
       <window_info anchor="bottom" id="Logcat" order="9" weight="0.3293718" />
       <window_info id="Captures" order="2" weight="0.25" />
       <window_info id="Capture Tool" order="3" />
       <window_info id="Designer" order="4" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25189108" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24130106" />
       <window_info anchor="bottom" id="Build" order="10" weight="0.2631579" />
       <window_info anchor="right" id="Gradle" order="7" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Device File Explorer" order="3" side_tool="true" />
       <window_info anchor="right" id="Theme Preview" order="8" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.34465197" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.36332768" />
       <window_info id="Favorites" order="7" side_tool="true" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
@@ -2684,14 +2726,72 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Aggiungi metodo per creazione e implementazione dbRoom" />
-    <option name="LAST_COMMIT_MESSAGE" value="Aggiungi metodo per creazione e implementazione dbRoom" />
+    <MESSAGE value="Aggiungi switch case" />
+    <option name="LAST_COMMIT_MESSAGE" value="Aggiungi switch case" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="23" />
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/MainPackage/MainViewModel.java</url>
+          <line>180</line>
+          <properties />
+          <option name="timeStamp" value="33" />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="36" />
     </breakpoint-manager>
+    <watches-manager>
+      <configuration name="app">
+        <watch expression="variantModelDao" />
+      </configuration>
+    </watches-manager>
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/MainPackage/MainRepository.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="748">
+          <caret line="75" selection-start-line="75" selection-end-line="75" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#getTablesInRoom#0;class#MainRepository#0" />
+            <element signature="method#changeTableState#0;class#MainRepository#0" />
+            <element signature="e#3699#3929#0" expanded="true" />
+            <element signature="e#3928#3929#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/AppData/Local/Android/android-sdk/platforms/android-27/android.jar!/org/json/JSONArray.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1003">
+          <caret line="78" column="55" selection-start-line="78" selection-start-column="55" selection-end-line="78" selection-end-column="55" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/MainPackage/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="29" column="8" selection-start-line="29" selection-start-column="8" selection-end-line="29" selection-end-column="8" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/MainPackage/MainViewModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1292">
+          <caret line="111" column="17" lean-forward="true" selection-start-line="111" selection-start-column="17" selection-end-line="111" selection-end-column="17" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#init#0;class#MainViewModel#0" />
+            <element signature="method#getTablesUpToDate#0;class#MainViewModel#0" />
+            <element signature="method#changeTableState#0;class#MainViewModel#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/MainPackage/MainViewModel.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1394">
@@ -2699,8 +2799,6 @@
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#init#0;class#MainViewModel#0" />
-            <element signature="e#5046#5589#0" expanded="true" />
-            <element signature="e#5588#5589#0" expanded="true" />
             <element signature="method#getTablesUpToDate#0;class#MainViewModel#0" />
             <element signature="method#changeTableState#0;class#MainViewModel#0" />
           </folding>
@@ -2713,16 +2811,10 @@
           <caret line="69" column="129" selection-start-line="69" selection-start-column="129" selection-end-line="69" selection-end-column="129" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#858#1089#0" expanded="true" />
-            <element signature="e#1088#1089#0" expanded="true" />
-            <element signature="e#1091#1379#0" expanded="true" />
-            <element signature="e#1378#1379#0" expanded="true" />
             <element signature="method#getTablesInRoom#0;class#MainRepository#0" />
             <element signature="method#changeTableState#0;class#MainRepository#0" />
-            <element signature="e#3699#3921#0" expanded="true" />
-            <element signature="e#3920#3921#0" expanded="true" />
-            <element signature="e#3872#4216#0" expanded="true" />
-            <element signature="e#4215#4216#0" expanded="true" />
+            <element signature="e#3699#3929#0" expanded="true" />
+            <element signature="e#3928#3929#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2751,8 +2843,6 @@
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#init#0;class#MainViewModel#0" />
-            <element signature="e#5046#5589#0" expanded="true" />
-            <element signature="e#5588#5589#0" expanded="true" />
             <element signature="method#getTablesUpToDate#0;class#MainViewModel#0" />
             <element signature="method#changeTableState#0;class#MainViewModel#0" />
           </folding>
@@ -2765,16 +2855,10 @@
           <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#858#1089#0" expanded="true" />
-            <element signature="e#1088#1089#0" expanded="true" />
-            <element signature="e#1091#1379#0" expanded="true" />
-            <element signature="e#1378#1379#0" expanded="true" />
             <element signature="method#getTablesInRoom#0;class#MainRepository#0" />
             <element signature="method#changeTableState#0;class#MainRepository#0" />
-            <element signature="e#3699#3921#0" expanded="true" />
-            <element signature="e#3920#3921#0" expanded="true" />
-            <element signature="e#3872#4216#0" expanded="true" />
-            <element signature="e#4215#4216#0" expanded="true" />
+            <element signature="e#3699#3929#0" expanded="true" />
+            <element signature="e#3928#3929#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2905,21 +2989,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/RoomDatabase/Dish/DishModelDao.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="17" column="4" selection-start-line="17" selection-start-column="4" selection-end-line="18" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/LoginPackage/LoginRepository.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-129">
           <caret line="46" column="25" selection-start-line="46" selection-start-column="25" selection-end-line="46" selection-end-column="25" />
-          <folding>
-            <element signature="e#1373#1951#0" expanded="true" />
-            <element signature="e#1950#1951#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -2944,16 +3017,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
-      <provider editor-type-id="android-manifest">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="237">
-          <caret line="26" column="28" selection-start-line="26" selection-start-column="28" selection-end-line="26" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/Application/GlobalVariableApplication.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="282">
@@ -2968,16 +3031,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/RoomDatabase/Dish/DishModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/RoomDatabase/Category/CategoryModel.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
@@ -2985,48 +3038,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/RoomDatabase/DishVariantJoin.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="18" column="7" selection-start-line="18" selection-start-column="7" selection-end-line="18" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/RoomDatabase/DishCategoryJoinDao.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="259">
-          <caret line="17" column="37" selection-start-line="17" selection-start-column="37" selection-end-line="17" selection-end-column="37" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/RoomDatabase/DishVariantJoinDao.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="20" column="36" selection-start-line="20" selection-start-column="36" selection-end-line="20" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/RoomDatabase/Variant/VariantModelDao.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="20" selection-start-line="20" selection-end-line="20" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/RoomDatabase/Variant/VariantModel.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
           <caret line="13" column="20" selection-start-line="13" selection-start-column="20" selection-end-line="13" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/OrderPackage/OrderActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-221">
-          <caret line="25" column="60" selection-start-line="25" selection-start-column="60" selection-end-line="25" selection-end-column="60" />
         </state>
       </provider>
     </entry>
@@ -3044,50 +3059,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/RoomDatabase/DishCategoryJoin.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="16" column="46" selection-start-line="16" selection-start-column="46" selection-end-line="16" selection-end-column="46" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/OrderPackage/OrderViewModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="42" column="69" selection-start-line="42" selection-start-column="8" selection-end-line="42" selection-end-column="69" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/MainPackage/MainRepository.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="152">
-          <caret line="75" selection-start-line="75" selection-end-line="75" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#858#1089#0" expanded="true" />
-            <element signature="e#1088#1089#0" expanded="true" />
-            <element signature="e#1091#1379#0" expanded="true" />
-            <element signature="e#1378#1379#0" expanded="true" />
-            <element signature="method#getTablesInRoom#0;class#MainRepository#0" />
-            <element signature="method#changeTableState#0;class#MainRepository#0" />
-            <element signature="e#3699#3921#0" expanded="true" />
-            <element signature="e#3920#3921#0" expanded="true" />
-            <element signature="e#3872#4216#0" expanded="true" />
-            <element signature="e#4215#4216#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/MainPackage/MainActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="139">
-          <caret line="29" column="8" selection-start-line="29" selection-start-column="8" selection-end-line="29" selection-end-column="8" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$USER_HOME$/AppData/Local/Android/android-sdk/platforms/android-27/android.jar!/org/json/JSONArray.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
@@ -3095,15 +3066,127 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/OrderPackage/OrderActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="48" selection-start-line="48" selection-end-line="48" />
+          <folding>
+            <element signature="e#2614#2615#0" expanded="true" />
+            <element signature="e#2645#2646#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/MainPackage/MainRepository.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="460">
+          <caret line="75" selection-start-line="75" selection-end-line="75" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#getTablesInRoom#0;class#MainRepository#0" />
+            <element signature="method#changeTableState#0;class#MainRepository#0" />
+            <element signature="e#3699#3929#0" expanded="true" />
+            <element signature="e#3928#3929#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/OrderPackage/OrderViewModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="18" column="16" lean-forward="true" selection-start-line="18" selection-end-line="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/RoomDatabase/DishCategoryJoinDao.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="157">
+          <caret line="11" column="24" selection-start-line="11" selection-start-column="24" selection-end-line="11" selection-end-column="24" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/RoomDatabase/DishVariantJoinDao.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="14" column="23" selection-start-line="14" selection-start-column="23" selection-end-line="14" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+      <provider editor-type-id="android-manifest">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="159">
+          <caret line="26" column="28" selection-start-line="26" selection-start-column="28" selection-end-line="26" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/build/generated/source/apt/debug/com/test/ristomatic/ristomaticandroid/RoomDatabase/Variant/VariantModelDao_Impl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="122">
+          <caret line="69" selection-start-line="69" selection-end-line="69" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/RoomDatabase/Variant/VariantModelDao.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="23" column="4" selection-start-line="23" selection-start-column="4" selection-end-line="23" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/RoomDatabase/Dish/DishModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/RoomDatabase/Dish/DishModelDao.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="18" column="7" selection-start-line="18" selection-start-column="7" selection-end-line="18" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/MainPackage/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="35">
+          <caret line="33" column="9" selection-start-line="33" selection-start-column="9" selection-end-line="33" selection-end-column="9" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/RoomDatabase/DishCategoryJoin.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="20" column="24" selection-start-line="20" selection-start-column="24" selection-end-line="20" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/RoomDatabase/DishVariantJoin.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="19" column="32" selection-start-line="19" selection-start-column="32" selection-end-line="19" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/test/ristomatic/ristomaticandroid/MainPackage/MainViewModel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="111">
-          <caret line="104" column="3" selection-start-line="104" selection-start-column="3" selection-end-line="104" selection-end-column="3" />
+        <state relative-caret-position="167">
+          <caret line="130" column="24" selection-start-line="130" selection-start-column="24" selection-end-line="130" selection-end-column="38" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#init#0;class#MainViewModel#0" />
-            <element signature="e#5046#5589#0" expanded="true" />
-            <element signature="e#5588#5589#0" expanded="true" />
             <element signature="method#getTablesUpToDate#0;class#MainViewModel#0" />
             <element signature="method#changeTableState#0;class#MainViewModel#0" />
           </folding>
