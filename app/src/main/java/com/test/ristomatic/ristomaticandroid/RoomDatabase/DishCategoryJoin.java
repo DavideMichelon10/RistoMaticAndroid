@@ -7,14 +7,14 @@ import com.test.ristomatic.ristomaticandroid.RoomDatabase.Category.CategoryModel
 import com.test.ristomatic.ristomaticandroid.RoomDatabase.Dish.DishModel;
 
 @Entity(
-        primaryKeys = {"idDish", "idVariant"},
+        primaryKeys = {"idDish", "idCategory"},
         foreignKeys = {
                 @ForeignKey(entity = DishModel.class,
                     parentColumns = "idDish",
                     childColumns = "idDish"),
                 @ForeignKey(entity = CategoryModel.class,
-                    parentColumns = "idVariant",
-                    childColumns = "idVariant")
+                    parentColumns = "idCategory",
+                    childColumns = "idCategory")
         }
 )
 public class DishCategoryJoin {

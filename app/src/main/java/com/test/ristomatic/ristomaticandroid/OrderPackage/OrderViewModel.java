@@ -23,7 +23,7 @@ public class OrderViewModel extends AndroidViewModel {
 
     public OrderViewModel(Application application) {
         super(application);
-        appDatabase = AppDatabase.getDatabase(this.getApplication());
+        /*appDatabase = AppDatabase.getDatabase(this.getApplication());
         VariantModelDao variantModelDao = appDatabase.getVariantModelDao();
         DishModelDao dishModelDao = appDatabase.getDishModelDao();
         DishVariantJoinDao dishVariantJoinDao = appDatabase.getdishVariantJoinDao();
@@ -41,7 +41,7 @@ public class OrderViewModel extends AndroidViewModel {
         dishVariantJoinDao.insert(new DishVariantJoin(1,1));
 
         variants = appDatabase.getVariantModelDao().getAllVariants();
-        dishVariantJoinList = appDatabase.getdishVariantJoinDao().getAllDishVariantJoin();
+        dishVariantJoinList = appDatabase.getdishVariantJoinDao().getAllDishVariantJoin();*/
     }
 
     public void init(){

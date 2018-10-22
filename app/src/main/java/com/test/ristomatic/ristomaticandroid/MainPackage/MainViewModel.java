@@ -21,6 +21,7 @@ import com.test.ristomatic.ristomaticandroid.RoomDatabase.Dish.DishModelDao;
 import com.test.ristomatic.ristomaticandroid.RoomDatabase.DishCategoryJoinDao;
 import com.test.ristomatic.ristomaticandroid.RoomDatabase.DishVariantJoin;
 import com.test.ristomatic.ristomaticandroid.RoomDatabase.DishVariantJoinDao;
+import com.test.ristomatic.ristomaticandroid.RoomDatabase.Variant.VariantModel;
 import com.test.ristomatic.ristomaticandroid.RoomDatabase.Variant.VariantModelDao;
 
 import org.json.JSONArray;
@@ -45,6 +46,7 @@ public class MainViewModel extends AndroidViewModel {
         super(application);
         allDataUpdated = ContextApplication.getAppContext().getSharedPreferences("DateUpdated", MODE_PRIVATE);
         appDatabase = AppDatabase.getDatabase(this.getApplication());
+
     }
     //metodo chiamato una sola volta, inizilizza tutte le sale con i tavoli
     public void init(final MainRepository mainRepository, final PagerAdapter pagerAdapter, final ViewPager viewPager, final TabLayout tabLayout) {
@@ -89,16 +91,15 @@ public class MainViewModel extends AndroidViewModel {
     public void updateablesDate(){
         final JSONArray currentDates = new JSONArray();
 
-        currentDates.put(allDataUpdated.getString("VariantDate","aaa"));
-        currentDates.put(allDataUpdated.getString("DishDate",null));
-        currentDates.put(allDataUpdated.getString("CategoryDate",null));
-        currentDates.put(allDataUpdated.getString("DishVariantDate",null));
-        currentDates.put(allDataUpdated.getString("DishCategoryDate",null));
+        currentDates.put(allDataUpdated.getString("VariantDate","0"));
+        currentDates.put(allDataUpdated.getString("DishDate","0"));
+        currentDates.put(allDataUpdated.getString("CategoryDate","0"));
+        currentDates.put(allDataUpdated.getString("DishVariantDate","0"));
+        currentDates.put(allDataUpdated.getString("DishCategoryDate","0"));
 
         mainRepository.updateTablesDate(currentDates, new VolleyCallback() {
             @Override
             public void onSuccess(JSONArray result) {
-                VariantModelDao variantModelDao = appDatabase.getVariantModelDao();
                 for(int i=0; i<result.length(); i++){
                     try {
                         if(result.get(i) != null){
@@ -113,11 +114,23 @@ public class MainViewModel extends AndroidViewModel {
         });
     }
     //viene passato indice e oggetto della tabella, eliminata e ripopolata
-    private void updateTable(int index, JSONObject jsonTable){
+    private void updateTable(int index, JSONObject jsonTable) throws JSONException{
         switch (index){
             case 0:
+                SharedPreferences.Editor editor = allDataUpdated.edit();
                 VariantModelDao variantModelDao = appDatabase.getVariantModelDao();
                 variantModelDao.nukeTableVariant();
+                for(int i =0; i<jsonTable.getJSONArray("variants").length(); i++){
+                    Gson gson = new Gson();
+                    String variantInString = jsonTable.getJSONArray("variants").get(i).toString();
+                    VariantModel variantModel = gson.fromJson(variantInString, VariantModel.class);
+                    variantModelDao.addVariant(variantModel);
+                }
+                editor.putString("VariantDate", jsonTable.getString("dataUpdated"));
+                editor.commit();
+                //test
+                List<VariantModel> variants = new LinkedList<>();
+                variants = appDatabase.getVariantModelDao().getAllVariants();
                 break;
             case 1:
                 DishModelDao dishModelDao = appDatabase.getDishModelDao();

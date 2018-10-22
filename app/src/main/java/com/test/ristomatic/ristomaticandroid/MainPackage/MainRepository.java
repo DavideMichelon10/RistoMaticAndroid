@@ -72,13 +72,12 @@ public class MainRepository {
                 new Response.Listener<JSONArray>(){
                     @Override
                     public void onResponse(JSONArray response) {
-
+                        volleyCallback.onSuccess(response);
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 //updateTablesDate(currentDates, volleyCallback);
-                updateTablesDate(currentDates, volleyCallback);
                 System.out.println("IN ONERRROR " +currentDates.toString());
             }
         });
