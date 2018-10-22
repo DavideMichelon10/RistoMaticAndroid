@@ -20,8 +20,6 @@ public class OrderViewModel extends AndroidViewModel {
     private List<VariantModel> variants;
     private List<DishModel> dishes;
     private List<DishVariantJoin> dishVariantJoinList;
-    //private List<Order> orders;
-    //private List<Category> categories;
 
     public OrderViewModel(Application application) {
         super(application);

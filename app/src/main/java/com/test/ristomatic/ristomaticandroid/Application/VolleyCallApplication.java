@@ -22,8 +22,8 @@ public class VolleyCallApplication extends Application {
         return GlobalVariableApplication.serverAddress() + "changeTableState";
     }
     //categorie con piatti e id varianti
-    public static String updateablesDate(){
-        return GlobalVariableApplication.serverAddress() + "updateablesDate";
+    public static String updateTablesDate(){
+        return GlobalVariableApplication.serverAddress() + "updateTablesDate";
     }
     //tutte le varianti
 

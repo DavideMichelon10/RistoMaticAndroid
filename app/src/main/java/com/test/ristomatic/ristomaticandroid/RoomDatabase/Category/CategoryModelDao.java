@@ -17,4 +17,7 @@ public interface CategoryModelDao {
 
     @Insert(onConflict = REPLACE)
     void addCategory(CategoryModel categoryModel);
+
+    @Query("DELETE FROM CategoryModel")
+    public void nukeTableCategory();
 }

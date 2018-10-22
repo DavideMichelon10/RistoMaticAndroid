@@ -5,6 +5,7 @@ import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
+import com.test.ristomatic.ristomaticandroid.RoomDatabase.Category.CategoryModelDao;
 import com.test.ristomatic.ristomaticandroid.RoomDatabase.Dish.DishModel;
 import com.test.ristomatic.ristomaticandroid.RoomDatabase.Dish.DishModelDao;
 import com.test.ristomatic.ristomaticandroid.RoomDatabase.Variant.VariantModel;
@@ -28,6 +29,8 @@ public abstract class AppDatabase extends RoomDatabase {
 
     public abstract DishModelDao getDishModelDao();
     public abstract VariantModelDao getVariantModelDao();
+    public abstract CategoryModelDao getCategoryModelDao();
     public abstract DishVariantJoinDao getdishVariantJoinDao();
+    public abstract DishCategoryJoinDao getDishCategoryJoinDao();
 
 }

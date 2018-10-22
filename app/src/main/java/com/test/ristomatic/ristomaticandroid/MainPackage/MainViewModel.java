@@ -1,5 +1,7 @@
 package com.test.ristomatic.ristomaticandroid.MainPackage;
 
+import android.app.Application;
+import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.ViewModel;
 import android.content.SharedPreferences;
 import android.support.design.widget.TabLayout;
@@ -12,6 +14,14 @@ import com.test.ristomatic.ristomaticandroid.Application.VolleyCallback;
 import com.test.ristomatic.ristomaticandroid.MainPackage.GraphicDirectory.PagerAdapter;
 import com.test.ristomatic.ristomaticandroid.MainPackage.GraphicDirectory.TablesFragment;
 import com.test.ristomatic.ristomaticandroid.Model.Table;
+import com.test.ristomatic.ristomaticandroid.RoomDatabase.AppDatabase;
+import com.test.ristomatic.ristomaticandroid.RoomDatabase.Category.CategoryModel;
+import com.test.ristomatic.ristomaticandroid.RoomDatabase.Category.CategoryModelDao;
+import com.test.ristomatic.ristomaticandroid.RoomDatabase.Dish.DishModelDao;
+import com.test.ristomatic.ristomaticandroid.RoomDatabase.DishCategoryJoinDao;
+import com.test.ristomatic.ristomaticandroid.RoomDatabase.DishVariantJoin;
+import com.test.ristomatic.ristomaticandroid.RoomDatabase.DishVariantJoinDao;
+import com.test.ristomatic.ristomaticandroid.RoomDatabase.Variant.VariantModelDao;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,16 +32,19 @@ import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
 
-public class MainViewModel extends ViewModel {
+public class MainViewModel extends AndroidViewModel {
     //contiene le date degli ultimi updated delle tabelle 5 tab
     private SharedPreferences allDataUpdated;
+    private AppDatabase appDatabase;
     //boolean utile quando è prima volta e deve inviare le due stringhe
     private MainRepository mainRepository;
     private static int numberRooms;
     private PagerAdapter pagerAdapter;
 
-    public  MainViewModel(){
+    public  MainViewModel(Application application){
+        super(application);
         allDataUpdated = ContextApplication.getAppContext().getSharedPreferences("DateUpdated", MODE_PRIVATE);
+        appDatabase = AppDatabase.getDatabase(this.getApplication());
     }
     //metodo chiamato una sola volta, inizilizza tutte le sale con i tavoli
     public void init(final MainRepository mainRepository, final PagerAdapter pagerAdapter, final ViewPager viewPager, final TabLayout tabLayout) {
@@ -74,18 +87,58 @@ public class MainViewModel extends ViewModel {
     //invia valore delle 5 date con jsonArray(5 elementi, uno per ogni tabella), ricezione jsonArray
     // e dove non è nullo svuota e ripopola tabella
     public void updateablesDate(){
-        JSONArray currentDates = new JSONArray();
+        final JSONArray currentDates = new JSONArray();
 
-        currentDates.put(allDataUpdated.getString("VariantDate",null));
+        currentDates.put(allDataUpdated.getString("VariantDate","aaa"));
         currentDates.put(allDataUpdated.getString("DishDate",null));
-        currentDates.put(allDataUpdated.getString("DishVariantDate",null));
         currentDates.put(allDataUpdated.getString("CategoryDate",null));
+        currentDates.put(allDataUpdated.getString("DishVariantDate",null));
         currentDates.put(allDataUpdated.getString("DishCategoryDate",null));
 
-
-
+        mainRepository.updateTablesDate(currentDates, new VolleyCallback() {
+            @Override
+            public void onSuccess(JSONArray result) {
+                VariantModelDao variantModelDao = appDatabase.getVariantModelDao();
+                for(int i=0; i<result.length(); i++){
+                    try {
+                        if(result.get(i) != null){
+                            JSONObject jsonTable = result.getJSONObject(i);
+                            updateTable(i, jsonTable);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
     }
-
+    //viene passato indice e oggetto della tabella, eliminata e ripopolata
+    private void updateTable(int index, JSONObject jsonTable){
+        switch (index){
+            case 0:
+                VariantModelDao variantModelDao = appDatabase.getVariantModelDao();
+                variantModelDao.nukeTableVariant();
+                break;
+            case 1:
+                DishModelDao dishModelDao = appDatabase.getDishModelDao();
+                dishModelDao.nukeTableDish();
+                break;
+            case 2:
+                CategoryModelDao categoryModelDao = appDatabase.getCategoryModelDao();
+                categoryModelDao.nukeTableCategory();
+                break;
+            case 3:
+                DishVariantJoinDao dishVariantJoinDao = appDatabase.getdishVariantJoinDao();
+                dishVariantJoinDao.nukeTableDishVariant();
+                break;
+            case 4:
+                DishCategoryJoinDao dishCategoryJoinDao = appDatabase.getDishCategoryJoinDao();
+                dishCategoryJoinDao.nukeTableDishCategory();
+                break;
+            default:
+                break;
+        }
+    }
     //Richiede le informazioni di tutti i tavoli
     public void getTablesUpToDate(final int room){
         mainRepository.getTablesInRoom(new VolleyCallback() {

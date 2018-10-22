@@ -16,4 +16,7 @@ public interface DishVariantJoinDao {
 
     @Query("SELECT * FROM DishVariantJoin")
     List<DishVariantJoin> getAllDishVariantJoin();
+
+    @Query("DELETE FROM DishVariantJoin")
+    public void nukeTableDishVariant();
 }

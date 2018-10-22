@@ -42,7 +42,7 @@ public class MainRepository {
             @Override
             public void onErrorResponse(VolleyError error) {
                 System.out.println("OnError getTablesInRoom");
-                getTablesRooms(volleyCallback);
+                //getTablesRooms(volleyCallback);
             }
         });
         SingeltonVolley.getInstance(ContextApplication.getAppContext()).addToRequestQueue(jsonArrayTableRoom);
@@ -66,8 +66,9 @@ public class MainRepository {
         SingeltonVolley.getInstance(ContextApplication.getAppContext()).addToRequestQueue(changeState);
     }
 
-    public void updateablesDate(final JSONArray currentDates, final VolleyCallback volleyCallback){
-        JsonArrayRequest jsonArrayDateUpdated = new JsonArrayRequest(Request.Method.GET, VolleyCallApplication.updateablesDate(), currentDates,
+    //manda 5 date da confrontare e riceve jsonArray con tabelle da aggiornare
+    public void updateTablesDate(final JSONArray currentDates, final VolleyCallback volleyCallback){
+        JsonArrayRequest jsonArrayDateUpdated = new JsonArrayRequest(Request.Method.POST, VolleyCallApplication.updateTablesDate(), currentDates,
                 new Response.Listener<JSONArray>(){
                     @Override
                     public void onResponse(JSONArray response) {
@@ -76,7 +77,9 @@ public class MainRepository {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                updateablesDate(currentDates, volleyCallback);
+                //updateTablesDate(currentDates, volleyCallback);
+                updateTablesDate(currentDates, volleyCallback);
+                System.out.println("IN ONERRROR " +currentDates.toString());
             }
         });
         SingeltonVolley.getInstance(ContextApplication.getAppContext()).addToRequestQueue(jsonArrayDateUpdated);
