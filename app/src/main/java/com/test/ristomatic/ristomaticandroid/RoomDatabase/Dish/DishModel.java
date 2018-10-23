@@ -1,12 +1,11 @@
-package com.test.ristomatic.ristomaticandroid.RoomDatabase;
+package com.test.ristomatic.ristomaticandroid.RoomDatabase.Dish;
 
 import android.arch.persistence.room.ColumnInfo;
-import android.arch.persistence.room.Embedded;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
-import android.arch.persistence.room.Relation;
 
-import java.util.ArrayList;
+import com.test.ristomatic.ristomaticandroid.RoomDatabase.Variant.VariantModel;
+
 import java.util.List;
 
 @Entity

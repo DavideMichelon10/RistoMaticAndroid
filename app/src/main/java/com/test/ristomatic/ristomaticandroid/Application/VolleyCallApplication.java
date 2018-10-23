@@ -22,11 +22,10 @@ public class VolleyCallApplication extends Application {
         return GlobalVariableApplication.serverAddress() + "changeTableState";
     }
     //categorie con piatti e id varianti
-    public static String getMenu(){
-        return GlobalVariableApplication.serverAddress() + "getMenu";
+    public static String updateTablesDate(){
+        return GlobalVariableApplication.serverAddress() + "updateTablesDate";
     }
     //tutte le varianti
-    public static String getVariants(){
-        return GlobalVariableApplication.serverAddress() + "getVariants";
-    }
+
+
 }

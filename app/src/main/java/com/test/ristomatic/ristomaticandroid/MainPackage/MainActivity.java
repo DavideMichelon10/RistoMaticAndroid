@@ -8,7 +8,11 @@ import android.os.Bundle;
 
 import com.test.ristomatic.ristomaticandroid.MainPackage.GraphicDirectory.PagerAdapter;
 import com.test.ristomatic.ristomaticandroid.R;
+import com.test.ristomatic.ristomaticandroid.RoomDatabase.AppDatabase;
+import com.test.ristomatic.ristomaticandroid.RoomDatabase.Variant.VariantModel;
 
+import java.util.LinkedList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private static MainViewModel mainViewModel;
@@ -27,7 +31,9 @@ public class MainActivity extends AppCompatActivity {
         pagerAdapter = new PagerAdapter(getSupportFragmentManager());
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
 
-        mainViewModel.init(new MainRepository(), pagerAdapter, viewPager, tabLayout);
+       mainViewModel.init(new MainRepository(), pagerAdapter, viewPager, tabLayout);
+       mainViewModel.updateablesDate();
+
     }
 
     public static MainViewModel getMainViewModel() {

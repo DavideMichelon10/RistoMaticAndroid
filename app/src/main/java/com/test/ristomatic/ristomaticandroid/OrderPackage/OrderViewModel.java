@@ -5,14 +5,13 @@ import android.arch.lifecycle.AndroidViewModel;
 
 
 import com.test.ristomatic.ristomaticandroid.RoomDatabase.AppDatabase;
-import com.test.ristomatic.ristomaticandroid.RoomDatabase.DishModel;
-import com.test.ristomatic.ristomaticandroid.RoomDatabase.DishModelDao;
+import com.test.ristomatic.ristomaticandroid.RoomDatabase.Dish.DishModel;
+import com.test.ristomatic.ristomaticandroid.RoomDatabase.Dish.DishModelDao;
 import com.test.ristomatic.ristomaticandroid.RoomDatabase.DishVariantJoin;
 import com.test.ristomatic.ristomaticandroid.RoomDatabase.DishVariantJoinDao;
-import com.test.ristomatic.ristomaticandroid.RoomDatabase.VariantModel;
-import com.test.ristomatic.ristomaticandroid.RoomDatabase.VariantModelDao;
+import com.test.ristomatic.ristomaticandroid.RoomDatabase.Variant.VariantModel;
+import com.test.ristomatic.ristomaticandroid.RoomDatabase.Variant.VariantModelDao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class OrderViewModel extends AndroidViewModel {
@@ -21,12 +20,10 @@ public class OrderViewModel extends AndroidViewModel {
     private List<VariantModel> variants;
     private List<DishModel> dishes;
     private List<DishVariantJoin> dishVariantJoinList;
-    //private List<Order> orders;
-    //private List<Category> categories;
 
     public OrderViewModel(Application application) {
         super(application);
-        appDatabase = AppDatabase.getDatabase(this.getApplication());
+        /*appDatabase = AppDatabase.getDatabase(this.getApplication());
         VariantModelDao variantModelDao = appDatabase.getVariantModelDao();
         DishModelDao dishModelDao = appDatabase.getDishModelDao();
         DishVariantJoinDao dishVariantJoinDao = appDatabase.getdishVariantJoinDao();
@@ -44,7 +41,7 @@ public class OrderViewModel extends AndroidViewModel {
         dishVariantJoinDao.insert(new DishVariantJoin(1,1));
 
         variants = appDatabase.getVariantModelDao().getAllVariants();
-        dishVariantJoinList = appDatabase.getdishVariantJoinDao().getAllDishVariantJoin();
+        dishVariantJoinList = appDatabase.getdishVariantJoinDao().getAllDishVariantJoin();*/
     }
 
     public void init(){

@@ -25,7 +25,6 @@ public class LoginViewModel extends ViewModel {
     public LoginViewModel(){
         logged = new MutableLiveData<Boolean>();
         userLoggedFile = new File(ContextApplication.getAppContext().getFilesDir(), filename);
-
     }
     public void init(LoginRepository loginRepository){
         this.loginRepository = loginRepository;
