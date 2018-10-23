@@ -23,8 +23,8 @@ public class MainRepository {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                System.out.println("ONERROR");
-                System.out.println(error.getMessage());
+                System.out.println("ONERROR in getTablesRooms");
+                System.out.println("errore "+error.getMessage());
                 getTablesRooms(volleyCallback);
             }
         });

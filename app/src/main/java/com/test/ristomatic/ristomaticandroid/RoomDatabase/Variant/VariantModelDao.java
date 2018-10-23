@@ -15,7 +15,7 @@ import static android.arch.persistence.room.OnConflictStrategy.REPLACE;
 public interface VariantModelDao {
 
     @Query("select * from VariantModel")
-    LiveData<List<VariantModel>> getAllVariants();
+    List<VariantModel> getAllVariants();
 
     @Insert(onConflict = REPLACE)
     void addVariant(VariantModel variantModel);

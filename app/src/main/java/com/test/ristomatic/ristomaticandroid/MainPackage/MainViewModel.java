@@ -99,38 +99,13 @@ public class MainViewModel extends AndroidViewModel {
         currentDates.put(allDataUpdated.getString("DishVariantDate","0"));
         currentDates.put(allDataUpdated.getString("DishCategoryDate","0"));
 
-        //mainRepository.updateTablesDate(currentDates, new VolleyCallback() {
-          //  @Override
-            //public void onSuccess(JSONArray result) {
-        String s = "[{\"dataUpdated\": \"data1\",\"variants\": [{\n" +
-                "\"idVariant\": \"1\",\n" +
-                "\"variantName\": \"Uova\",\n" +
-                "\"variantPrice\": \"2.22\"},{\"idVariant\": \"2\",\n" +
-                "\"variantName\": \"bufala\",\n" +
-                "\"variantPrice\": \"2.0\"}]},{\n" +
-                "\"dataUpdated\": \"data\",\n" +
-                "\"dishes\":[{\n" +
-                "\"idDish\": \"1\",\n" +
-                "\"dishName\": \"Margherita\",\n" +
-                "\"dishPrice\": \"7\"},{\n" +
-                "\"idDish\": \"2\",\n" +
-                "\"dishName\": \"Ortolana\",\n" +
-                "\"dishPrice\": \"5.55\"}]},{\"dataUpdated\": \"data\",\n" +
-                "\"categories\":[{\n" +
-                "\"idCategory\": \"1\",\n" +
-                "\"categoryName\": \"Pizze\"},{\n" +
-                "\"idCategory\": \"2\",\n" +
-                "\"categoryName\": \"Primi\"}]},{\n" +
-                "\"dataUpdated\": \"data\",\"dishVariants\": [{\"idDish\": \"1\",\"idVariant\": \"1\"},{\"idDish\": \"2\",\"idVariant\": \"1\"}]},{\"dataUpdated\": \"data\",\"dishCategories\": [{\"idDish\": \"1\",\"idCategory\": \"1\"},{\"idDish\": \"2\",\"idCategory\": \"1\"}]}]";
-        JSONArray result = null;
-        try {
-            result = new JSONArray(s);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        for(int i=0; i<result.length(); i++){
+        mainRepository.updateTablesDate(currentDates, new VolleyCallback() {
+            @Override
+            public void onSuccess(JSONArray result) {
+                for(int i=0; i<result.length(); i++){
                     try {
-                        if(result.get(i) != null){
+                        //controllare questo if
+                        if(result.getJSONObject(i).length() > 0 ){
                             JSONObject jsonTable = result.getJSONObject(i);
                             updateTable(i, jsonTable);
                         }
@@ -138,8 +113,8 @@ public class MainViewModel extends AndroidViewModel {
                         e.printStackTrace();
                     }
                 }
-            //}
-        //});
+            }
+        });
     }
     //viene passato indice e oggetto della tabella, eliminata e ripopolata
     private void updateTable(int index, JSONObject jsonTable) throws JSONException{
@@ -149,8 +124,8 @@ public class MainViewModel extends AndroidViewModel {
             case 0:
                 VariantModelDao variantModelDao = appDatabase.getVariantModelDao();
                 variantModelDao.nukeTableVariant();
-                for(int i =0; i<jsonTable.getJSONArray("variants").length(); i++){
-                    String variantInString = jsonTable.getJSONArray("variants").get(i).toString();
+                for(int i =0; i<jsonTable.getJSONArray("table").length(); i++){
+                    String variantInString = jsonTable.getJSONArray("table").get(i).toString();
                     VariantModel variantModel = gson.fromJson(variantInString, VariantModel.class);
                     variantModelDao.addVariant(variantModel);
                 }
@@ -160,18 +135,19 @@ public class MainViewModel extends AndroidViewModel {
             case 1:
                 DishModelDao dishModelDao = appDatabase.getDishModelDao();
                 dishModelDao.nukeTableDish();
-                for(int i=0; i<jsonTable.getJSONArray("dishes").length(); i++){
-                    String dishInString = jsonTable.getJSONArray("dishes").get(i).toString();
+                for(int i=0; i<jsonTable.getJSONArray("table").length(); i++){
+                    String dishInString = jsonTable.getJSONArray("table").get(i).toString();
                     DishModel dishModel = gson.fromJson(dishInString, DishModel.class);
                     dishModelDao.addDish(dishModel);
                 }
                 editor.putString("DishDate", jsonTable.getString("dataUpdated"));
+                editor.commit();
                 break;
             case 2:
                 CategoryModelDao categoryModelDao = appDatabase.getCategoryModelDao();
                 categoryModelDao.nukeTableCategory();
-                for(int i = 0; i< jsonTable.getJSONArray("categories").length(); i++){
-                    String categoryInString = jsonTable.getJSONArray("categories").get(i).toString();
+                for(int i = 0; i< jsonTable.getJSONArray("table").length(); i++){
+                    String categoryInString = jsonTable.getJSONArray("table").get(i).toString();
                     CategoryModel categoryModel = gson.fromJson(categoryInString, CategoryModel.class);
                     categoryModelDao.addCategory(categoryModel);
                 }
@@ -181,8 +157,8 @@ public class MainViewModel extends AndroidViewModel {
             case 3:
                 DishVariantJoinDao dishVariantJoinDao = appDatabase.getdishVariantJoinDao();
                 dishVariantJoinDao.nukeTableDishVariant();
-                for(int i=0; i<jsonTable.getJSONArray("dishVariants").length(); i++){
-                    String dishVariantJoinInString = jsonTable.getJSONArray("dishVariants").get(i).toString();
+                for(int i=0; i<jsonTable.getJSONArray("table").length(); i++){
+                    String dishVariantJoinInString = jsonTable.getJSONArray("table").get(i).toString();
                     DishVariantJoin dishVariantJoin = gson.fromJson(dishVariantJoinInString, DishVariantJoin.class);
                     dishVariantJoinDao.addDishVariant(dishVariantJoin);
                 }
@@ -192,8 +168,8 @@ public class MainViewModel extends AndroidViewModel {
             case 4:
                 DishCategoryJoinDao dishCategoryJoinDao = appDatabase.getDishCategoryJoinDao();
                 dishCategoryJoinDao.nukeTableDishCategory();
-                for(int i=0; i<jsonTable.getJSONArray("dishCategories").length(); i++){
-                    String dishCategoryJoinInString = jsonTable.getJSONArray("dishCategories").get(i).toString();
+                for(int i=0; i<jsonTable.getJSONArray("table").length(); i++){
+                    String dishCategoryJoinInString = jsonTable.getJSONArray("table").get(i).toString();
                     DishCategoryJoin dishCategoryJoin = gson.fromJson(dishCategoryJoinInString, DishCategoryJoin.class);
                     dishCategoryJoinDao.addDishCategory(dishCategoryJoin);
                 }

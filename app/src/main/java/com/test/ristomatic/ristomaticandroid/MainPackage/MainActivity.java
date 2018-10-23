@@ -31,8 +31,8 @@ public class MainActivity extends AppCompatActivity {
         pagerAdapter = new PagerAdapter(getSupportFragmentManager());
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
 
-       //mainViewModel.init(new MainRepository(), pagerAdapter, viewPager, tabLayout);
-        mainViewModel.updateablesDate();
+       mainViewModel.init(new MainRepository(), pagerAdapter, viewPager, tabLayout);
+       mainViewModel.updateablesDate();
 
     }
 
