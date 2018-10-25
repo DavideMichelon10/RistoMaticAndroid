@@ -4,49 +4,67 @@ import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 
 
+import com.test.ristomatic.ristomaticandroid.OrderPackage.RecyclerViewAdapter.CategoriesAdapter;
+import com.test.ristomatic.ristomaticandroid.OrderPackage.RecyclerViewAdapter.DishesAdapter;
 import com.test.ristomatic.ristomaticandroid.RoomDatabase.AppDatabase;
-import com.test.ristomatic.ristomaticandroid.RoomDatabase.Dish.DishModel;
+import com.test.ristomatic.ristomaticandroid.RoomDatabase.Category.CategoryModelDao;
 import com.test.ristomatic.ristomaticandroid.RoomDatabase.Dish.DishModelDao;
-import com.test.ristomatic.ristomaticandroid.RoomDatabase.DishVariantJoin;
-import com.test.ristomatic.ristomaticandroid.RoomDatabase.DishVariantJoinDao;
-import com.test.ristomatic.ristomaticandroid.RoomDatabase.Variant.VariantModel;
-import com.test.ristomatic.ristomaticandroid.RoomDatabase.Variant.VariantModelDao;
-
-import java.util.List;
 
 public class OrderViewModel extends AndroidViewModel {
 
-    private AppDatabase appDatabase;
-    private List<VariantModel> variants;
-    private List<DishModel> dishes;
-    private List<DishVariantJoin> dishVariantJoinList;
+    private static AppDatabase appDatabase;
+    private CategoriesAdapter adapterCategories;
+    private static DishesAdapter adapterDishes;
+    private CategoryModelDao categoryModelDao;
+    private static DishModelDao dishModelDao;
 
     public OrderViewModel(Application application) {
         super(application);
-        /*appDatabase = AppDatabase.getDatabase(this.getApplication());
-        VariantModelDao variantModelDao = appDatabase.getVariantModelDao();
-        DishModelDao dishModelDao = appDatabase.getDishModelDao();
-        DishVariantJoinDao dishVariantJoinDao = appDatabase.getdishVariantJoinDao();
-
-        variantModelDao.addVariant(new VariantModel(1,"Prosciutto", (float) 3.0));
-        variantModelDao.addVariant(new VariantModel(2,"Uova", (float) 4.0));
-        variantModelDao.addVariant(new VariantModel(3,"Tonno", (float) 2.0));
-
-        dishModelDao.addDish(new DishModel(1, "Pizza Margherita", 4));
-        dishModelDao.addDish(new DishModel(2, "Pizza Capricciosa", 6));
-        dishModelDao.addDish(new DishModel(3, "Pizza tonno", 5));
-
-        dishVariantJoinDao.insert(new DishVariantJoin(1,2));
-        dishVariantJoinDao.insert(new DishVariantJoin(1,3));
-        dishVariantJoinDao.insert(new DishVariantJoin(1,1));
-
-        variants = appDatabase.getVariantModelDao().getAllVariants();
-        dishVariantJoinList = appDatabase.getdishVariantJoinDao().getAllDishVariantJoin();*/
+        setAppDatabase(AppDatabase.getDatabase(this.getApplication()));
+        setCategoryModelDao(getAppDatabase().getCategoryModelDao());
+        setDishModelDao(getAppDatabase().getDishModelDao());
+        setAdapterCategories(new CategoriesAdapter(getCategoryModelDao().getAllCategories()));
+        setAdapterDishes(new DishesAdapter(getDishModelDao().getSelectedDishes(1)));
     }
 
-    public void init(){
-        //orders = new ArrayList<>();
-        //categories = new ArrayList<>();
+    public static AppDatabase getAppDatabase() {
+        return appDatabase;
     }
 
+    public static void setAppDatabase(AppDatabase appDatabase) {
+        OrderViewModel.appDatabase = appDatabase;
+    }
+
+    public CategoriesAdapter getAdapterCategories() {
+        return adapterCategories;
+    }
+
+    public static DishesAdapter getAdapterDishes() {
+        return adapterDishes;
+    }
+
+    public static void setAdapterDishes(DishesAdapter adapterDishes) {
+        OrderViewModel.adapterDishes = adapterDishes;
+    }
+
+    public void setAdapterCategories(CategoriesAdapter adapterCategories) {
+        this.adapterCategories = adapterCategories;
+    }
+
+
+    public CategoryModelDao getCategoryModelDao() {
+        return categoryModelDao;
+    }
+
+    public void setCategoryModelDao(CategoryModelDao categoryModelDao) {
+        this.categoryModelDao = categoryModelDao;
+    }
+
+    public  static DishModelDao getDishModelDao() {
+        return dishModelDao;
+    }
+
+    public static void setDishModelDao(DishModelDao dishModelDao) {
+        OrderViewModel.dishModelDao = dishModelDao;
+    }
 }

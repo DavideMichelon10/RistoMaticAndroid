@@ -10,21 +10,22 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.test.ristomatic.ristomaticandroid.OrderPackage.RecyclerViewAdapter.CategoriesAdapter;
+import com.test.ristomatic.ristomaticandroid.OrderPackage.RecyclerViewAdapter.DishesAdapter;
 import com.test.ristomatic.ristomaticandroid.R;
 import com.test.ristomatic.ristomaticandroid.RoomDatabase.AppDatabase;
 import com.test.ristomatic.ristomaticandroid.RoomDatabase.Category.CategoryModel;
 import com.test.ristomatic.ristomaticandroid.RoomDatabase.Category.CategoryModelDao;
+import com.test.ristomatic.ristomaticandroid.RoomDatabase.Dish.DishModel;
+import com.test.ristomatic.ristomaticandroid.RoomDatabase.Dish.DishModelDao;
 
 import java.util.LinkedList;
 import java.util.List;
 
 public class OrderActivity extends AppCompatActivity {
     private OrderViewModel orderViewModel;
-    private AppDatabase appDatabase;
 
     private RecyclerView recyclerViewCategories;
-    private RecyclerView.LayoutManager layoutManagerCategories;
-    private CategoriesAdapter adapterCategories;
+    private RecyclerView recyclerViewDishes;
 
     private RadioGroup rgp;
     @Override
@@ -34,19 +35,18 @@ public class OrderActivity extends AppCompatActivity {
 
         orderViewModel = ViewModelProviders.of(this).get(OrderViewModel.class);
 
-        appDatabase = AppDatabase.getDatabase(this.getApplication());
-        CategoryModelDao categoryModelDao = appDatabase.getCategoryModelDao();
-
+        //RecyclerView categories
         recyclerViewCategories = (RecyclerView) findViewById(R.id.recyclerViewCategories);
         recyclerViewCategories.setHasFixedSize(true);
         recyclerViewCategories.setLayoutManager(new GridLayoutManager(this,1));
+        recyclerViewCategories.setAdapter(orderViewModel.getAdapterCategories());
+        //RecyclerView dishes
+        recyclerViewDishes = (RecyclerView) findViewById(R.id.recyclerViewDishes);
+        recyclerViewDishes.setHasFixedSize(true);
+        recyclerViewDishes.setLayoutManager(new GridLayoutManager(this, 3));
+        recyclerViewDishes.setAdapter(orderViewModel.getAdapterDishes());
 
-        List<CategoryModel> categoryModels = new LinkedList<>();
-        categoryModels = categoryModelDao.getAllCategories();
-
-        adapterCategories = new CategoriesAdapter(categoryModels);
-        recyclerViewCategories.setAdapter(adapterCategories);
-    /*
+        /*
         rgp = (RadioGroup) findViewById(R.id.flow_group);
 
         RadioGroup.LayoutParams rprms;
@@ -93,6 +93,7 @@ public class OrderActivity extends AppCompatActivity {
         dishCategoryJoins = dishCategoryJoinDao.getAllDishCategoryJoin();
         dishVariantJoinList = dishVariantJoinDao.getAllDishVariantJoin();*/
     }
+
 
     @Override
     public void onBackPressed() {

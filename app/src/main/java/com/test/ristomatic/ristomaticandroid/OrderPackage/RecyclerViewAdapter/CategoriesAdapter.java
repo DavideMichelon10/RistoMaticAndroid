@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.test.ristomatic.ristomaticandroid.OrderPackage.OrderViewModel;
 import com.test.ristomatic.ristomaticandroid.R;
 import com.test.ristomatic.ristomaticandroid.RoomDatabase.Category.CategoryModel;
 
@@ -40,6 +41,14 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ca
         public CategoryViewHolder(View v) {
             super(v);
             this.button = (Button) v.findViewById(R.id.button);
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    
+                    OrderViewModel.getAdapterDishes().setDishes(OrderViewModel.getDishModelDao().getSelectedDishes(getAdapterPosition()+1));
+                    OrderViewModel.getAdapterDishes().notifyDataSetChanged();
+                }
+            });
         }
     }
 }

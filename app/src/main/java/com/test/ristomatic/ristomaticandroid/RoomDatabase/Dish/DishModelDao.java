@@ -15,6 +15,10 @@ public interface DishModelDao {
     @Query("select * from DishModel")
     List<DishModel> getAllDishes();
 
+    @Query("select * from DishModel " +
+            "join DishCategoryJoin on DishModel.idDish = DishCategoryJoin.idDish " +
+            "where idCategory = :idCategory")
+    List<DishModel> getSelectedDishes(int idCategory);
     @Insert(onConflict = REPLACE)
     void addDish(DishModel dishModel);
 
