@@ -1,6 +1,5 @@
 package com.test.ristomatic.ristomaticandroid.OrderPackage.RecyclerViewAdapter;
 
-import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +23,7 @@ public class DishesAdapter extends RecyclerView.Adapter<DishesAdapter.DishViewHo
     }
     @Override
     public DishViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.button, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.button_layout, parent, false);
         DishViewHolder viewHolder = new DishViewHolder(v);
         return  viewHolder;
     }
