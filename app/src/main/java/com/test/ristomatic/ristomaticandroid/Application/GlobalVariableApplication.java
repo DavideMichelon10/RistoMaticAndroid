@@ -5,6 +5,7 @@ import android.app.Application;
 //variabli globali
 public class GlobalVariableApplication extends Application {
     public static final int DELAY_REQUEST_TIME = 3000;
+    public static final int COURSES_NUMBER = 4;
     public static boolean firstTime = false;
     private static String ipServer;
     private static String port;

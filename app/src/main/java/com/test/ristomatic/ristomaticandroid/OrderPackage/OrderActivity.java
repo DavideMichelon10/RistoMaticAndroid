@@ -11,6 +11,8 @@ import android.widget.RadioGroup;
 
 import com.test.ristomatic.ristomaticandroid.OrderPackage.RecyclerViewAdapter.CategoriesAdapter;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.RecyclerViewAdapter.DishesAdapter;
+import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.Course;
+import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ReportAdapter;
 import com.test.ristomatic.ristomaticandroid.R;
 import com.test.ristomatic.ristomaticandroid.RoomDatabase.AppDatabase;
 import com.test.ristomatic.ristomaticandroid.RoomDatabase.Category.CategoryModel;
@@ -26,6 +28,7 @@ public class OrderActivity extends AppCompatActivity {
 
     private RecyclerView recyclerViewCategories;
     private RecyclerView recyclerViewDishes;
+    private  RecyclerView recyclerViewCourses;
 
     private RadioGroup rgp;
     @Override
@@ -46,6 +49,14 @@ public class OrderActivity extends AppCompatActivity {
         recyclerViewDishes.setLayoutManager(new GridLayoutManager(this, 3));
         recyclerViewDishes.setAdapter(orderViewModel.getAdapterDishes());
 
+        //test
+        recyclerViewCourses = (RecyclerView) findViewById(R.id.recyclerViewCourses);
+        recyclerViewCourses.setHasFixedSize(true);
+        recyclerViewCourses.setLayoutManager(new GridLayoutManager(this, 1));
+        Course[] c = new Course[4];
+        c[0] = new Course();
+        c[1] = new Course();
+        recyclerViewCourses.setAdapter(new ReportAdapter(this, c));
         /*
         rgp = (RadioGroup) findViewById(R.id.flow_group);
 
