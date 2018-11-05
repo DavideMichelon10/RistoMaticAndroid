@@ -36,7 +36,7 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.CourseView
 
     @Override
     public void onBindViewHolder(@NonNull CourseViewHolder holder, int position) {
-        holder.courseNumber.setText("AFADF");
+        holder.courseNumber.setText(" "+position);
     }
 
     @Override

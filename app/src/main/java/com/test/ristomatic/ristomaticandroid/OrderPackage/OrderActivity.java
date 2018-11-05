@@ -5,23 +5,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-import com.test.ristomatic.ristomaticandroid.OrderPackage.RecyclerViewAdapter.CategoriesAdapter;
-import com.test.ristomatic.ristomaticandroid.OrderPackage.RecyclerViewAdapter.DishesAdapter;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.Course;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ReportAdapter;
 import com.test.ristomatic.ristomaticandroid.R;
-import com.test.ristomatic.ristomaticandroid.RoomDatabase.AppDatabase;
-import com.test.ristomatic.ristomaticandroid.RoomDatabase.Category.CategoryModel;
-import com.test.ristomatic.ristomaticandroid.RoomDatabase.Category.CategoryModelDao;
-import com.test.ristomatic.ristomaticandroid.RoomDatabase.Dish.DishModel;
-import com.test.ristomatic.ristomaticandroid.RoomDatabase.Dish.DishModelDao;
 
-import java.util.LinkedList;
-import java.util.List;
 
 public class OrderActivity extends AppCompatActivity {
     private OrderViewModel orderViewModel;
