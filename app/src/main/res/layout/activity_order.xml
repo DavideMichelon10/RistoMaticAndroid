@@ -79,7 +79,7 @@
 
     <RadioGroup
         android:id="@+id/flow_group"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/divider_flow_to_order"

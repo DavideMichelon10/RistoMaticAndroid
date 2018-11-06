@@ -2,6 +2,7 @@ package com.test.ristomatic.ristomaticandroid.OrderPackage;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
+import android.content.Context;
 
 
 import com.test.ristomatic.ristomaticandroid.OrderPackage.RecyclerViewAdapter.CategoriesAdapter;
@@ -17,14 +18,21 @@ public class OrderViewModel extends AndroidViewModel {
     private static DishesAdapter adapterDishes;
     private CategoryModelDao categoryModelDao;
     private static DishModelDao dishModelDao;
+    private Context context;
 
     public OrderViewModel(Application application) {
         super(application);
+
+    }
+
+    public void init(Context context)
+    {
+        this.context = context;
         setAppDatabase(AppDatabase.getDatabase(this.getApplication()));
         setCategoryModelDao(getAppDatabase().getCategoryModelDao());
         setDishModelDao(getAppDatabase().getDishModelDao());
         setAdapterCategories(new CategoriesAdapter(getCategoryModelDao().getAllCategories()));
-        setAdapterDishes(new DishesAdapter(getDishModelDao().getSelectedDishes(1)));
+        setAdapterDishes(new DishesAdapter(getDishModelDao().getSelectedDishes(1), context));
     }
 
     public static AppDatabase getAppDatabase() {
