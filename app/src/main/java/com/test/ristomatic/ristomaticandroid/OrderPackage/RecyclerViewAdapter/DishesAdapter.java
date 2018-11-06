@@ -1,6 +1,7 @@
 package com.test.ristomatic.ristomaticandroid.OrderPackage.RecyclerViewAdapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import com.test.ristomatic.ristomaticandroid.OrderPackage.OrderActivity;
 
 import com.test.ristomatic.ristomaticandroid.OrderPackage.OrderViewModel;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.CoursesAdapter;
+import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.Course;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.SelectedDish;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.SelectedDishesAdapter;
 import com.test.ristomatic.ristomaticandroid.R;
@@ -57,17 +59,26 @@ public class DishesAdapter extends RecyclerView.Adapter<DishesAdapter.DishViewHo
                 @Override
                 public void onClick(View view) {
                     int radioButtonIdid = ((RadioGroup)((OrderActivity)context).findViewById(R.id.flow_group)).getCheckedRadioButtonId();
-                    System.out.println(((RadioButton)((OrderActivity)context).findViewById(radioButtonIdid)).getText());
+                    int position = Integer.parseInt((String) ((RadioButton)((OrderActivity)context)
+                            .findViewById(radioButtonIdid))
+                            .getText());
+
+                    if(CoursesAdapter.getCourses()[position-1] == null){
+                        CoursesAdapter.getCourses()[position-1] = new Course();
+                        ((RecyclerView)((OrderActivity)context).findViewById(R.id.recyclerViewCourses))
+                                .getAdapter().notifyDataSetChanged();
+                    }
+                    //CoursesAdapter.getCourses()[position-1] = new Course();
                     SelectedDish insertedDish = new SelectedDish(dishes.get(getAdapterPosition()).getDishName());
-                    CoursesAdapter.getCourses()[1].addSelectedDish(insertedDish);
-                    System.out.println(dishes.get(getAdapterPosition()).getDishName());
+
+                    CoursesAdapter.getCourses()[position-1].addSelectedDish(insertedDish);
+                    System.out.println("SIZE: " + CoursesAdapter.getCourses()[position-1].getAllSelectedDishes().size());
                     //Assegna a courseViewHolder il ViewHolder legato alla portata del piatto appena inserito
                     // nella lista SelectedDishes
                     CoursesAdapter.CourseViewHolder courseViewHolder = (CoursesAdapter.CourseViewHolder) ((RecyclerView)((OrderActivity)context)
                             .findViewById(R.id.recyclerViewCourses))
-                            .findViewHolderForAdapterPosition(1);
-                    int position = courseViewHolder.getRecyclerViewCourse().getAdapter().getItemCount();
-                    System.out.println("POSITION: " + position);
+                            .findViewHolderForAdapterPosition();
+                    System.out.println(Integer.toString(courseViewHolder.getAdapterPosition()));
                     courseViewHolder.getRecyclerViewCourse().getAdapter().notifyDataSetChanged();
                 }
             });

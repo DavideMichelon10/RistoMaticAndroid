@@ -24,6 +24,7 @@ public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.CourseVi
     public CoursesAdapter(Context context){
         this.context = context;
         courses = new Course[COURSES_NUMBER];
+
     }
 
     public CoursesAdapter(Context context, Course[] courses){
@@ -71,9 +72,7 @@ public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.CourseVi
             super(itemView);
             courseNumber = (TextView) itemView.findViewById(R.id.courseNumber);
             courses= (RecyclerView) itemView.findViewById(R.id.recyclerViewSelectedDishes);
-
         }
-
         public RecyclerView getRecyclerViewCourse() {
             return courses;
         }

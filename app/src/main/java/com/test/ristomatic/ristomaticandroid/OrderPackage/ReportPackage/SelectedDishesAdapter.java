@@ -19,6 +19,7 @@ public class SelectedDishesAdapter extends RecyclerView.Adapter<SelectedDishesAd
     Context context;
     public List<SelectedDish> selectedDishes;
 
+
     public SelectedDishesAdapter(Context context, List<SelectedDish> selectedDishes){
         this.context = context;
         this.selectedDishes = selectedDishes;

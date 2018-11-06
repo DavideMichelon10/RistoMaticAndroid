@@ -13,6 +13,8 @@ import com.test.ristomatic.ristomaticandroid.RoomDatabase.AppDatabase;
 import com.test.ristomatic.ristomaticandroid.RoomDatabase.Category.CategoryModelDao;
 import com.test.ristomatic.ristomaticandroid.RoomDatabase.Dish.DishModelDao;
 
+import static com.test.ristomatic.ristomaticandroid.Application.GlobalVariableApplication.COURSES_NUMBER;
+
 public class OrderViewModel extends AndroidViewModel {
 
     private static AppDatabase appDatabase;
@@ -38,22 +40,19 @@ public class OrderViewModel extends AndroidViewModel {
         setDishModelDao(getAppDatabase().getDishModelDao());
         setAdapterCategories(new CategoriesAdapter(getCategoryModelDao().getAllCategories()));
         setAdapterDishes(new DishesAdapter(getDishModelDao().getSelectedDishes(1), context));
-        courses = new Course[4];
-        courses[0] = new Course();
-        courses[1] = new Course();
-    }
-
-    public void init(Context context){
-        setAdapterDishes(new DishesAdapter(getDishModelDao().getSelectedDishes(1), context));
+        courses = new Course[COURSES_NUMBER];
+        courses[0] = null;
+        courses[1] = null;
+        courses[2] = null;
         setCoursesAdapter(new CoursesAdapter(context, courses));
 
     }
+
     public CoursesAdapter getCoursesAdapter(){
         return coursesAdapter;
     }
     public void setCoursesAdapter(CoursesAdapter coursesAdapter){
         this.coursesAdapter = coursesAdapter;
->>>>>>> Davide/setRVCourses
     }
 
     public static AppDatabase getAppDatabase() {
