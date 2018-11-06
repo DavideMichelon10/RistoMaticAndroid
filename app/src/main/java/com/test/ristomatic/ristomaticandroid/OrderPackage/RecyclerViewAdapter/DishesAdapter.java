@@ -6,8 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import com.test.ristomatic.ristomaticandroid.OrderPackage.OrderActivity;
+
 import com.test.ristomatic.ristomaticandroid.OrderPackage.OrderViewModel;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.CoursesAdapter;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.SelectedDish;
@@ -46,12 +49,15 @@ public class DishesAdapter extends RecyclerView.Adapter<DishesAdapter.DishViewHo
 
     public class DishViewHolder extends RecyclerView.ViewHolder {
         private Button button;
+
         public DishViewHolder(View v) {
             super(v);
             this.button = (Button) v.findViewById(R.id.button);
             this.button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    int radioButtonIdid = ((RadioGroup)((OrderActivity)context).findViewById(R.id.flow_group)).getCheckedRadioButtonId();
+                    System.out.println(((RadioButton)((OrderActivity)context).findViewById(radioButtonIdid)).getText());
                     SelectedDish insertedDish = new SelectedDish(dishes.get(getAdapterPosition()).getDishName());
                     CoursesAdapter.getCourses()[1].addSelectedDish(insertedDish);
                     System.out.println(dishes.get(getAdapterPosition()).getDishName());

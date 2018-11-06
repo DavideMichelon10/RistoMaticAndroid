@@ -21,15 +21,23 @@ public class OrderViewModel extends AndroidViewModel {
     private CoursesAdapter coursesAdapter;
     private CategoryModelDao categoryModelDao;
     private static DishModelDao dishModelDao;
+    private Context context;
 
     //test
     private Course[] courses;
     public OrderViewModel(Application application) {
         super(application);
+
+    }
+
+    public void init(Context context)
+    {
+        this.context = context;
         setAppDatabase(AppDatabase.getDatabase(this.getApplication()));
         setCategoryModelDao(getAppDatabase().getCategoryModelDao());
         setDishModelDao(getAppDatabase().getDishModelDao());
         setAdapterCategories(new CategoriesAdapter(getCategoryModelDao().getAllCategories()));
+        setAdapterDishes(new DishesAdapter(getDishModelDao().getSelectedDishes(1), context));
         courses = new Course[4];
         courses[0] = new Course();
         courses[1] = new Course();
@@ -45,6 +53,7 @@ public class OrderViewModel extends AndroidViewModel {
     }
     public void setCoursesAdapter(CoursesAdapter coursesAdapter){
         this.coursesAdapter = coursesAdapter;
+>>>>>>> Davide/setRVCourses
     }
 
     public static AppDatabase getAppDatabase() {

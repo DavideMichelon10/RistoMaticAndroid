@@ -5,8 +5,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.test.ristomatic.ristomaticandroid.Application.GlobalVariableApplication;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.Course;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.CoursesAdapter;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.SelectedDish;
@@ -29,6 +32,7 @@ public class OrderActivity extends AppCompatActivity {
 
         orderViewModel = ViewModelProviders.of(this).get(OrderViewModel.class);
         orderViewModel.init(this);
+        createCourseSelection();
         //RecyclerView categories
         recyclerViewCategories = (RecyclerView) findViewById(R.id.recyclerViewCategories);
         recyclerViewCategories.setHasFixedSize(true);
@@ -45,6 +49,7 @@ public class OrderActivity extends AppCompatActivity {
         recyclerViewCourses.setHasFixedSize(true);
         recyclerViewCourses.setLayoutManager(new GridLayoutManager(this, 1));
         recyclerViewCourses.setAdapter(orderViewModel.getCoursesAdapter());
+        
         //c[0].addSelectedDish(new SelectedDish(new DishModel(1,"a",3)));
 
         /*
@@ -95,6 +100,26 @@ public class OrderActivity extends AppCompatActivity {
         dishVariantJoinList = dishVariantJoinDao.getAllDishVariantJoin();*/
     }
 
+    private void createCourseSelection()
+    {
+        //assegna a rgp il RadioGroup dell'activity_order.xml
+        rgp = (RadioGroup) findViewById(R.id.flow_group);
+        //Parametri grafici del RadioGroup
+        RadioGroup.LayoutParams rprms;
+        //Aggiunge un RadioButton ogni volta che cicla
+        for(int i = 0; i< GlobalVariableApplication.getCoursesNumber(); i++){
+            //Settando i valori del RadioButon
+            RadioButton radioButton = new RadioButton(this);
+            radioButton.setText(""+(i+1));
+            rprms= new RadioGroup.LayoutParams(RadioGroup.LayoutParams.WRAP_CONTENT, RadioGroup.LayoutParams.MATCH_PARENT);
+            //Aggiugnge il radioButton al RadioGroup
+            rgp.addView(radioButton, -1, rprms);
+            //Il primo button è già clickato di default
+            if(i==0) {
+                radioButton.performClick();
+            }
+        }
+    }
 
     @Override
     public void onBackPressed() {

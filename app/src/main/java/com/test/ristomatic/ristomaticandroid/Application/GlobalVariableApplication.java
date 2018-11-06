@@ -17,6 +17,10 @@ public class GlobalVariableApplication extends Application {
         GlobalVariableApplication.ipServer = ipServer;
     }
 
+    public static int getCoursesNumber() {
+        return COURSES_NUMBER;
+    }
+
     public static String getPort() {
         return port;
     }
