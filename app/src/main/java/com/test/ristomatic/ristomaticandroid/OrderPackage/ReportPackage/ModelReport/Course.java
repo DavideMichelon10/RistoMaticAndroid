@@ -4,19 +4,22 @@ import java.util.ArrayList;
 import java.util.List;
 //portata, contiene i piatti di quella portata
 public class Course {
-    private List<SelectedDish> course;
+    private List<SelectedDish> selectedDishes;
 
     public Course(){
-        course =new ArrayList<>();
+        selectedDishes =new ArrayList<>();
     }
-    public Course(List<SelectedDish> course){
-        this.course = course;
+    public Course(List<SelectedDish> selectedDishes){
+        this.selectedDishes = selectedDishes;
     }
-    public List<SelectedDish> getCourse() {
-        return course;
+    public List<SelectedDish> getAllSelectedDishes() {
+        return selectedDishes;
     }
 
-    public void setCourse(List<SelectedDish> course) {
-        this.course = course;
+    public void setSelectedDishes(List<SelectedDish> selectedDishes) {
+        this.selectedDishes = selectedDishes;
+    }
+    public void addSelectedDish(SelectedDish selectedDish){
+        selectedDishes.add(selectedDish);
     }
 }

@@ -10,6 +10,11 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.test.ristomatic.ristomaticandroid.OrderPackage.OrderActivity;
+
+import com.test.ristomatic.ristomaticandroid.OrderPackage.OrderViewModel;
+import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.CoursesAdapter;
+import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.SelectedDish;
+import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.SelectedDishesAdapter;
 import com.test.ristomatic.ristomaticandroid.R;
 import com.test.ristomatic.ristomaticandroid.RoomDatabase.Dish.DishModel;
 
@@ -17,10 +22,9 @@ import java.util.List;
 
 public class DishesAdapter extends RecyclerView.Adapter<DishesAdapter.DishViewHolder> {
     private List<DishModel> dishes;
-    Context context;
+    private Context context;
     public DishesAdapter(List<DishModel> dishes, Context context) {
-        this.dishes = dishes;
-        this.context = context;
+        this.dishes = dishes; this.context = context;
     }
 
     public void setDishes(List<DishModel> dishes){
@@ -51,9 +55,20 @@ public class DishesAdapter extends RecyclerView.Adapter<DishesAdapter.DishViewHo
             this.button = (Button) v.findViewById(R.id.button);
             this.button.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
+                public void onClick(View view) {
                     int radioButtonIdid = ((RadioGroup)((OrderActivity)context).findViewById(R.id.flow_group)).getCheckedRadioButtonId();
                     System.out.println(((RadioButton)((OrderActivity)context).findViewById(radioButtonIdid)).getText());
+                    SelectedDish insertedDish = new SelectedDish(dishes.get(getAdapterPosition()).getDishName());
+                    CoursesAdapter.getCourses()[1].addSelectedDish(insertedDish);
+                    System.out.println(dishes.get(getAdapterPosition()).getDishName());
+                    //Assegna a courseViewHolder il ViewHolder legato alla portata del piatto appena inserito
+                    // nella lista SelectedDishes
+                    CoursesAdapter.CourseViewHolder courseViewHolder = (CoursesAdapter.CourseViewHolder) ((RecyclerView)((OrderActivity)context)
+                            .findViewById(R.id.recyclerViewCourses))
+                            .findViewHolderForAdapterPosition(1);
+                    int position = courseViewHolder.getRecyclerViewCourse().getAdapter().getItemCount();
+                    System.out.println("POSITION: " + position);
+                    courseViewHolder.getRecyclerViewCourse().getAdapter().notifyDataSetChanged();
                 }
             });
         }

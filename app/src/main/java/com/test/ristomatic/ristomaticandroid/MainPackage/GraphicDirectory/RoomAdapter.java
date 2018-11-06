@@ -77,8 +77,8 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
                 @Override
                 public void onClick(View view) {
 
-                    switch(State){
-                        case "Libero":
+                   // switch(State){
+                     //   case "Libero":
                                 Intent intent = new Intent(ContextApplication.getAppContext(), OrderActivity.class);
                                 if(GlobalVariableApplication.firstTime == true){
                                   //  intent.putExtra("variants", MainActivity.getMainViewModel().variants);
@@ -91,10 +91,10 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 MainActivity.getMainViewModel().changeTableState(Integer.parseInt((String) textViewId.getText()), "Occupato");
                                 ContextApplication.getAppContext().startActivity(intent);
-                            break;
-                        case "Occupato": System.out.print("Occupato");
-                        default: System.out.println();
-                    }
+                       //     break;
+                        //case "Occupato": System.out.print("Occupato");
+                       // default: System.out.println();
+                    //}
                 }
             });
         }
