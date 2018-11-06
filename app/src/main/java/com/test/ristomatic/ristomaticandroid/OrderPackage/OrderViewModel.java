@@ -2,10 +2,13 @@ package com.test.ristomatic.ristomaticandroid.OrderPackage;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
+import android.content.Context;
 
 
 import com.test.ristomatic.ristomaticandroid.OrderPackage.RecyclerViewAdapter.CategoriesAdapter;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.RecyclerViewAdapter.DishesAdapter;
+import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.CoursesAdapter;
+import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.Course;
 import com.test.ristomatic.ristomaticandroid.RoomDatabase.AppDatabase;
 import com.test.ristomatic.ristomaticandroid.RoomDatabase.Category.CategoryModelDao;
 import com.test.ristomatic.ristomaticandroid.RoomDatabase.Dish.DishModelDao;
@@ -15,16 +18,33 @@ public class OrderViewModel extends AndroidViewModel {
     private static AppDatabase appDatabase;
     private CategoriesAdapter adapterCategories;
     private static DishesAdapter adapterDishes;
+    private CoursesAdapter coursesAdapter;
     private CategoryModelDao categoryModelDao;
     private static DishModelDao dishModelDao;
 
+    //test
+    private Course[] courses;
     public OrderViewModel(Application application) {
         super(application);
         setAppDatabase(AppDatabase.getDatabase(this.getApplication()));
         setCategoryModelDao(getAppDatabase().getCategoryModelDao());
         setDishModelDao(getAppDatabase().getDishModelDao());
         setAdapterCategories(new CategoriesAdapter(getCategoryModelDao().getAllCategories()));
-        setAdapterDishes(new DishesAdapter(getDishModelDao().getSelectedDishes(1)));
+        courses = new Course[4];
+        courses[0] = new Course();
+        courses[1] = new Course();
+    }
+
+    public void init(Context context){
+        setAdapterDishes(new DishesAdapter(getDishModelDao().getSelectedDishes(1), context));
+        setCoursesAdapter(new CoursesAdapter(context, courses));
+
+    }
+    public CoursesAdapter getCoursesAdapter(){
+        return coursesAdapter;
+    }
+    public void setCoursesAdapter(CoursesAdapter coursesAdapter){
+        this.coursesAdapter = coursesAdapter;
     }
 
     public static AppDatabase getAppDatabase() {

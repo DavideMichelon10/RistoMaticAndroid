@@ -8,8 +8,10 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.RadioGroup;
 
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.Course;
-import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ReportAdapter;
+import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.CoursesAdapter;
+import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.SelectedDish;
 import com.test.ristomatic.ristomaticandroid.R;
+import com.test.ristomatic.ristomaticandroid.RoomDatabase.Dish.DishModel;
 
 
 public class OrderActivity extends AppCompatActivity {
@@ -26,7 +28,7 @@ public class OrderActivity extends AppCompatActivity {
         setContentView(R.layout.activity_order);
 
         orderViewModel = ViewModelProviders.of(this).get(OrderViewModel.class);
-
+        orderViewModel.init(this);
         //RecyclerView categories
         recyclerViewCategories = (RecyclerView) findViewById(R.id.recyclerViewCategories);
         recyclerViewCategories.setHasFixedSize(true);
@@ -42,10 +44,9 @@ public class OrderActivity extends AppCompatActivity {
         recyclerViewCourses = (RecyclerView) findViewById(R.id.recyclerViewCourses);
         recyclerViewCourses.setHasFixedSize(true);
         recyclerViewCourses.setLayoutManager(new GridLayoutManager(this, 1));
-        Course[] c = new Course[4];
-        c[0] = new Course();
-        c[1] = new Course();
-        recyclerViewCourses.setAdapter(new ReportAdapter(this, c));
+        recyclerViewCourses.setAdapter(orderViewModel.getCoursesAdapter());
+        //c[0].addSelectedDish(new SelectedDish(new DishModel(1,"a",3)));
+
         /*
         rgp = (RadioGroup) findViewById(R.id.flow_group);
 
