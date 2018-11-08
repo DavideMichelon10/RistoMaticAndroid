@@ -64,6 +64,7 @@ public class DishesAdapter extends RecyclerView.Adapter<DishesAdapter.DishViewHo
                     int coursePosition = Integer.parseInt((String) ((RadioButton)((OrderActivity)context)
                             .findViewById(radioButtonIdid))
                             .getText()) - 1;
+                    //Vero se la portata esiste già
                     boolean courseExistance = false;
                     SelectedDish insertedDish = new SelectedDish(dishes.get(getAdapterPosition()).getDishName());
                     //Scorre la lista e controlla se esiste già la portata selezionata
@@ -76,10 +77,13 @@ public class DishesAdapter extends RecyclerView.Adapter<DishesAdapter.DishViewHo
                         }
                     }
                     //Se la portata non esiste ne viene creata una nuova con il numero di portata e viene aggiunta alla lista
-                    //successivamente viene chiamato il notifyDataSetChanged sulla recyclerViewCourses
+                    //successivamente viene chiamato il notifyItemInserted sulla recyclerViewCourses
                     if(!courseExistance){
+                        //La portata che verrà inserita
                         Course courseInserted = new Course(coursePosition+1);
+                        //Aggiungi il piatto da inserire alla portata
                         courseInserted.addSelectedDish(insertedDish);
+                        //Se la portata da inserire non va inserita in una posizione già occupata da un altra portata
                         if( (CoursesAdapter.getCourses().size()-1) <= coursePosition)
                             CoursesAdapter.getCourses().add(courseInserted);
                         else
@@ -88,9 +92,10 @@ public class DishesAdapter extends RecyclerView.Adapter<DishesAdapter.DishViewHo
                         coursePosition = CoursesAdapter.getCourses().indexOf(courseInserted);
                     }
 
-                    //se la portata esiste ricava la posizione della portata esistente nell'array
+                    //se la portata esiste
                     else
                     {
+                        //ricava la posizione della portata esistente nella lista
                         for (int i=0;i< CoursesAdapter.getCourses().size();i++)
                         {
                             if(CoursesAdapter.getCourses().get(i).getCourseNumber() == (coursePosition+1))
@@ -99,10 +104,13 @@ public class DishesAdapter extends RecyclerView.Adapter<DishesAdapter.DishViewHo
                                 break;
                             }
                         }
+                        //Aggiungo insertedDish nella lista di piatti selezionati all'interno della portata
                         CoursesAdapter.getCourses().get(coursePosition).addSelectedDish(insertedDish);
-
+                        //Ricavo la recyclerViewCourses
                         final RecyclerView recyclerViewCourses = ((OrderActivity)context)
                                 .findViewById(R.id.recyclerViewCourses);
+                        //Chiamo il notifyItemInserted sull'adapter della portata e come position passo la grandezza della lista
+                        //di piatti selezionati meno 1
                         ((CoursesAdapter.CourseViewHolder)recyclerViewCourses
                                 .findViewHolderForAdapterPosition(coursePosition))
                                 .getRecyclerViewCourse()
