@@ -34,7 +34,7 @@ public class SelectedDishesAdapter extends RecyclerView.Adapter<SelectedDishesAd
 
     @Override
     public void onBindViewHolder(@NonNull SelectedDishViewHolder holder, int position) {
-        System.out.println("POSTIITIO: "+position);
+        System.out.println("SELECTED DISH POSITION: "+position);
         holder.timeSelected.setText(" "+(selectedDishes.get(position).getTimeSelected()));
         holder.dishName.setText(selectedDishes.get(position).getSelectedDishName());
     }

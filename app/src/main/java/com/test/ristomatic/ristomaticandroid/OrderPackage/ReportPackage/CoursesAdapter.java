@@ -45,7 +45,7 @@ public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.CourseVi
     public void onBindViewHolder(@NonNull CourseViewHolder holder, int position) {
         holder.courseNumber.setText("Portata: "+courses.get(position).getCourseNumber());
         List<SelectedDish> selectedDishes = getCourses().get(position).getAllSelectedDishes();
-        holder.courses.setHasFixedSize(true);
+        holder.courses.setHasFixedSize(false);
         holder.courses.setLayoutManager(new GridLayoutManager(context, 2));
         holder.courses.setAdapter(new SelectedDishesAdapter(context, selectedDishes));
         holder.courses.getAdapter().notifyDataSetChanged();

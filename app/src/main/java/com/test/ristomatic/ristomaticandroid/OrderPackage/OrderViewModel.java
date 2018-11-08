@@ -32,7 +32,7 @@ public class OrderViewModel extends AndroidViewModel {
     private List<Course> courses;
     public OrderViewModel(Application application) {
         super(application);
-
+        courses = new ArrayList<>();
     }
 
     public void init(Context context)
@@ -43,7 +43,6 @@ public class OrderViewModel extends AndroidViewModel {
         setDishModelDao(getAppDatabase().getDishModelDao());
         setAdapterCategories(new CategoriesAdapter(getCategoryModelDao().getAllCategories()));
         setAdapterDishes(new DishesAdapter(getDishModelDao().getSelectedDishes(1), context));
-        courses = new ArrayList<>();
         setCoursesAdapter(new CoursesAdapter(context, courses));
 
     }
