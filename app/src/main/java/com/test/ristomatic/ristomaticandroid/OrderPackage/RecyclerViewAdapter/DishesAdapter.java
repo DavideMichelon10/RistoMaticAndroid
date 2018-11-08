@@ -61,16 +61,18 @@ public class DishesAdapter extends RecyclerView.Adapter<DishesAdapter.DishViewHo
                 @Override
                 public void onClick(View view) {
                     int radioButtonIdid = ((RadioGroup)((OrderActivity)context).findViewById(R.id.flow_group)).getCheckedRadioButtonId();
-                    int coursePosition = Integer.parseInt((String) ((RadioButton)((OrderActivity)context)
+                    //Posizione nella lista di portate della portata corrente
+                    int coursePosition = 0;
+                    int courseNumber = Integer.parseInt((String) ((RadioButton)((OrderActivity)context)
                             .findViewById(radioButtonIdid))
-                            .getText()) - 1;
+                            .getText());
                     //Vero se la portata esiste già
                     boolean courseExistance = false;
                     SelectedDish insertedDish = new SelectedDish(dishes.get(getAdapterPosition()).getDishName());
                     //Scorre la lista e controlla se esiste già la portata selezionata
                     for (int i=0;i< CoursesAdapter.getCourses().size();i++)
                     {
-                        if(CoursesAdapter.getCourses().get(i).getCourseNumber() == (coursePosition+1))
+                        if(CoursesAdapter.getCourses().get(i).getCourseNumber() == (courseNumber))
                         {
                             courseExistance = true;
                             break;
@@ -80,16 +82,15 @@ public class DishesAdapter extends RecyclerView.Adapter<DishesAdapter.DishViewHo
                     //successivamente viene chiamato il notifyItemInserted sulla recyclerViewCourses
                     if(!courseExistance){
                         //La portata che verrà inserita
-                        Course courseInserted = new Course(coursePosition+1);
+                        Course courseInserted = new Course(courseNumber);
                         //Aggiungi il piatto da inserire alla portata
                         courseInserted.addSelectedDish(insertedDish);
                         //Se la portata da inserire non va inserita in una posizione già occupata da un altra portata
-                        if( (CoursesAdapter.getCourses().size()-1) <= coursePosition)
+                        if( (CoursesAdapter.getCourses().size()) < courseNumber)
                             CoursesAdapter.getCourses().add(courseInserted);
                         else
-                            CoursesAdapter.getCourses().add(coursePosition, courseInserted);
-                        ((RecyclerView)((OrderActivity)context).findViewById(R.id.recyclerViewCourses)).getAdapter().notifyItemInserted(coursePosition);
-                        coursePosition = CoursesAdapter.getCourses().indexOf(courseInserted);
+                            CoursesAdapter.getCourses().add(courseNumber-1, courseInserted);/**/
+                        ((RecyclerView)((OrderActivity)context).findViewById(R.id.recyclerViewCourses)).getAdapter().notifyItemInserted(courseNumber-1);
                     }
 
                     //se la portata esiste
@@ -98,7 +99,7 @@ public class DishesAdapter extends RecyclerView.Adapter<DishesAdapter.DishViewHo
                         //ricava la posizione della portata esistente nella lista
                         for (int i=0;i< CoursesAdapter.getCourses().size();i++)
                         {
-                            if(CoursesAdapter.getCourses().get(i).getCourseNumber() == (coursePosition+1))
+                            if(CoursesAdapter.getCourses().get(i).getCourseNumber() == (courseNumber))
                             {
                                 coursePosition = i;
                                 break;
@@ -119,7 +120,7 @@ public class DishesAdapter extends RecyclerView.Adapter<DishesAdapter.DishViewHo
                     }
 
                     /*
-                    CoursesAdapter.getCourses().get(coursePosition).addSelectedDish(insertedDish);
+                    CoursesAdapter.getCourses().get(courseNumber).addSelectedDish(insertedDish);
                     //Assegna a courseViewHolder il ViewHolder legato alla portata del piatto appena inserito
                     // nella lista SelectedDishes
                     try {
@@ -131,10 +132,10 @@ public class DishesAdapter extends RecyclerView.Adapter<DishesAdapter.DishViewHo
                     final RecyclerView recyclerViewCourses = ((OrderActivity)context)
                             .findViewById(R.id.recyclerViewCourses);
                     ((CoursesAdapter.CourseViewHolder)recyclerViewCourses
-                            .findViewHolderForAdapterPosition(coursePosition))
+                            .findViewHolderForAdapterPosition(courseNumber))
                             .getRecyclerViewCourse()
                             .getAdapter()
-                            .notifyItemInserted(CoursesAdapter.getCourses().get(coursePosition).getAllSelectedDishes().size()-1);*/
+                            .notifyItemInserted(CoursesAdapter.getCourses().get(courseNumber).getAllSelectedDishes().size()-1);*/
                 }
             });
         }
