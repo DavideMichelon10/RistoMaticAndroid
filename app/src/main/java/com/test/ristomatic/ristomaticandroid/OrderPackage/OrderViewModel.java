@@ -13,6 +13,9 @@ import com.test.ristomatic.ristomaticandroid.RoomDatabase.AppDatabase;
 import com.test.ristomatic.ristomaticandroid.RoomDatabase.Category.CategoryModelDao;
 import com.test.ristomatic.ristomaticandroid.RoomDatabase.Dish.DishModelDao;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static com.test.ristomatic.ristomaticandroid.Application.GlobalVariableApplication.COURSES_NUMBER;
 
 public class OrderViewModel extends AndroidViewModel {
@@ -26,7 +29,7 @@ public class OrderViewModel extends AndroidViewModel {
     private Context context;
 
     //test
-    private Course[] courses;
+    private List<Course> courses;
     public OrderViewModel(Application application) {
         super(application);
 
@@ -40,10 +43,7 @@ public class OrderViewModel extends AndroidViewModel {
         setDishModelDao(getAppDatabase().getDishModelDao());
         setAdapterCategories(new CategoriesAdapter(getCategoryModelDao().getAllCategories()));
         setAdapterDishes(new DishesAdapter(getDishModelDao().getSelectedDishes(1), context));
-        courses = new Course[COURSES_NUMBER];
-        courses[0] = null;
-        courses[1] = null;
-        courses[2] = null;
+        courses = new ArrayList<>();
         setCoursesAdapter(new CoursesAdapter(context, courses));
 
     }

@@ -19,20 +19,15 @@ import static com.test.ristomatic.ristomaticandroid.Application.GlobalVariableAp
 
 public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.CourseViewHolder> {
     private Context context;
-    private static Course[] courses;
+    private static List<Course> courses;
 
-    public CoursesAdapter(Context context){
-        this.context = context;
-        courses = new Course[COURSES_NUMBER];
 
-    }
-
-    public CoursesAdapter(Context context, Course[] courses){
+    public CoursesAdapter(Context context, List<Course> courses){
         this.context = context;
         this.courses = courses;
     }
 
-    public static Course[] getCourses() {
+    public static List<Course> getCourses() {
         return courses;
     }
 
@@ -48,21 +43,17 @@ public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.CourseVi
     //Si occuperà SelectedDishesAdapter di creare la lista di piatti selezionati per quella portata
     @Override
     public void onBindViewHolder(@NonNull CourseViewHolder holder, int position) {
-        holder.courseNumber.setText("Portata: "+(position+1));
-        List<SelectedDish> selectedDishes = getCourses()[position].getAllSelectedDishes();
+        holder.courseNumber.setText("Portata: "+courses.get(position).getCourseNumber());
+        List<SelectedDish> selectedDishes = getCourses().get(position).getAllSelectedDishes();
         holder.courses.setHasFixedSize(true);
         holder.courses.setLayoutManager(new GridLayoutManager(context, 2));
         holder.courses.setAdapter(new SelectedDishesAdapter(context, selectedDishes));
+        holder.courses.getAdapter().notifyDataSetChanged();
     }
 
     @Override
     public int getItemCount() {
-        int counter = 0;
-        for (int i = 0; i < getCourses().length; i ++)
-            if (getCourses()[i] != null){
-                counter ++;
-            }
-        return  counter;
+        return  courses.size();
     }
 
     public class CourseViewHolder extends RecyclerView.ViewHolder {
