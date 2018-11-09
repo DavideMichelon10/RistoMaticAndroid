@@ -17,6 +17,7 @@ import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelRep
 import com.test.ristomatic.ristomaticandroid.R;
 import com.test.ristomatic.ristomaticandroid.RoomDatabase.Dish.DishModel;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -84,12 +85,17 @@ public class DishesAdapter extends RecyclerView.Adapter<DishesAdapter.DishViewHo
                         Course courseInserted = new Course(courseNumber);
                         //Aggiungi il piatto da inserire alla portata
                         courseInserted.addSelectedDish(insertedDish);
+                        //Se indexCoursePosition è uguale a -1 allora basta fare l'add
+                        int indexCoursePosition = isCoursePositionOccupied(courseNumber);
                         //Se la portata da inserire non va inserita in una posizione già occupata da un altra portata
-                        if( (CoursesAdapter.getCourses().size()) < courseNumber)
+                        if( indexCoursePosition == -1){
                             CoursesAdapter.getCourses().add(courseInserted);
-                        else
-                            CoursesAdapter.getCourses().add(courseNumber-1, courseInserted);/**/
-                        ((RecyclerView)((OrderActivity)context).findViewById(R.id.recyclerViewCourses)).getAdapter().notifyItemInserted(courseNumber-1);
+                            ((RecyclerView)((OrderActivity)context).findViewById(R.id.recyclerViewCourses)).getAdapter().notifyItemInserted(CoursesAdapter.getCourses().size());
+                        }
+                        else {
+                            CoursesAdapter.getCourses().add(indexCoursePosition, courseInserted);
+                            ((RecyclerView)((OrderActivity)context).findViewById(R.id.recyclerViewCourses)).getAdapter().notifyItemInserted(indexCoursePosition);
+                        }
                     }
 
                     //se la portata esiste
@@ -139,6 +145,16 @@ public class DishesAdapter extends RecyclerView.Adapter<DishesAdapter.DishViewHo
                     }catch (ArrayIndexOutOfBoundsException e){ }
                 }
             });
+        }
+        //Vero se la portata da inserire va inserita in una posizione già occupata da un altra portata
+        private int isCoursePositionOccupied(int courseNumber){
+            System.out.println("isCoursePositionOccupied");
+            for (int i=0;i< CoursesAdapter.getCourses().size();i++){
+                if(courseNumber < CoursesAdapter.getCourses().get(i).getCourseNumber()){
+                    return i;
+                }
+            }
+            return -1;
         }
     }
 }
