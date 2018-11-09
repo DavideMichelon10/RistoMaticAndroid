@@ -1,7 +1,6 @@
 package com.test.ristomatic.ristomaticandroid.OrderPackage.RecyclerViewAdapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,14 +9,11 @@ import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-import com.test.ristomatic.ristomaticandroid.Application.GlobalVariableApplication;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.OrderActivity;
 
-import com.test.ristomatic.ristomaticandroid.OrderPackage.OrderViewModel;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.CoursesAdapter;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.Course;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.SelectedDish;
-import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.SelectedDishesAdapter;
 import com.test.ristomatic.ristomaticandroid.R;
 import com.test.ristomatic.ristomaticandroid.RoomDatabase.Dish.DishModel;
 
@@ -69,7 +65,10 @@ public class DishesAdapter extends RecyclerView.Adapter<DishesAdapter.DishViewHo
                             .getText());
                     //Vero se la portata esiste già
                     boolean courseExistance = false;
-                    SelectedDish insertedDish = new SelectedDish(dishes.get(getAdapterPosition()).getDishName());
+                    try{
+                        SelectedDish insertedDish = new SelectedDish(dishes.get(getAdapterPosition()).getDishName());
+
+
                     //Scorre la lista e controlla se esiste già la portata selezionata
                     for (int i=0;i< CoursesAdapter.getCourses().size();i++){
                         if(CoursesAdapter.getCourses().get(i).getCourseNumber() == (courseNumber))
@@ -136,24 +135,8 @@ public class DishesAdapter extends RecyclerView.Adapter<DishesAdapter.DishViewHo
                         }
 
                     }
-
-                    /*
-                    CoursesAdapter.getCourses().get(courseNumber).addSelectedDish(insertedDish);
-                    //Assegna a courseViewHolder il ViewHolder legato alla portata del piatto appena inserito
-                    // nella lista SelectedDishes
-                    try {
-                        TimeUnit.SECONDS.sleep(1);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-
-                    final RecyclerView recyclerViewCourses = ((OrderActivity)context)
-                            .findViewById(R.id.recyclerViewCourses);
-                    ((CoursesAdapter.CourseViewHolder)recyclerViewCourses
-                            .findViewHolderForAdapterPosition(courseNumber))
-                            .getRecyclerViewCourse()
-                            .getAdapter()
-                            .notifyItemInserted(CoursesAdapter.getCourses().get(courseNumber).getAllSelectedDishes().size()-1);*/
+                    //eccezione tirata quando cambi categoria e selezioni un piatto ed esso è nullo
+                    }catch (ArrayIndexOutOfBoundsException e){ }
                 }
             });
         }
