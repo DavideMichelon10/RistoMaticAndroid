@@ -70,8 +70,7 @@ public class DishesAdapter extends RecyclerView.Adapter<DishesAdapter.DishViewHo
                     boolean courseExistance = false;
                     SelectedDish insertedDish = new SelectedDish(dishes.get(getAdapterPosition()).getDishName());
                     //Scorre la lista e controlla se esiste già la portata selezionata
-                    for (int i=0;i< CoursesAdapter.getCourses().size();i++)
-                    {
+                    for (int i=0;i< CoursesAdapter.getCourses().size();i++){
                         if(CoursesAdapter.getCourses().get(i).getCourseNumber() == (courseNumber))
                         {
                             courseExistance = true;
@@ -94,29 +93,47 @@ public class DishesAdapter extends RecyclerView.Adapter<DishesAdapter.DishViewHo
                     }
 
                     //se la portata esiste
-                    else
-                    {
-                        //ricava la posizione della portata esistente nella lista
-                        for (int i=0;i< CoursesAdapter.getCourses().size();i++)
-                        {
-                            if(CoursesAdapter.getCourses().get(i).getCourseNumber() == (courseNumber))
-                            {
-                                coursePosition = i;
-                                break;
-                            }
-                        }
-                        //Aggiungo insertedDish nella lista di piatti selezionati all'interno della portata
-                        CoursesAdapter.getCourses().get(coursePosition).addSelectedDish(insertedDish);
-                        //Ricavo la recyclerViewCourses
+                    else{
                         final RecyclerView recyclerViewCourses = ((OrderActivity)context)
                                 .findViewById(R.id.recyclerViewCourses);
-                        //Chiamo il notifyItemInserted sull'adapter della portata e come position passo la grandezza della lista
-                        //di piatti selezionati meno 1
-                        ((CoursesAdapter.CourseViewHolder)recyclerViewCourses
-                                .findViewHolderForAdapterPosition(coursePosition))
-                                .getRecyclerViewCourse()
-                                .getAdapter()
-                                .notifyItemInserted(CoursesAdapter.getCourses().get(coursePosition).getAllSelectedDishes().size()-1);
+                        try {
+                            //ricava la posizione della portata esistente nella lista
+                            for (int i=0;i< CoursesAdapter.getCourses().size();i++){
+                                if(CoursesAdapter.getCourses().get(i).getCourseNumber() == (courseNumber))
+                                {
+                                    coursePosition = i;
+                                    break;
+                                }
+                            }
+                            //Aggiungo insertedDish nella lista di piatti selezionati all'interno della portata
+                            CoursesAdapter.getCourses().get(coursePosition).addSelectedDish(insertedDish);
+                            //Ricavo la recyclerViewCourses
+
+                            //Chiamo il notifyItemInserted sull'adapter della portata e come position passo la grandezza della lista
+                            //di piatti selezionati meno 1
+                            ((CoursesAdapter.CourseViewHolder)recyclerViewCourses
+                                    .findViewHolderForAdapterPosition(coursePosition))
+                                    .getRecyclerViewCourse()
+                                    .getAdapter()
+                                    .notifyItemInserted(CoursesAdapter.getCourses().get(coursePosition).getAllSelectedDishes().size()-1);
+                        }catch (NullPointerException exeption){
+                            final int finalCoursePosition = coursePosition;
+                            recyclerViewCourses.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if((CoursesAdapter.CourseViewHolder)recyclerViewCourses
+                                            .findViewHolderForAdapterPosition(finalCoursePosition) != null)
+                                    {
+                                        ((CoursesAdapter.CourseViewHolder)recyclerViewCourses
+                                                .findViewHolderForAdapterPosition(finalCoursePosition))
+                                                .getRecyclerViewCourse()
+                                                .getAdapter()
+                                                .notifyItemInserted(CoursesAdapter.getCourses().get(finalCoursePosition).getAllSelectedDishes().size()-1);
+                                    }
+                                }
+                            },16);
+                        }
+
                     }
 
                     /*
