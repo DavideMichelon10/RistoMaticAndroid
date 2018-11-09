@@ -1,7 +1,6 @@
 package com.test.ristomatic.ristomaticandroid.OrderPackage.RecyclerViewAdapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,14 +9,11 @@ import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-import com.test.ristomatic.ristomaticandroid.Application.GlobalVariableApplication;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.OrderActivity;
 
-import com.test.ristomatic.ristomaticandroid.OrderPackage.OrderViewModel;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.CoursesAdapter;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.Course;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.SelectedDish;
-import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.SelectedDishesAdapter;
 import com.test.ristomatic.ristomaticandroid.R;
 import com.test.ristomatic.ristomaticandroid.RoomDatabase.Dish.DishModel;
 
@@ -61,6 +57,7 @@ public class DishesAdapter extends RecyclerView.Adapter<DishesAdapter.DishViewHo
             this.button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+
                     int radioButtonIdid = ((RadioGroup)((OrderActivity)context).findViewById(R.id.flow_group)).getCheckedRadioButtonId();
                     //Posizione nella lista di portate della portata corrente
                     int coursePosition = 0;
@@ -69,7 +66,10 @@ public class DishesAdapter extends RecyclerView.Adapter<DishesAdapter.DishViewHo
                             .getText());
                     //Vero se la portata esiste già
                     boolean courseExistance = false;
-                    SelectedDish insertedDish = new SelectedDish(dishes.get(getAdapterPosition()).getDishName());
+                    try{
+                        SelectedDish insertedDish = new SelectedDish(dishes.get(getAdapterPosition()).getDishName());
+
+
                     //Scorre la lista e controlla se esiste già la portata selezionata
                     for (int i=0;i< CoursesAdapter.getCourses().size();i++){
                         if(CoursesAdapter.getCourses().get(i).getCourseNumber() == (courseNumber))
@@ -141,6 +141,8 @@ public class DishesAdapter extends RecyclerView.Adapter<DishesAdapter.DishViewHo
                         }
 
                     }
+                    //eccezione tirata quando cambi categoria e selezioni un piatto ed esso è nullo
+                    }catch (ArrayIndexOutOfBoundsException e){ }
                 }
             });
         }
