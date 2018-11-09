@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:visibility="visible"
         app:cardUseCompatPadding="true"
+        app:cardBackgroundColor="@color/backGroundCardView"
         app:elevation="26dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,7 +25,11 @@
                 android:id="@+id/courseNumber"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TEXT" />
+                android:text="TEXT"
+                android:textAlignment="center"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:typeface="serif" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerViewSelectedDishes"

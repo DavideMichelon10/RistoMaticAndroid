@@ -60,6 +60,7 @@ public class DishesAdapter extends RecyclerView.Adapter<DishesAdapter.DishViewHo
             this.button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+
                     int radioButtonIdid = ((RadioGroup)((OrderActivity)context).findViewById(R.id.flow_group)).getCheckedRadioButtonId();
                     //Posizione nella lista di portate della portata corrente
                     int coursePosition = 0;
