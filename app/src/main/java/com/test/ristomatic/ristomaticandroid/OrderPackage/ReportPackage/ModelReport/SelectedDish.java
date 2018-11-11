@@ -11,12 +11,11 @@ public class SelectedDish {
 
     public SelectedDish(String selectedDishName){
         this.setSelectedDishName(selectedDishName);
+        timeSelected = 1;
     }
     public SelectedDish(String selectedDishName, List<String> selectedVariantName){
         this.setSelectedDishName(selectedDishName); this.setSelectedVariantName(selectedVariantName);
     }
-
-
 
     public int getTimeSelected() {
         return timeSelected;
