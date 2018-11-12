@@ -6,8 +6,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.test.ristomatic.ristomaticandroid.OrderPackage.OrderActivity;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.SelectedDish;
 import com.test.ristomatic.ristomaticandroid.R;
 
@@ -34,7 +37,6 @@ public class SelectedDishesAdapter extends RecyclerView.Adapter<SelectedDishesAd
 
     @Override
     public void onBindViewHolder(@NonNull SelectedDishViewHolder holder, int position) {
-        System.out.println("SELECTED DISH POSITION: "+position);
         holder.timeSelected.setText(" "+(selectedDishes.get(position).getTimeSelected()));
         holder.dishName.setText(selectedDishes.get(position).getSelectedDishName());
     }
@@ -47,12 +49,39 @@ public class SelectedDishesAdapter extends RecyclerView.Adapter<SelectedDishesAd
     public class SelectedDishViewHolder extends RecyclerView.ViewHolder {
         TextView timeSelected;
         TextView dishName;
+        ImageView deleteImage;
         RecyclerView selectedVariants;
-        public SelectedDishViewHolder(View itemView) {
+        public SelectedDishViewHolder(final View itemView) {
             super(itemView);
             dishName = (TextView) itemView.findViewById(R.id.dishName);
             timeSelected = (TextView) itemView.findViewById(R.id.timeSelected);
             selectedVariants = (RecyclerView) itemView.findViewById(R.id.recyclerViewVariants);
+            deleteImage = (ImageView) itemView.findViewById(R.id.deleteImage);
+
+            deleteImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //((RecyclerView)((OrderActivity)context).findViewById(R.id.recyclerViewCourses))
+                      //      .getAdapter();
+                            //.notifyItemRemoved(courseNumber-1);
+                    int position = getAdapterPosition();
+                    try{
+                        selectedDishes.remove(position);
+                        notifyItemRemoved(position);
+                        //((RecyclerView)((OrderActivity)context).findViewById(R.id.recyclerViewSelectedDishes))
+                          //      .getAdapter()
+                            //    .notifyItemRemoved(position);
+                    }catch (ArrayIndexOutOfBoundsException exception){ }
+
+                    if(selectedDishes.size() == 0){
+                        
+                    }
+
+
+                   //CoursesAdapter.getCourses().get();
+
+                }
+            });
         }
 
     }
