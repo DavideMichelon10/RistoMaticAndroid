@@ -1,4 +1,4 @@
-package com.test.ristomatic.ristomaticandroid.OrderPackage.RecyclerViewAdapter;
+package com.test.ristomatic.ristomaticandroid.OrderPackage.CategoryAndDishesAdapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;

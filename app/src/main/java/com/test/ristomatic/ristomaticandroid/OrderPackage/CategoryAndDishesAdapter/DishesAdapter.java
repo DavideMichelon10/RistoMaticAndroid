@@ -1,4 +1,4 @@
-package com.test.ristomatic.ristomaticandroid.OrderPackage.RecyclerViewAdapter;
+package com.test.ristomatic.ristomaticandroid.OrderPackage.CategoryAndDishesAdapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -52,6 +52,14 @@ public class DishesAdapter extends RecyclerView.Adapter<DishesAdapter.DishViewHo
         public DishViewHolder(View v) {
             super(v);
             this.button = (Button) v.findViewById(R.id.button);
+            this.button.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    /*Mostra il fragment dialog*/
+                    return false;
+                }
+            });
+
             this.button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -84,7 +92,7 @@ public class DishesAdapter extends RecyclerView.Adapter<DishesAdapter.DishViewHo
         //Ritorna la posizione del piatto se il piatto è già presente nella lista, -1 altrimenti
         private int findDishInCourse(SelectedDish insertedDish, int coursePosition){
             for (int i=0;i< CoursesAdapter.getCourses().get(coursePosition).getAllSelectedDishes().size();i++){
-                if(CoursesAdapter.getCourses().get(coursePosition).getAllSelectedDishes().get(i).getSelectedDishName() == insertedDish.getSelectedDishName()){
+                if(CoursesAdapter.getCourses().get(coursePosition).getAllSelectedDishes().get(i).getSelectedDishName().compareTo(insertedDish.getSelectedDishName()) == 0){
                     return i;
                 }
             }
