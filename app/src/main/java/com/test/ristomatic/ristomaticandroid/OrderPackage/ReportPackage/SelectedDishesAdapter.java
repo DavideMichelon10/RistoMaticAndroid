@@ -10,7 +10,9 @@ import android.widget.Adapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.test.ristomatic.ristomaticandroid.Application.ContextApplication;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.OrderActivity;
+import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.Course;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.SelectedDish;
 import com.test.ristomatic.ristomaticandroid.R;
 
@@ -20,12 +22,12 @@ import java.util.List;
 //adapter per singola portata e gestisce tutti i piatti al suo interno
 public class SelectedDishesAdapter extends RecyclerView.Adapter<SelectedDishesAdapter.SelectedDishViewHolder> {
     Context context;
-    public List<SelectedDish> selectedDishes;
+    Course course;
 
 
-    public SelectedDishesAdapter(Context context, List<SelectedDish> selectedDishes){
+    public SelectedDishesAdapter(Context context, Course course){
+        this.course = course;
         this.context = context;
-        this.selectedDishes = selectedDishes;
     }
 
     @Override
@@ -37,13 +39,13 @@ public class SelectedDishesAdapter extends RecyclerView.Adapter<SelectedDishesAd
 
     @Override
     public void onBindViewHolder(@NonNull SelectedDishViewHolder holder, int position) {
-        holder.timeSelected.setText(" "+(selectedDishes.get(position).getTimeSelected()));
-        holder.dishName.setText(selectedDishes.get(position).getSelectedDishName());
+        holder.timeSelected.setText(" "+(course.getAllSelectedDishes().get(position).getTimeSelected()));
+        holder.dishName.setText(course.getAllSelectedDishes().get(position).getSelectedDishName());
     }
 
     @Override
     public int getItemCount() {
-        return selectedDishes.size();
+        return course.getAllSelectedDishes().size();
     }
 
     public class SelectedDishViewHolder extends RecyclerView.ViewHolder {
@@ -61,28 +63,22 @@ public class SelectedDishesAdapter extends RecyclerView.Adapter<SelectedDishesAd
             deleteImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //((RecyclerView)((OrderActivity)context).findViewById(R.id.recyclerViewCourses))
-                      //      .getAdapter();
-                            //.notifyItemRemoved(courseNumber-1);
                     int position = getAdapterPosition();
+                    //evita crash se non arriva a rimuovere elemento prima di notify
                     try{
-                        selectedDishes.remove(position);
+                        course.getAllSelectedDishes().remove(position);
                         notifyItemRemoved(position);
-                        //((RecyclerView)((OrderActivity)context).findViewById(R.id.recyclerViewSelectedDishes))
-                          //      .getAdapter()
-                            //    .notifyItemRemoved(position);
                     }catch (ArrayIndexOutOfBoundsException exception){ }
 
-                    if(selectedDishes.size() == 0){
-                        
+                    //elimina portata se vuota
+                    if(course.getAllSelectedDishes().size() == 0){
+                       RecyclerView s = (RecyclerView)((OrderActivity)context).findViewById(R.id.recyclerViewCourses);
+                        int pos = CoursesAdapter.getCourses().indexOf((course));
+                        CoursesAdapter.getCourses().remove(pos);
+                        s.getAdapter().notifyItemRemoved(pos);
                     }
-
-
-                   //CoursesAdapter.getCourses().get();
-
                 }
             });
         }
-
     }
 }
