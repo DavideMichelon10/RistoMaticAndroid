@@ -5,8 +5,8 @@ import android.arch.lifecycle.AndroidViewModel;
 import android.content.Context;
 
 
-import com.test.ristomatic.ristomaticandroid.OrderPackage.RecyclerViewAdapter.CategoriesAdapter;
-import com.test.ristomatic.ristomaticandroid.OrderPackage.RecyclerViewAdapter.DishesAdapter;
+import com.test.ristomatic.ristomaticandroid.OrderPackage.CategoryAndDishesAdapter.CategoriesAdapter;
+import com.test.ristomatic.ristomaticandroid.OrderPackage.CategoryAndDishesAdapter.DishesAdapter;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.CoursesAdapter;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.Course;
 import com.test.ristomatic.ristomaticandroid.RoomDatabase.AppDatabase;
@@ -15,8 +15,6 @@ import com.test.ristomatic.ristomaticandroid.RoomDatabase.Dish.DishModelDao;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.test.ristomatic.ristomaticandroid.Application.GlobalVariableApplication.COURSES_NUMBER;
 
 public class OrderViewModel extends AndroidViewModel {
 
