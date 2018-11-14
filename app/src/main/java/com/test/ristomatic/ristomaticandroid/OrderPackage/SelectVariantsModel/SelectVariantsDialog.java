@@ -53,11 +53,10 @@ public class SelectVariantsDialog extends DialogFragment {
                         selectedVariants.add(variants.get(i));
                     }
                 }
-                /*TODO: Implementare l'inserimento del piatto utilizzando InsertDishUtilities*/
 
                 //Vero se la portata esiste già
                 try{
-                    SelectedDish insertedDish = new SelectedDish(dishName);
+                    SelectedDish insertedDish = new SelectedDish(dishName, selectedVariants);
                     //Se la portata non esiste ne viene creata una nuova con il numero di portata e viene aggiunta alla lista
                     //successivamente viene chiamato il notifyItemInserted sulla recyclerViewCourses
                     if(!InsertDishUtilities.doesCourseExist(courseNumber)){
