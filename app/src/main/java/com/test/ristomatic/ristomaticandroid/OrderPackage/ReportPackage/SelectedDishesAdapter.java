@@ -6,8 +6,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.test.ristomatic.ristomaticandroid.Application.ContextApplication;
+import com.test.ristomatic.ristomaticandroid.OrderPackage.OrderActivity;
+import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.Course;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.SelectedDish;
 import com.test.ristomatic.ristomaticandroid.R;
 
@@ -17,12 +22,12 @@ import java.util.List;
 //adapter per singola portata e gestisce tutti i piatti al suo interno
 public class SelectedDishesAdapter extends RecyclerView.Adapter<SelectedDishesAdapter.SelectedDishViewHolder> {
     Context context;
-    public List<SelectedDish> selectedDishes;
+    Course course;
 
 
-    public SelectedDishesAdapter(Context context, List<SelectedDish> selectedDishes){
+    public SelectedDishesAdapter(Context context, Course course){
+        this.course = course;
         this.context = context;
-        this.selectedDishes = selectedDishes;
     }
 
     @Override
@@ -34,26 +39,46 @@ public class SelectedDishesAdapter extends RecyclerView.Adapter<SelectedDishesAd
 
     @Override
     public void onBindViewHolder(@NonNull SelectedDishViewHolder holder, int position) {
-        System.out.println("SELECTED DISH POSITION: "+position);
-        holder.timeSelected.setText(" "+(selectedDishes.get(position).getTimeSelected()));
-        holder.dishName.setText(selectedDishes.get(position).getSelectedDishName());
+        holder.timeSelected.setText(" "+(course.getAllSelectedDishes().get(position).getTimeSelected()));
+        holder.dishName.setText(course.getAllSelectedDishes().get(position).getSelectedDishName());
     }
 
     @Override
     public int getItemCount() {
-        return selectedDishes.size();
+        return course.getAllSelectedDishes().size();
     }
 
     public class SelectedDishViewHolder extends RecyclerView.ViewHolder {
         TextView timeSelected;
         TextView dishName;
+        ImageView deleteImage;
         RecyclerView selectedVariants;
-        public SelectedDishViewHolder(View itemView) {
+        public SelectedDishViewHolder(final View itemView) {
             super(itemView);
             dishName = (TextView) itemView.findViewById(R.id.dishName);
             timeSelected = (TextView) itemView.findViewById(R.id.timeSelected);
             selectedVariants = (RecyclerView) itemView.findViewById(R.id.recyclerViewVariants);
-        }
+            deleteImage = (ImageView) itemView.findViewById(R.id.deleteImage);
 
+            deleteImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = getAdapterPosition();
+                    //evita crash se non arriva a rimuovere elemento prima di notify
+                    try{
+                        course.getAllSelectedDishes().remove(position);
+                        notifyItemRemoved(position);
+                    }catch (ArrayIndexOutOfBoundsException exception){ }
+
+                    //elimina portata se vuota
+                    if(course.getAllSelectedDishes().size() == 0){
+                       RecyclerView s = (RecyclerView)((OrderActivity)context).findViewById(R.id.recyclerViewCourses);
+                        int pos = CoursesAdapter.getCourses().indexOf((course));
+                        CoursesAdapter.getCourses().remove(pos);
+                        s.getAdapter().notifyItemRemoved(pos);
+                    }
+                }
+            });
+        }
     }
 }

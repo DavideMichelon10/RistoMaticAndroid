@@ -13,6 +13,7 @@ import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelRep
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.SelectedDish;
 import com.test.ristomatic.ristomaticandroid.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.test.ristomatic.ristomaticandroid.Application.GlobalVariableApplication.COURSES_NUMBER;
@@ -42,12 +43,12 @@ public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.CourseVi
     //creare lista con elementi in position di array course e passarlo a SelectedDishesAdapter
     //Si occuperà SelectedDishesAdapter di creare la lista di piatti selezionati per quella portata
     @Override
-    public void onBindViewHolder(@NonNull CourseViewHolder holder, int position) {
+    public void onBindViewHolder(CourseViewHolder holder, int position) {
+        Course course = getCourses().get(position);
         holder.courseNumber.setText("Portata: "+courses.get(position).getCourseNumber());
-        List<SelectedDish> selectedDishes = getCourses().get(position).getAllSelectedDishes();
         holder.courses.setHasFixedSize(false);
         holder.courses.setLayoutManager(new GridLayoutManager(context, 2));
-        holder.courses.setAdapter(new SelectedDishesAdapter(context, selectedDishes));
+        holder.courses.setAdapter(new SelectedDishesAdapter(context, course));
         holder.courses.getAdapter().notifyDataSetChanged();
     }
 
