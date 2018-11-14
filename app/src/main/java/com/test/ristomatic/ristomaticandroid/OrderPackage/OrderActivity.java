@@ -10,6 +10,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.test.ristomatic.ristomaticandroid.Application.GlobalVariableApplication;
+import com.test.ristomatic.ristomaticandroid.OrderPackage.InsertDishUtilities.InsertDishUtilities;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.Course;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.CoursesAdapter;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.SelectedDish;
@@ -29,6 +30,9 @@ public class OrderActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
+
+        //Assegna il context alla utilities per inserire il piatto
+        InsertDishUtilities.setContext(this);
 
         orderViewModel = ViewModelProviders.of(this).get(OrderViewModel.class);
         orderViewModel.init(this);

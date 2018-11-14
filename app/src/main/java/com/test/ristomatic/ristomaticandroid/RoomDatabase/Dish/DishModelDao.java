@@ -5,6 +5,7 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 
 import com.test.ristomatic.ristomaticandroid.RoomDatabase.Dish.DishModel;
+import com.test.ristomatic.ristomaticandroid.RoomDatabase.Variant.VariantModel;
 
 import java.util.List;
 
@@ -19,6 +20,13 @@ public interface DishModelDao {
             "join DishCategoryJoin on DishModel.idDish = DishCategoryJoin.idDish " +
             "where idCategory = :idCategory")
     List<DishModel> getSelectedDishes(int idCategory);
+    @Query("select * from DishModel where idDish = :idDish")
+    DishModel getDish(int idDish);
+
+    @Query("select variantName from VariantModel JOIN DishVariantJoin on VariantModel.idVariant = DishVariantJoin.idVariant " +
+            "WHERE DishVariantJoin.idDish = :idDish")
+    List<String> getVariantsNameOfDish(int idDish);
+
     @Insert(onConflict = REPLACE)
     void addDish(DishModel dishModel);
 
