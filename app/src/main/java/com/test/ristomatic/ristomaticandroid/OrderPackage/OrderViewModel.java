@@ -5,6 +5,8 @@ import android.arch.lifecycle.AndroidViewModel;
 import android.content.Context;
 
 
+import com.google.gson.Gson;
+import com.test.ristomatic.ristomaticandroid.Application.VolleyCallback;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.CategoryAndDishesAdapter.CategoriesAdapter;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.CategoryAndDishesAdapter.DishesAdapter;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.CoursesAdapter;
@@ -12,6 +14,10 @@ import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelRep
 import com.test.ristomatic.ristomaticandroid.RoomDatabase.AppDatabase;
 import com.test.ristomatic.ristomaticandroid.RoomDatabase.Category.CategoryModelDao;
 import com.test.ristomatic.ristomaticandroid.RoomDatabase.Dish.DishModelDao;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +30,7 @@ public class OrderViewModel extends AndroidViewModel {
     private CoursesAdapter coursesAdapter;
     private CategoryModelDao categoryModelDao;
     private static DishModelDao dishModelDao;
+    private OrderRepository orderRepository;
     private Context context;
 
     //test
@@ -31,6 +38,7 @@ public class OrderViewModel extends AndroidViewModel {
     public OrderViewModel(Application application) {
         super(application);
         courses = new ArrayList<>();
+        orderRepository = new OrderRepository();
     }
 
     public void init(Context context)
@@ -91,5 +99,26 @@ public class OrderViewModel extends AndroidViewModel {
 
     public static void setDishModelDao(DishModelDao dishModelDao) {
         OrderViewModel.dishModelDao = dishModelDao;
+    }
+
+    public void sendReport(){
+        JSONArray report = new JSONArray();
+        for(int i=0; i<CoursesAdapter.getCourses().size(); i++){
+            Course course = CoursesAdapter.getCourses().get(i);
+            Gson gson = new Gson();
+            String json = gson.toJson(course);
+            try {
+                report.put(new JSONObject(json));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        System.out.println(report);
+        orderRepository.sendReport(report, new VolleyCallback() {
+            @Override
+            public void onSuccess(JSONArray result) {
+
+            }
+        });
     }
 }
