@@ -30,13 +30,13 @@
         app:layout_constraintGuide_percent="0.35" />
 
 
-
     <Button
-        android:id="@+id/button_send"
+        android:id="@+id/sendReport"
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
+        android:onClick="sendReport"
         android:text="INVIA"
         android:textColor="@android:color/background_light"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -113,7 +113,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/button_send"
+        app:layout_constraintBottom_toTopOf="@+id/sendReport"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/flow_group" />

@@ -2,6 +2,7 @@ package com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,8 +40,12 @@ public class SelectedDishesAdapter extends RecyclerView.Adapter<SelectedDishesAd
 
     @Override
     public void onBindViewHolder(@NonNull SelectedDishViewHolder holder, int position) {
+        List<String> variantsSelected = course.getAllSelectedDishes().get(position).getSelectedVariantName();
         holder.timeSelected.setText(" "+(course.getAllSelectedDishes().get(position).getTimeSelected()));
         holder.dishName.setText(course.getAllSelectedDishes().get(position).getSelectedDishName());
+        holder.selectedVariants.setHasFixedSize(true);
+        holder.selectedVariants.setLayoutManager(new GridLayoutManager(context, 1));
+        holder.selectedVariants.setAdapter(new SelectedVariantsAdapter(context, variantsSelected));
     }
 
     @Override

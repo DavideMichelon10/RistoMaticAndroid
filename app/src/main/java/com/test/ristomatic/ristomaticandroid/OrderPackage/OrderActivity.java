@@ -53,55 +53,6 @@ public class OrderActivity extends AppCompatActivity {
         recyclerViewCourses.setHasFixedSize(true);
         recyclerViewCourses.setLayoutManager(new GridLayoutManager(this, 1));
         recyclerViewCourses.setAdapter(orderViewModel.getCoursesAdapter());
-        
-        //c[0].addSelectedDish(new SelectedDish(new DishModel(1,"a",3)));
-
-        /*
-        rgp = (RadioGroup) findViewById(R.id.flow_group);
-
-        RadioGroup.LayoutParams rprms;
-
-        for(int i=0;i<5;i++){
-            RadioButton radioButton = new RadioButton(this);
-            radioButton.setText(""+(i+1));
-            radioButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    RadioButton thisButton = (RadioButton) v;
-                    System.out.println(thisButton.getText());
-                }
-            });
-            rprms= new RadioGroup.LayoutParams(RadioGroup.LayoutParams.WRAP_CONTENT, RadioGroup.LayoutParams.MATCH_PARENT);
-            rgp.addView(radioButton, -1, rprms);
-            if(i==0) {
-                radioButton.performClick();
-            }
-        }
-
-        Intent intent = getIntent();
-        String getMenu = intent.getStringExtra("getMenu");
-        String getVariants = intent.getStringExtra("variants");
-        System.out.println(getMenu);
-        System.out.println(getVariants);
-
-        appDatabase = AppDatabase.getDatabase(this.getApplication());
-        DishModelDao dishModelDao = appDatabase.getDishModelDao();
-        VariantModelDao variantModelDao = appDatabase.getVariantModelDao();
-        CategoryModelDao categoryModelDao = appDatabase.getCategoryModelDao();
-        DishCategoryJoinDao dishCategoryJoinDao = appDatabase.getDishCategoryJoinDao();
-        DishVariantJoinDao dishVariantJoinDao = appDatabase.getdishVariantJoinDao();
-
-        List<VariantModel> varidantModels = new LinkedList<>();
-        List<DishModel> dishModels = new LinkedList<>();
-        List<CategoryModel> categoryModels = new LinkedList<>();
-        List<DishCategoryJoin> dishCategoryJoins = new LinkedList<>();
-        List<DishVariantJoin> dishVariantJoinList = new LinkedList<>();
-
-        varidantModels = variantModelDao.getAllVariants();
-        dishModels = dishModelDao.getAllDishes();
-        categoryModels = categoryModelDao.getAllCategories();
-        dishCategoryJoins = dishCategoryJoinDao.getAllDishCategoryJoin();
-        dishVariantJoinList = dishVariantJoinDao.getAllDishVariantJoin();*/
     }
 
     private void createCourseSelection()
@@ -125,6 +76,11 @@ public class OrderActivity extends AppCompatActivity {
         }
     }
 
+
+    public void sendReport(View view){
+        orderViewModel.sendReport();
+    }
+    //disabilita buttone backPressed
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -135,9 +91,4 @@ public class OrderActivity extends AppCompatActivity {
         super.onPause();
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        System.out.println("onDestroy");
-    }
 }
