@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -66,8 +67,9 @@ public class DishesAdapter extends RecyclerView.Adapter<DishesAdapter.DishViewHo
                     SelectedDish insertedDish = new SelectedDish(dishes.get(getAdapterPosition()).getDishName());
                     List<String> variants = OrderViewModel.getDishModelDao().getVariantsNameOfDish(dishes.get(getAdapterPosition()).getIdDish());
                     System.out.println("VARIANTS NUMBER: " + variants.size());
-                    SelectVariantsDialog alertDialog = SelectVariantsDialog.newInstance(insertedDish.getSelectedDishName(),(ArrayList<String>) variants, context);
+                    SelectVariantsDialog alertDialog = SelectVariantsDialog.newInstance(insertedDish.getSelectedDishName(), (ArrayList<String>) variants, context);
                     alertDialog.show(fm, "fragment_alert");
+
                     return true;
                 }
             });
