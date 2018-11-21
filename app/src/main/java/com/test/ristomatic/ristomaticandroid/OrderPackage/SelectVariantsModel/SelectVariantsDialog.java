@@ -67,6 +67,8 @@ public class SelectVariantsDialog extends DialogFragment {
                 }
                 //Vero se la portata esiste già
                 try{
+                    if(editText.getText().toString().compareTo("NOTE: ")!=0)
+                        selectedVariants.add(editText.getText().toString());
                     SelectedDish insertedDish = new SelectedDish(dishName, selectedVariants);
                     //Se la portata non esiste ne viene creata una nuova con il numero di portata e viene aggiunta alla lista
                     //successivamente viene chiamato il notifyItemInserted sulla recyclerViewCourses
