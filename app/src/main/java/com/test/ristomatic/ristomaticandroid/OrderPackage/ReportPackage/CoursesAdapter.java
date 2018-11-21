@@ -49,7 +49,6 @@ public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.CourseVi
         holder.courses.setHasFixedSize(false);
         holder.courses.setLayoutManager(new GridLayoutManager(context, 2));
         holder.courses.setAdapter(new SelectedDishesAdapter(context, course));
-        holder.courses.getAdapter().notifyDataSetChanged();
     }
 
     @Override

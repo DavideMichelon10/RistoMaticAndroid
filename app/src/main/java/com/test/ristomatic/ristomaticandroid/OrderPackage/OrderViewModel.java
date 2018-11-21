@@ -116,9 +116,7 @@ public class OrderViewModel extends AndroidViewModel {
         System.out.println(report);
         orderRepository.sendReport(report, new VolleyCallback() {
             @Override
-            public void onSuccess(JSONArray result) {
-
-            }
+            public void onSuccess(JSONArray result) { }
         });
     }
 }
