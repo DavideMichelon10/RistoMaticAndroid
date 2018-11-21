@@ -25,7 +25,6 @@ public class SelectedDishesAdapter extends RecyclerView.Adapter<SelectedDishesAd
     Context context;
     Course course;
 
-
     public SelectedDishesAdapter(Context context, Course course){
         this.course = course;
         this.context = context;
@@ -43,7 +42,7 @@ public class SelectedDishesAdapter extends RecyclerView.Adapter<SelectedDishesAd
         List<String> variantsSelected = course.getAllSelectedDishes().get(position).getSelectedVariantName();
         holder.timeSelected.setText(" "+(course.getAllSelectedDishes().get(position).getTimeSelected()));
         holder.dishName.setText(course.getAllSelectedDishes().get(position).getSelectedDishName());
-        holder.selectedVariants.setHasFixedSize(true);
+        holder.selectedVariants.setHasFixedSize(false);
         holder.selectedVariants.setLayoutManager(new GridLayoutManager(context, 1));
         holder.selectedVariants.setAdapter(new SelectedVariantsAdapter(context, variantsSelected));
     }
@@ -74,14 +73,16 @@ public class SelectedDishesAdapter extends RecyclerView.Adapter<SelectedDishesAd
                         course.getAllSelectedDishes().remove(position);
                         notifyItemRemoved(position);
                     }catch (ArrayIndexOutOfBoundsException exception){ }
-
+                    RecyclerView s = (RecyclerView)((OrderActivity)context).findViewById(R.id.recyclerViewCourses);
                     //elimina portata se vuota
                     if(course.getAllSelectedDishes().size() == 0){
-                       RecyclerView s = (RecyclerView)((OrderActivity)context).findViewById(R.id.recyclerViewCourses);
                         int pos = CoursesAdapter.getCourses().indexOf((course));
                         CoursesAdapter.getCourses().remove(pos);
                         s.getAdapter().notifyItemRemoved(pos);
                     }
+
+                    //s.getAdapter().notifyDataSetChanged();
+
                 }
             });
         }

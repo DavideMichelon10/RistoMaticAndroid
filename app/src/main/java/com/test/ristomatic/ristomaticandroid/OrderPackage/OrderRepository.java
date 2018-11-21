@@ -13,10 +13,11 @@ import org.json.JSONArray;
 
 public class OrderRepository {
     public void sendReport(final JSONArray report, final VolleyCallback volleyCallback){
-        JsonArrayRequest jsonArrayTableRoom = new JsonArrayRequest(Request.Method.POST, VolleyCallApplication.sendReport(), report,
+        JsonArrayRequest sendRequest = new JsonArrayRequest(Request.Method.POST, VolleyCallApplication.sendReport(), report,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
+                        System.out.println("ON SUCCESS");
                         volleyCallback.onSuccess(response);
                     }
                 }, new Response.ErrorListener() {
@@ -25,6 +26,6 @@ public class OrderRepository {
                 sendReport(report, volleyCallback);
             }
         });
-        SingeltonVolley.getInstance(ContextApplication.getAppContext()).addToRequestQueue(jsonArrayTableRoom);
+        SingeltonVolley.getInstance(ContextApplication.getAppContext()).addToRequestQueue(sendRequest);
     }
 }
