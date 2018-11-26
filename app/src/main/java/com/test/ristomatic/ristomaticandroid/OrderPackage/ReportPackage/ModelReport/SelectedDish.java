@@ -41,4 +41,19 @@ public class SelectedDish {
     public void setSelectedVariantName(List<String> selectedVariantName) {
         this.selectedVariantName = selectedVariantName;
     }
+
+    //compara due oggetti, vera solo se varianti uguali
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null) return false;
+        if (this.getClass() != o.getClass()) return false;
+        SelectedDish selectedDish = (SelectedDish) o;
+        if( this.getSelectedDishName() == selectedDish.getSelectedDishName()){
+            if(this.getSelectedVariantName().equals(selectedDish.getSelectedVariantName())){
+                return true;
+            }
+        }
+        return false;
+    }
 }

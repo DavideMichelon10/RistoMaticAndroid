@@ -2,7 +2,6 @@ package com.test.ristomatic.ristomaticandroid.Application;
 
 import android.app.Application;
 
-import org.json.JSONObject;
 //tutte le chiamate eseguite con volley
 public class VolleyCallApplication extends Application {
 
@@ -28,5 +27,4 @@ public class VolleyCallApplication extends Application {
     public static String sendReport(){
         return GlobalVariableApplication.serverAddress() +"sendReport";
     }
-
 }

@@ -26,9 +26,11 @@ public final class InsertDishUtilities {
     //Ritorna la posizione del piatto se il piatto è già presente nella lista, -1 altrimenti
     public static int findDishInCourse(SelectedDish insertedDish, int coursePosition) {
         for (int i = 0; i < CoursesAdapter.getCourses().get(coursePosition).getAllSelectedDishes().size(); i++) {
-            if (CoursesAdapter.getCourses().get(coursePosition).getAllSelectedDishes().get(i).getSelectedDishName().compareTo(insertedDish.getSelectedDishName()) == 0) {
+            if (CoursesAdapter.getCourses().get(coursePosition).getAllSelectedDishes().get(i).equals(insertedDish)) {
+
                 return i;
             }
+            System.out.println("I: "+CoursesAdapter.getCourses().get(coursePosition).getAllSelectedDishes().get(i).toString());
         }
         return -1;
     }
