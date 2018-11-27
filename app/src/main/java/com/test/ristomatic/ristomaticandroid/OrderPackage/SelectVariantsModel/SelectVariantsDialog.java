@@ -36,6 +36,7 @@ public class SelectVariantsDialog extends DialogFragment {
         super.onCreate(savedInstanceState);
         AlertDialog.Builder builder = new AlertDialog.Builder(this.orderActivityContext);
 
+        final EditText noteEditText = new EditText(getContext());
         final EditText editText = new EditText(getContext());
         final String dishName = getArguments().getString("dish");
         final ArrayList<String> variants = getArguments().getStringArrayList("variants");
@@ -53,7 +54,6 @@ public class SelectVariantsDialog extends DialogFragment {
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                /*TODO:Prendere il valore dal number picker e aggiungere n piatti*/
                 //Id del radioButton clickato
                 int radioButtonId = ((RadioGroup)((OrderActivity) orderActivityContext).findViewById(R.id.flow_group)).getCheckedRadioButtonId();
                 //Posizione della portata selezionata nella lista di portate
@@ -67,8 +67,8 @@ public class SelectVariantsDialog extends DialogFragment {
                 }
                 //Vero se la portata esiste già
                 try{
-                    if(editText.getText().toString().compareTo("NOTE: ")!=0)
-                        selectedVariants.add(editText.getText().toString());
+                    if(noteEditText.getText().toString().compareTo("NOTE: ")!=0)
+                        selectedVariants.add(noteEditText.getText().toString());
                     SelectedDish insertedDish = new SelectedDish(dishName, selectedVariants);
                     //Se la portata non esiste ne viene creata una nuova con il numero di portata e viene aggiunta alla lista
                     //successivamente viene chiamato il notifyItemInserted sulla recyclerViewCourses
@@ -93,7 +93,6 @@ public class SelectVariantsDialog extends DialogFragment {
         editText.setInputType(InputType.TYPE_CLASS_NUMBER);
         editText.setText("1");
         builder.setCustomTitle(editText);
-        EditText noteEditText = new EditText(getContext());
         //noteEditText.setInputType(InputType.TYPE_TEXT_FLAG_IME_MULTI_LINE);
         noteEditText.setText("NOTE: ");
         builder.setView(noteEditText);
