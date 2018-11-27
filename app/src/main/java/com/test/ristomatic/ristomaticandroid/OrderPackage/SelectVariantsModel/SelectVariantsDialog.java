@@ -27,6 +27,7 @@ import com.test.ristomatic.ristomaticandroid.R;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class SelectVariantsDialog extends DialogFragment {
 
@@ -51,7 +52,7 @@ public class SelectVariantsDialog extends DialogFragment {
                 checkedVariants[i] = isChecked;
             }
         });
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 //Id del radioButton clickato
@@ -94,7 +95,7 @@ public class SelectVariantsDialog extends DialogFragment {
         editText.setText("1");
         builder.setCustomTitle(editText);
         //noteEditText.setInputType(InputType.TYPE_TEXT_FLAG_IME_MULTI_LINE);
-        noteEditText.setText("NOTE: ");
+        noteEditText.setHint("NOTE");
         builder.setView(noteEditText);
         return builder.create();
     }
@@ -102,7 +103,7 @@ public class SelectVariantsDialog extends DialogFragment {
     @Override
     public void onStart() {
         super.onStart();
-        getDialog().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE|WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+        Objects.requireNonNull(getDialog().getWindow()).clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE|WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
     }
 
     //Aggiunge a arguments la lista di varianti da mostrare e ritorna l'istanza del Dialog

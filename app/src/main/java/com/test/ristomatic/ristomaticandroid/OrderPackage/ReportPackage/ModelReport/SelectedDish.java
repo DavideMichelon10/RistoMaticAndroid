@@ -49,10 +49,9 @@ public class SelectedDish {
         if (o == null) return false;
         if (this.getClass() != o.getClass()) return false;
         SelectedDish selectedDish = (SelectedDish) o;
-        if( this.getSelectedDishName() == selectedDish.getSelectedDishName()){
-            if(this.getSelectedVariantName().equals(selectedDish.getSelectedVariantName())){
+        if( this.getSelectedDishName().compareTo(selectedDish.getSelectedDishName()) == 0 &&
+                this.getSelectedVariantName().equals(selectedDish.getSelectedVariantName())){
                 return true;
-            }
         }
         return false;
     }
