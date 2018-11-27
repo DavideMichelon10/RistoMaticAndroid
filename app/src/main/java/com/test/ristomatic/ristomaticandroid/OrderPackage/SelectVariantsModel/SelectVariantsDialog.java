@@ -68,7 +68,7 @@ public class SelectVariantsDialog extends DialogFragment {
                 }
                 //Vero se la portata esiste già
                 try{
-                    if(noteEditText.getText().toString().compareTo("NOTE: ")!=0)
+                    if(noteEditText.getText().toString().compareTo("")!=0)
                         selectedVariants.add(noteEditText.getText().toString());
                     SelectedDish insertedDish = new SelectedDish(dishName, selectedVariants);
                     //Se la portata non esiste ne viene creata una nuova con il numero di portata e viene aggiunta alla lista

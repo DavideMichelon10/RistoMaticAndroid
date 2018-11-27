@@ -27,7 +27,7 @@ public final class InsertDishUtilities {
     public static int findDishInCourse(SelectedDish insertedDish, int coursePosition) {
         for (int i = 0; i < CoursesAdapter.getCourses().get(coursePosition).getAllSelectedDishes().size(); i++) {
             if (CoursesAdapter.getCourses().get(coursePosition).getAllSelectedDishes().get(i).equals(insertedDish)) {
-                
+
                 return i;
             }
             System.out.println("I: "+CoursesAdapter.getCourses().get(coursePosition).getAllSelectedDishes().get(i).toString());
