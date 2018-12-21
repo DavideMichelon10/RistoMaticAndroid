@@ -1,5 +1,6 @@
 package com.test.ristomatic.ristomaticandroid.MainPackage.GraphicDirectory;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -43,9 +44,9 @@ public class TablesFragment extends Fragment {
     public void setRoom(Room room) {
         this.room = room;
     }
-    public void init(List<Table> roomTables, RecyclerView recyclerView){
+    public void init(List<Table> roomTables, RecyclerView recyclerView, Context mainActivityContext){
 
-        room = new Room(roomTables, recyclerView);
+        room = new Room(roomTables, recyclerView, mainActivityContext);
     }
 
     @Override

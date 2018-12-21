@@ -3,6 +3,7 @@ package com.test.ristomatic.ristomaticandroid.MainPackage;
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.ViewModel;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -51,7 +52,7 @@ public class MainViewModel extends AndroidViewModel {
 
     }
     //metodo chiamato una sola volta, inizilizza tutte le sale con i tavoli
-    public void init(final MainRepository mainRepository, final PagerAdapter pagerAdapter, final ViewPager viewPager, final TabLayout tabLayout) {
+    public void init(final MainRepository mainRepository, final PagerAdapter pagerAdapter, final ViewPager viewPager, final TabLayout tabLayout, final Context mainActivityContext) {
         this.mainRepository = mainRepository;
         this.pagerAdapter = pagerAdapter;
         mainRepository.getTablesRooms(new VolleyCallback() {
@@ -71,7 +72,7 @@ public class MainViewModel extends AndroidViewModel {
                         TablesFragment tablesFragment = new TablesFragment();
                         tablesFragment.setFragmentId(i);
                         pagerAdapter.getRooms().add(tablesFragment);
-                        tablesFragment.init(tablesRoom, new RecyclerView(ContextApplication.getAppContext()));
+                        tablesFragment.init(tablesRoom, new RecyclerView(ContextApplication.getAppContext()), mainActivityContext);
                     }
                     numberRooms = result.length();
                     viewPager.setAdapter(pagerAdapter);

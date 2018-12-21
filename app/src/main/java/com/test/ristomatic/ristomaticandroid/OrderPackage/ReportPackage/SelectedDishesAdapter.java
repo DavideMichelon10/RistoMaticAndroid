@@ -2,6 +2,7 @@ package com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,7 +13,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.test.ristomatic.ristomaticandroid.Application.ContextApplication;
+import com.test.ristomatic.ristomaticandroid.MainPackage.GraphicDirectory.SelectSeatsDialog;
+import com.test.ristomatic.ristomaticandroid.OrderPackage.Dialogs.SelectVariantsModel.SelectVariantsDialog;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.OrderActivity;
+import com.test.ristomatic.ristomaticandroid.OrderPackage.OrderViewModel;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.Course;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.SelectedDish;
 import com.test.ristomatic.ristomaticandroid.R;
@@ -83,6 +87,26 @@ public class SelectedDishesAdapter extends RecyclerView.Adapter<SelectedDishesAd
 
                     //s.getAdapter().notifyDataSetChanged();
 
+                }
+            });
+
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    ArrayList<String> variants = (ArrayList<String>) OrderViewModel.getDishModelDao().getVariantsNameOfDish(dishName
+                                                                                                        .getText().toString());
+                    ArrayList<String> selectedVariantsList = (ArrayList<String>) ((SelectedVariantsAdapter)selectedVariants
+                                                                                    .getAdapter()).variantsSelected;
+                    String note = "";
+                    selectedVariantsList = new ArrayList<>(selectedVariantsList);
+                    if(selectedVariantsList.size() > 0 && !variants.contains(selectedVariantsList.get(selectedVariantsList.size()-1)))
+                        note = selectedVariantsList.remove(selectedVariantsList.size()-1);
+                    String timeSelectedString = timeSelected.getText().toString();
+                    SelectVariantsDialog selectVariantsDialog = SelectVariantsDialog.newModificationInstance(getAdapterPosition(),
+                            variants, timeSelectedString, selectedVariantsList, note, context);
+                    FragmentManager fm = ((OrderActivity)context).getSupportFragmentManager();
+                    selectVariantsDialog.show(fm, "fragment_alert");
+                    return false;
                 }
             });
         }

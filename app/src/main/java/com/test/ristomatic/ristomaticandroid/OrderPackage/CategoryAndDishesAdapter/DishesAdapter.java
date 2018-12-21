@@ -6,7 +6,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -15,13 +14,10 @@ import com.test.ristomatic.ristomaticandroid.OrderPackage.InsertDishUtilities.In
 import com.test.ristomatic.ristomaticandroid.OrderPackage.OrderActivity;
 
 import com.test.ristomatic.ristomaticandroid.OrderPackage.OrderViewModel;
-import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.CoursesAdapter;
-import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.Course;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.SelectedDish;
-import com.test.ristomatic.ristomaticandroid.OrderPackage.SelectVariantsModel.SelectVariantsDialog;
+import com.test.ristomatic.ristomaticandroid.OrderPackage.Dialogs.SelectVariantsModel.SelectVariantsDialog;
 import com.test.ristomatic.ristomaticandroid.R;
 import com.test.ristomatic.ristomaticandroid.RoomDatabase.Dish.DishModel;
-import com.test.ristomatic.ristomaticandroid.RoomDatabase.Variant.VariantModelDao;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,9 +63,9 @@ public class DishesAdapter extends RecyclerView.Adapter<DishesAdapter.DishViewHo
                     SelectedDish insertedDish = new SelectedDish(dishes.get(getAdapterPosition()).getDishName());
                     List<String> variants = OrderViewModel.getDishModelDao().getVariantsNameOfDish(dishes.get(getAdapterPosition()).getIdDish());
                     System.out.println("VARIANTS NUMBER: " + variants.size());
-                    //ArrayList<String> tmp = new ArrayList<>();
-                    //tmp.add("asd");tmp.add("asd");tmp.add("asd");tmp.add("asd");tmp.add("asd");tmp.add("asd");tmp.add("asd");tmp.add("asd");tmp.add("asd");
-                    SelectVariantsDialog alertDialog = SelectVariantsDialog.newInstance(insertedDish.getSelectedDishName(), (ArrayList<String>) variants/*tmp*/, context);
+                    ArrayList<String> tmp = new ArrayList<>();
+                    tmp.add("asd");tmp.add("asd");tmp.add("asd");tmp.add("asd");tmp.add("asd");tmp.add("asd");tmp.add("asd");tmp.add("asd");
+                    SelectVariantsDialog alertDialog = SelectVariantsDialog.newInsertionInstance(insertedDish.getSelectedDishName(), (ArrayList<String>) variants /*tmp*/, context);
                     alertDialog.show(fm, "fragment_alert");
 
                     return true;

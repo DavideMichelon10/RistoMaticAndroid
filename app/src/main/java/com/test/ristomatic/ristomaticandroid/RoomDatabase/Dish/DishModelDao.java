@@ -27,6 +27,12 @@ public interface DishModelDao {
             "WHERE DishVariantJoin.idDish = :idDish")
     List<String> getVariantsNameOfDish(int idDish);
 
+    @Query("select variantName from VariantModel JOIN DishVariantJoin on VariantModel.idVariant = DishVariantJoin.idVariant " +
+            "JOIN DishModel on DishVariantJoin.idDish = DishModel.idDish " +
+            "WHERE DishModel.dish_name = :dishName")
+    List<String> getVariantsNameOfDish(String dishName);
+
+
     @Insert(onConflict = REPLACE)
     void addDish(DishModel dishModel);
 

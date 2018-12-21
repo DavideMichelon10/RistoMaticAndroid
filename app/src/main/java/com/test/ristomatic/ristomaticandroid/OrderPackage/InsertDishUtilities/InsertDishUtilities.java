@@ -9,6 +9,8 @@ import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelRep
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.SelectedDish;
 import com.test.ristomatic.ristomaticandroid.R;
 
+import java.util.ArrayList;
+
 public final class InsertDishUtilities {
     private InsertDishUtilities() {
     }
@@ -84,6 +86,31 @@ public final class InsertDishUtilities {
                 .getRecyclerViewCourse()
                 .getAdapter()
                 .notifyItemInserted(CoursesAdapter.getCourses().get(coursePosition).getAllSelectedDishes().size() - 1);
+    }
+    //Modifica il piatto all'interno della portata
+    public static void modifyDishInCourse(int courseNumber, int dishPosition, RecyclerView recyclerViewCourses, int timeSelected, ArrayList<String> selectedVariants) {
+        int coursePosition = 0;
+        for (int i = 0; i < CoursesAdapter.getCourses().size(); i++) {
+            if (CoursesAdapter.getCourses().get(i).getCourseNumber() == (courseNumber)) {
+                coursePosition = i;
+                break;
+            }
+        }
+        CoursesAdapter.getCourses().get(coursePosition).getAllSelectedDishes().get(dishPosition).setTimeSelected(timeSelected);
+        CoursesAdapter.getCourses().get(coursePosition).getAllSelectedDishes().get(dishPosition).setSelectedVariantName(selectedVariants);
+        //ricava la posizione della portata esistente nella lista
+        for (int i = 0; i < CoursesAdapter.getCourses().size(); i++) {
+            if (CoursesAdapter.getCourses().get(i).getCourseNumber() == (courseNumber)) {
+                coursePosition = i;
+                break;
+            }
+        }
+        //Chiamo il notifyItemChanged sull'adapter della portata e come position passo dishPosition
+        ((CoursesAdapter.CourseViewHolder) recyclerViewCourses
+                .findViewHolderForAdapterPosition(coursePosition))
+                .getRecyclerViewCourse()
+                .getAdapter()
+                .notifyItemChanged(dishPosition);
     }
 
     //Inserisce il piatto nel caso la portata esista già

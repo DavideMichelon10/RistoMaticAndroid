@@ -15,12 +15,37 @@ public class Table {
     private String state;
     private List<Date> reservations;
     private int idRoom;
+    //Numero di sottoconti presenti su questo tavolo
+    private int subs;
 
 
     public Table(int idTable, String state,List<Date> reservations){
         this.idTable = idTable;
         this.state = state;
         this.reservations = reservations;
+        this.subs = 3;
+    }
+    public Table(int idTable, String state,List<Date> reservations, int subs){
+        this.idTable = idTable;
+        this.state = state;
+        this.reservations = reservations;
+        this.subs = subs;
+    }
+
+    public int getSubs() {
+        return subs;
+    }
+
+    public void setSubs(int subs) {
+        this.subs = subs;
+    }
+
+    public void increseSubs() {
+        this.subs++;
+    }
+
+    public void decreseSubs() {
+        this.subs--;
     }
 
     public String getState() {

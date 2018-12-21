@@ -15,8 +15,8 @@ public class Room {
     private RoomAdapter roomAdapter;
     private RecyclerView myRecyleView;
     public static int index;
-    public Room(List<Table> newTableList, RecyclerView myRecyleView) {
-        this.roomAdapter = new RoomAdapter(newTableList, ContextApplication.getAppContext());
+    public Room(List<Table> newTableList, RecyclerView myRecyleView, Context mainActivityContext) {
+        this.roomAdapter = new RoomAdapter(newTableList, mainActivityContext);
         this.roomAdapter = roomAdapter;
         this.myRecyleView = myRecyleView;
         this.myRecyleView.setAdapter(this.roomAdapter);

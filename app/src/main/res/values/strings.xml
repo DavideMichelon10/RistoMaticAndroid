@@ -5,5 +5,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="button_ok">OK</string>
+    <string name="table_state_libero">libero</string>
+    <string name="table_state_occupato">occupato</string>
 
 </resources>
