@@ -32,18 +32,23 @@ public class StartActivity extends AppCompatActivity {
         Intent nextActivityIntent = new Intent(this, LoginActivity.class);
 
         File userLoggedFile = new File(ContextApplication.getAppContext().getFilesDir(), LoginViewModel.filename);
-        if(userLoggedFile.exists())
-        {
-            String jsonString = "";
-            try {
-                BufferedReader reader = new BufferedReader(new FileReader(userLoggedFile));
-                jsonString = reader.readLine();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
+        String jsonString = "";
+        try {
+
+            FileReader fr = new FileReader(userLoggedFile);
+            int i;
+            while ((i=fr.read()) != -1){
+                jsonString+=(char)i;
+                System.out.print((char) i);
             }
-            System.out.println("IL FILE ESISTE: " + jsonString);
+            System.out.println("JSON: "+jsonString);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if(userLoggedFile.exists() && jsonString.length() != 0)
+        {
             try {
                 JSONObject UserLoggedJSON = new JSONObject(jsonString);
                 nextActivityIntent = new Intent(this, MainActivity.class);

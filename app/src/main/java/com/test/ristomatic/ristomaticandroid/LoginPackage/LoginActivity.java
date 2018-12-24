@@ -48,6 +48,13 @@ public class LoginActivity extends AppCompatActivity {
         //Toast.makeText(this, LoginViewModel, Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    protected void onResume() {
+        editCode = (EditText) findViewById(R.id.editCode);
+        editCode.setText("");
+        super.onResume();
+    }
+
     public void login(View view){
         editCode = (EditText) findViewById(R.id.editCode);
         int code;
@@ -58,17 +65,9 @@ public class LoginActivity extends AppCompatActivity {
             code = Integer.parseInt(editCode.getText().toString());
             if(code > 999 && code < 10000){
                 loginViewModel.sendCode(code);
-
             }else{
                 Toast.makeText(this, "Inserisci un numero di 4 cifre", Toast.LENGTH_LONG).show();
             }
-        }
-    }
-    public void testSave(View view){
-        if(LoginViewModel.userLoggedFile.length() == 0){
-            Toast.makeText(this, "FILE ESISTE MA VUOTO",Toast.LENGTH_LONG).show();
-        }else{
-            Toast.makeText(this, "FILE PIENO",Toast.LENGTH_LONG).show();
         }
     }
 }
