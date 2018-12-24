@@ -62,7 +62,6 @@ public class DishesAdapter extends RecyclerView.Adapter<DishesAdapter.DishViewHo
                     FragmentManager fm = ((OrderActivity)context).getSupportFragmentManager();
                     SelectedDish insertedDish = new SelectedDish(dishes.get(getAdapterPosition()).getDishName());
                     List<String> variants = OrderViewModel.getDishModelDao().getVariantsNameOfDish(dishes.get(getAdapterPosition()).getIdDish());
-                    System.out.println("VARIANTS NUMBER: " + variants.size());
                     ArrayList<String> tmp = new ArrayList<>();
                     tmp.add("asd");tmp.add("asd");tmp.add("asd");tmp.add("asd");tmp.add("asd");tmp.add("asd");tmp.add("asd");tmp.add("asd");
                     SelectVariantsDialog alertDialog = SelectVariantsDialog.newInsertionInstance(insertedDish.getSelectedDishName(), (ArrayList<String>) variants /*tmp*/, context);

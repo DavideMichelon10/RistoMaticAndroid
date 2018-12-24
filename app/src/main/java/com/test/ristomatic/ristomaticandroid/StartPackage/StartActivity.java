@@ -35,22 +35,8 @@ public class StartActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
     Intent nextActivityIntent = new Intent(this, LoginActivity.class);
-
         File userLoggedFile = new File(ContextApplication.getAppContext().getFilesDir(), LoginViewModel.filename);
-        String jsonString = "";
-        try {
-            FileReader fr = new FileReader(userLoggedFile);
-            int i;
-            while ((i=fr.read()) != -1){
-                jsonString+=(char)i;
-                System.out.print((char) i);
-            }
-            System.out.println("JSON: "+jsonString);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        String jsonString = getUser(userLoggedFile);
         if(userLoggedFile.exists() && jsonString.length() != 0)
         {
             try {
@@ -67,5 +53,20 @@ public class StartActivity extends AppCompatActivity {
             nextActivityIntent.putExtra("LOGGATO", "NO");
             startActivity(nextActivityIntent);
         }
+    }
+    public static String getUser(File userLoggedFile){
+        String jsonString = "";
+        try {
+            FileReader fr = new FileReader(userLoggedFile);
+            int i;
+            while ((i=fr.read()) != -1){
+                jsonString+=(char)i;
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return jsonString;
     }
 }

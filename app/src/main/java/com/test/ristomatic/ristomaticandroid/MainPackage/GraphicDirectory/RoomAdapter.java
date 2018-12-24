@@ -78,6 +78,7 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
                         SelectSeatsDialog selectSeatsDialog = SelectSeatsDialog.newInstance((String) textViewId.getText(), tables.get(getAdapterPosition()).getSubs());
                         selectSeatsDialog.show(fm, "selected_seats_fragment");
                     } else {
+                        MainActivity.getMainViewModel().changeTableState(Integer.parseInt((String) textViewId.getText()), "Occupato");
                         Intent intent = new Intent(ContextApplication.getAppContext(), OrderActivity.class);
                         String idTable = (String) textViewId.getText();
                         intent.putExtra("idTavolo", idTable);

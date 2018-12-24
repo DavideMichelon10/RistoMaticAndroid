@@ -9,5 +9,10 @@
     <string name="table_state_occupato">occupato</string>
     <string name="logout">Sicuro di voler uscire?</string>
     <string name="Si">Si</string>
+    <string name="No">No</string>
+    <string name="back_to_table">Sicuro di voler tornare alla schermata dei tavoli?</string>
+    <string name="Waiter">cameriere</string>
+    <string name="id_tavolo">idTavolo</string>
+    <string name="coperti">coperti</string>
 
 </resources>

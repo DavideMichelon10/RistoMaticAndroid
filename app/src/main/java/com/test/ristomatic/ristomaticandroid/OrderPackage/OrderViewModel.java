@@ -6,19 +6,29 @@ import android.content.Context;
 
 
 import com.google.gson.Gson;
+import com.test.ristomatic.ristomaticandroid.Application.ContextApplication;
 import com.test.ristomatic.ristomaticandroid.Application.VolleyCallback;
+import com.test.ristomatic.ristomaticandroid.Application.VolleyCallbackObject;
+import com.test.ristomatic.ristomaticandroid.LoginPackage.LoginViewModel;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.CategoryAndDishesAdapter.CategoriesAdapter;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.CategoryAndDishesAdapter.DishesAdapter;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.CoursesAdapter;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.Course;
+import com.test.ristomatic.ristomaticandroid.R;
 import com.test.ristomatic.ristomaticandroid.RoomDatabase.AppDatabase;
 import com.test.ristomatic.ristomaticandroid.RoomDatabase.Category.CategoryModelDao;
 import com.test.ristomatic.ristomaticandroid.RoomDatabase.Dish.DishModelDao;
+import com.test.ristomatic.ristomaticandroid.StartPackage.StartActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +41,7 @@ public class OrderViewModel extends AndroidViewModel {
     private CategoryModelDao categoryModelDao;
     private static DishModelDao dishModelDao;
     private OrderRepository orderRepository;
+    private int tableId, seatsNumber;
     private Context context;
 
     //test
@@ -41,9 +52,10 @@ public class OrderViewModel extends AndroidViewModel {
         orderRepository = new OrderRepository();
     }
 
-    public void init(Context context)
-    {
+    public void init(Context context, int tableId, int seatsNumber) {
+        this.seatsNumber = seatsNumber;
         this.context = context;
+        this.tableId = tableId;
         setAppDatabase(AppDatabase.getDatabase(this.getApplication()));
         setCategoryModelDao(getAppDatabase().getCategoryModelDao());
         setDishModelDao(getAppDatabase().getDishModelDao());
@@ -101,22 +113,36 @@ public class OrderViewModel extends AndroidViewModel {
         OrderViewModel.dishModelDao = dishModelDao;
     }
 
-    public void sendReport(){
-        JSONArray report = new JSONArray();
-        /*TODO: aggiungere idWaiter, data, tavolo e salta*/
+    public void sendReport() throws JSONException {
+        JSONObject report = new JSONObject();
+        JSONArray courses = new JSONArray();
+        //get information of user
+        File userLoggedFile = new File(ContextApplication.getAppContext().getFilesDir(), LoginViewModel.filename);
+        JSONObject user = new JSONObject(StartActivity.getUser(userLoggedFile));
+        report.put(getApplication().getString(R.string.Waiter),user.get("nome_cameriere"));
+        report.put(getApplication().getString(R.string.id_tavolo), tableId);
+        report.put(getApplication().getString(R.string.coperti), seatsNumber);
         for(int i=0; i<CoursesAdapter.getCourses().size(); i++){
             Course course = CoursesAdapter.getCourses().get(i);
             Gson gson = new Gson();
             String json = gson.toJson(course);
             try {
-                report.put(new JSONObject(json));
+                courses.put(new JSONObject(json));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
-        orderRepository.sendReport(report, new VolleyCallback() {
+        try {
+            report.put("portate",courses);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        orderRepository.sendReport(report, new VolleyCallbackObject() {
             @Override
-            public void onSuccess(JSONArray result) { }
+            public void onSuccess(JSONObject result) {
+                System.out.println("on SUcc");
+            }
         });
     }
 }

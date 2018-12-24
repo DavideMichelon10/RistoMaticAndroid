@@ -16,6 +16,7 @@ import android.widget.RadioGroup;
 import com.test.ristomatic.ristomaticandroid.Application.ContextApplication;
 import com.test.ristomatic.ristomaticandroid.MainPackage.MainActivity;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.OrderActivity;
+import com.test.ristomatic.ristomaticandroid.R;
 
 public class SelectSeatsDialog extends DialogFragment {
     public Dialog onCreateDialog(final Bundle savedInstanceState) {
@@ -56,9 +57,8 @@ public class SelectSeatsDialog extends DialogFragment {
                     intent.putExtra("selectedSub", 1);
                     MainActivity.getMainViewModel().changeTableState(Integer.parseInt(idTable), "Occupato");
                 }
-
-                intent.putExtra("idTavolo", idTable);
-                intent.putExtra("seatsNumber", seatsPicker.getValue());
+                intent.putExtra(getString(R.string.id_tavolo), idTable);
+                intent.putExtra(getString(R.string.coperti), seatsPicker.getValue());
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 ContextApplication.getAppContext().startActivity(intent);
             }

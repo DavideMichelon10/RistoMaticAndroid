@@ -32,7 +32,7 @@ public final class InsertDishUtilities {
 
                 return i;
             }
-            System.out.println("I: "+CoursesAdapter.getCourses().get(coursePosition).getAllSelectedDishes().get(i).toString());
+            //System.out.println("I: "+CoursesAdapter.getCourses().get(coursePosition).getAllSelectedDishes().get(i).toString());
         }
         return -1;
     }

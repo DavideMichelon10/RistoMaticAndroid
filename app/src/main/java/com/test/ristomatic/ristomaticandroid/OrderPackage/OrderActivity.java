@@ -1,6 +1,9 @@
 package com.test.ristomatic.ristomaticandroid.OrderPackage;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -17,6 +20,8 @@ import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelRep
 import com.test.ristomatic.ristomaticandroid.R;
 import com.test.ristomatic.ristomaticandroid.RoomDatabase.Dish.DishModel;
 
+import org.json.JSONException;
+
 
 public class OrderActivity extends AppCompatActivity {
     private OrderViewModel orderViewModel;
@@ -26,16 +31,20 @@ public class OrderActivity extends AppCompatActivity {
     private  RecyclerView recyclerViewCourses;
 
     private RadioGroup rgp;
+    private int seatsNumber, idTable;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
-
+        //intent contenete idTavolo e seatsNumber
+        Intent intent = getIntent();
         //Assegna il context alla utilities per inserire il piatto
         InsertDishUtilities.setContext(this);
 
         orderViewModel = ViewModelProviders.of(this).get(OrderViewModel.class);
-        orderViewModel.init(this);
+        idTable = Integer.parseInt(intent.getStringExtra(getString(R.string.id_tavolo)));
+        seatsNumber=intent.getIntExtra(getString(R.string.coperti),3);
+        orderViewModel.init(this,idTable, seatsNumber);
         createCourseSelection();
         //RecyclerView categories
         recyclerViewCategories = (RecyclerView) findViewById(R.id.recyclerViewCategories);
@@ -77,13 +86,32 @@ public class OrderActivity extends AppCompatActivity {
     }
 
 
-    public void sendReport(View view){
+    public void sendReport(View view) throws JSONException {
         orderViewModel.sendReport();
     }
     //disabilita buttone backPressed
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(getString(R.string.back_to_table));
+        builder.setPositiveButton(getString(R.string.Si),new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                OrderActivity.super.onBackPressed();
+            }
+
+        });
+        builder.setNegativeButton(getString(R.string.No), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
     }
 
     @Override
