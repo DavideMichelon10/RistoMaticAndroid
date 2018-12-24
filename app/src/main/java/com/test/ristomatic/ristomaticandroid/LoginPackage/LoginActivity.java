@@ -55,6 +55,9 @@ public class LoginActivity extends AppCompatActivity {
         super.onResume();
     }
 
+    @Override
+    public void onBackPressed() { }
+
     public void login(View view){
         editCode = (EditText) findViewById(R.id.editCode);
         int code;

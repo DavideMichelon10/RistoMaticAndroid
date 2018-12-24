@@ -24,7 +24,7 @@ public class VolleyCallApplication extends Application {
     public static String updateTablesDate(){
         return GlobalVariableApplication.serverAddress() + "updateTablesDate";
     }
-    public static String sendReport(){
-        return GlobalVariableApplication.serverAddress() +"sendReport";
+    public static String report(){
+        return GlobalVariableApplication.serverAddress() +"report";
     }
 }

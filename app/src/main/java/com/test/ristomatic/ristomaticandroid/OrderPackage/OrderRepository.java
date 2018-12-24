@@ -13,7 +13,7 @@ import org.json.JSONArray;
 
 public class OrderRepository {
     public void sendReport(final JSONArray report, final VolleyCallback volleyCallback){
-        JsonArrayRequest sendRequest = new JsonArrayRequest(Request.Method.POST, VolleyCallApplication.sendReport(), report,
+        JsonArrayRequest sendRequest = new JsonArrayRequest(Request.Method.POST, VolleyCallApplication.report(), report,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {

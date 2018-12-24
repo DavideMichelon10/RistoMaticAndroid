@@ -29,12 +29,16 @@ public class StartActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
-        Intent nextActivityIntent = new Intent(this, LoginActivity.class);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    Intent nextActivityIntent = new Intent(this, LoginActivity.class);
 
         File userLoggedFile = new File(ContextApplication.getAppContext().getFilesDir(), LoginViewModel.filename);
         String jsonString = "";
         try {
-
             FileReader fr = new FileReader(userLoggedFile);
             int i;
             while ((i=fr.read()) != -1){
@@ -58,9 +62,7 @@ public class StartActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        }
-        else
-        {
+        }else{
             nextActivityIntent = new Intent(this, LoginActivity.class);
             nextActivityIntent.putExtra("LOGGATO", "NO");
             startActivity(nextActivityIntent);

@@ -103,6 +103,7 @@ public class OrderViewModel extends AndroidViewModel {
 
     public void sendReport(){
         JSONArray report = new JSONArray();
+        /*TODO: aggiungere idWaiter, data, tavolo e salta*/
         for(int i=0; i<CoursesAdapter.getCourses().size(); i++){
             Course course = CoursesAdapter.getCourses().get(i);
             Gson gson = new Gson();
@@ -113,7 +114,6 @@ public class OrderViewModel extends AndroidViewModel {
                 e.printStackTrace();
             }
         }
-        System.out.println(report);
         orderRepository.sendReport(report, new VolleyCallback() {
             @Override
             public void onSuccess(JSONArray result) { }
