@@ -90,13 +90,13 @@ public class SelectedDishesAdapter extends RecyclerView.Adapter<SelectedDishesAd
                 }
             });
 
-            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public boolean onLongClick(View v) {
+                public void onClick(View v) {
                     ArrayList<String> variants = (ArrayList<String>) OrderViewModel.getDishModelDao().getVariantsNameOfDish(dishName
-                                                                                                        .getText().toString());
+                            .getText().toString());
                     ArrayList<String> selectedVariantsList = (ArrayList<String>) ((SelectedVariantsAdapter)selectedVariants
-                                                                                    .getAdapter()).variantsSelected;
+                            .getAdapter()).variantsSelected;
                     String note = "";
                     selectedVariantsList = new ArrayList<>(selectedVariantsList);
                     if(selectedVariantsList.size() > 0 && !variants.contains(selectedVariantsList.get(selectedVariantsList.size()-1)))
@@ -106,7 +106,6 @@ public class SelectedDishesAdapter extends RecyclerView.Adapter<SelectedDishesAd
                             variants, timeSelectedString, selectedVariantsList, note, context);
                     FragmentManager fm = ((OrderActivity)context).getSupportFragmentManager();
                     selectVariantsDialog.show(fm, "fragment_alert");
-                    return false;
                 }
             });
         }

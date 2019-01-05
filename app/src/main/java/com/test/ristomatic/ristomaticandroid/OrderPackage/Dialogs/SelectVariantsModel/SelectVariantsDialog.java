@@ -7,7 +7,9 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputFilter;
 import android.text.InputType;
+import android.text.Spanned;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -32,19 +34,36 @@ public class SelectVariantsDialog extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(this.orderActivityContext);
 
         final EditText noteEditText = new EditText(getContext());
-        final EditText editText = new EditText(getContext());
+        final EditText timeSelectedEditText = new EditText(getContext());
         final String dishName = getArguments().getString("dish");
         final ArrayList<String> variants = getArguments().getStringArrayList("variants");
         final String[] variantsArray = new String[variants.size()];
         final boolean[] checkedVariants;
         final int dishPosition;
+
+        timeSelectedEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
+        //Make the filter that avoid to insert spaces inside editText
+        InputFilter spaceFilter = new InputFilter() {
+            @Override
+            public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+                String[] splits = source.toString().split(" ");
+                String reunite = "";
+                for (int i = 0; i<splits.length;i++){
+                    reunite += splits[i];
+                }
+                return reunite;
+            }
+        };
+        timeSelectedEditText.setFilters(new InputFilter[]{spaceFilter});
+
         //True se il dialogo è per inserire un piatto, False se è per modificarlo
         if (getArguments().getBooleanArray("selectedVariants") == null) {
             checkedVariants = new boolean[variants.size()];
+            timeSelectedEditText.setText("1");
         } else {
             checkedVariants = getArguments().getBooleanArray("selectedVariants");
             noteEditText.setText(getArguments().getString("note"));
-            editText.setText(getArguments().getString("timeSelected"));
+            timeSelectedEditText.setText(getArguments().getString("timeSelected"));
         }
 
         //Mostra le varianti con collegate una checkBox
@@ -55,9 +74,13 @@ public class SelectVariantsDialog extends DialogFragment {
                 checkedVariants[i] = isChecked;
             }
         });
+
+        //Tasto "OK"
         builder.setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                if(timeSelectedEditText.getText().toString().compareTo("") == 0)
+                    timeSelectedEditText.setText("1");
                 //Id del radioButton clickato
                 int radioButtonId = ((RadioGroup) ((OrderActivity) orderActivityContext).findViewById(R.id.flow_group)).getCheckedRadioButtonId();
                 //Posizione della portata selezionata nella lista di portate
@@ -74,7 +97,7 @@ public class SelectVariantsDialog extends DialogFragment {
                     //se è una modifica
                     if (getArguments().getString("note") != null) {
                         int dishPosition = getArguments().getInt("dishPosition");
-                        int timeSelected = Integer.parseInt(editText.getText().toString());
+                        int timeSelected = Integer.parseInt(timeSelectedEditText.getText().toString());
                         if (noteEditText.getText().toString().compareTo("") != 0){
                             selectedVariants.add(noteEditText.getText().toString());
                         }
@@ -86,18 +109,18 @@ public class SelectVariantsDialog extends DialogFragment {
                         //Se la portata non esiste ne viene creata una nuova con il numero di portata e viene aggiunta alla lista
                         //successivamente viene chiamato il notifyItemInserted sulla recyclerViewCourses
                         if (!InsertDishUtilities.doesCourseExist(courseNumber)) {
-                            if (editText.getText().toString() == "1")
+                            if (timeSelectedEditText.getText().toString() == "1")
                                 InsertDishUtilities.insertDishInNewCourse(courseNumber, insertedDish);
                             else
-                                InsertDishUtilities.insertDishInNewCourse(courseNumber, insertedDish, Integer.parseInt(editText.getText().toString()));
+                                InsertDishUtilities.insertDishInNewCourse(courseNumber, insertedDish, Integer.parseInt(timeSelectedEditText.getText().toString()));
                         }
 
                         //se la portata esiste
                         else {
-                            if (editText.getText().toString() == "1")
+                            if (timeSelectedEditText.getText().toString() == "1")
                                 InsertDishUtilities.handleInExistingCourse(courseNumber, insertedDish);
                             else
-                                InsertDishUtilities.handleInExistingCourse(courseNumber, insertedDish, Integer.parseInt(editText.getText().toString()));
+                                InsertDishUtilities.handleInExistingCourse(courseNumber, insertedDish, Integer.parseInt(timeSelectedEditText.getText().toString()));
                         }
                         //eccezione tirata quando cambi categoria e selezioni un piatto ed esso è nullo
                     }
@@ -105,9 +128,7 @@ public class SelectVariantsDialog extends DialogFragment {
                 }
             }
         });
-        editText.setInputType(InputType.TYPE_CLASS_NUMBER);
-        editText.setText("1");
-        builder.setCustomTitle(editText);
+        builder.setCustomTitle(timeSelectedEditText);
         //noteEditText.setInputType(InputType.TYPE_TEXT_FLAG_IME_MULTI_LINE);
         noteEditText.setHint("NOTE");
         builder.setView(noteEditText);
