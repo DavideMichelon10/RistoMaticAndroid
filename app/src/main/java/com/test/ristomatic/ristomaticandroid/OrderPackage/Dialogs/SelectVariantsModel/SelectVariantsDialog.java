@@ -6,12 +6,15 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.text.Spanned;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -21,6 +24,7 @@ import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelRep
 import com.test.ristomatic.ristomaticandroid.R;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -31,15 +35,13 @@ public class SelectVariantsDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        AlertDialog.Builder builder = new AlertDialog.Builder(this.orderActivityContext);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
-        final EditText noteEditText = new EditText(getContext());
         final EditText timeSelectedEditText = new EditText(getContext());
         final String dishName = getArguments().getString("dish");
         final ArrayList<String> variants = getArguments().getStringArrayList("variants");
-        final String[] variantsArray = new String[variants.size()];
-        final boolean[] checkedVariants;
-        final int dishPosition;
+        final List<Boolean> checkedVariants;
+        final EditText noteEditText = new EditText(getContext());
 
         timeSelectedEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
         //Make the filter that avoid to insert spaces inside editText
@@ -56,29 +58,32 @@ public class SelectVariantsDialog extends DialogFragment {
         };
         timeSelectedEditText.setFilters(new InputFilter[]{spaceFilter});
 
+
+        final RecyclerView multiChoiceItems = new RecyclerView(getContext());
+        multiChoiceItems.setHasFixedSize(true);
+        multiChoiceItems.setLayoutManager(new GridLayoutManager(getContext(),1));
         //True se il dialogo è per inserire un piatto, False se è per modificarlo
         if (getArguments().getBooleanArray("selectedVariants") == null) {
-            checkedVariants = new boolean[variants.size()];
+            checkedVariants = new ArrayList<>();
             timeSelectedEditText.setText("1");
+            multiChoiceItems.setAdapter(new MultiChoiceAdapter(variants, getContext()));
         } else {
-            checkedVariants = getArguments().getBooleanArray("selectedVariants");
+            checkedVariants = new ArrayList<>();
+            for (Boolean b : getArguments().getBooleanArray("selectedVariants")){
+                checkedVariants.add(new Boolean(b));
+            }
             noteEditText.setText(getArguments().getString("note"));
             timeSelectedEditText.setText(getArguments().getString("timeSelected"));
+
+            multiChoiceItems.setAdapter(new MultiChoiceAdapter(variants, checkedVariants, getContext()));
         }
 
-        //Mostra le varianti con collegate una checkBox
-        builder.setMultiChoiceItems(variants.toArray(variantsArray), checkedVariants, new DialogInterface.OnMultiChoiceClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i, boolean isChecked) {
-                //Imposta a true le checkedVariants checkate
-                checkedVariants[i] = isChecked;
-            }
-        });
 
         //Tasto "OK"
         builder.setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+
                 if(timeSelectedEditText.getText().toString().compareTo("") == 0)
                     timeSelectedEditText.setText("1");
                 //Id del radioButton clickato
@@ -86,13 +91,7 @@ public class SelectVariantsDialog extends DialogFragment {
                 //Posizione della portata selezionata nella lista di portate
                 int courseNumber = Integer.parseInt((String) ((RadioButton) ((OrderActivity) orderActivityContext).findViewById(radioButtonId)).getText());
                 RecyclerView recyclerViewCourses = ((OrderActivity) orderActivityContext).findViewById(R.id.recyclerViewCourses);
-                List<String> selectedVariants = new ArrayList<>();
-                for (int i = 0; i < variants.size(); i++) {
-                    if (checkedVariants[i]) {
-                        selectedVariants.add(variants.get(i));
-                    }
-                }
-                //Vero se la portata esiste già
+                List<String> selectedVariants = ((MultiChoiceAdapter) multiChoiceItems.getAdapter()).getSelectedVariants();
                 try {
                     //se è una modifica
                     if (getArguments().getString("note") != null) {
@@ -102,6 +101,7 @@ public class SelectVariantsDialog extends DialogFragment {
                             selectedVariants.add(noteEditText.getText().toString());
                         }
                         InsertDishUtilities.modifyDishInCourse(courseNumber, dishPosition, recyclerViewCourses, timeSelected,(ArrayList<String>) selectedVariants);
+
                     } else {
                         if (noteEditText.getText().toString().compareTo("") != 0)
                             selectedVariants.add(noteEditText.getText().toString());
@@ -128,10 +128,16 @@ public class SelectVariantsDialog extends DialogFragment {
                 }
             }
         });
+
         builder.setCustomTitle(timeSelectedEditText);
-        //noteEditText.setInputType(InputType.TYPE_TEXT_FLAG_IME_MULTI_LINE);
-        noteEditText.setHint("NOTE");
-        builder.setView(noteEditText);
+        //editText note + recyclerView varianti (se invertite note sparisce)
+        LinearLayout layout = new LinearLayout(getContext());
+        layout.setOrientation(LinearLayout.VERTICAL);
+        noteEditText.setHint("NOTE: ");
+        layout.addView(noteEditText);
+        layout.addView(multiChoiceItems);
+        builder.setView(layout);
+
         return builder.create();
     }
 

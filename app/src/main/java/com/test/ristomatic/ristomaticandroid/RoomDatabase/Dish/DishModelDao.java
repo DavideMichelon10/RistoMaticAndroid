@@ -20,16 +20,17 @@ public interface DishModelDao {
             "join DishCategoryJoin on DishModel.idDish = DishCategoryJoin.idDish " +
             "where idCategory = :idCategory")
     List<DishModel> getSelectedDishes(int idCategory);
+
     @Query("select * from DishModel where idDish = :idDish")
     DishModel getDish(int idDish);
 
     @Query("select variantName from VariantModel JOIN DishVariantJoin on VariantModel.idVariant = DishVariantJoin.idVariant " +
-            "WHERE DishVariantJoin.idDish = :idDish")
+            "WHERE DishVariantJoin.idDish = :idDish ORDER BY variantName")
     List<String> getVariantsNameOfDish(int idDish);
 
     @Query("select variantName from VariantModel JOIN DishVariantJoin on VariantModel.idVariant = DishVariantJoin.idVariant " +
             "JOIN DishModel on DishVariantJoin.idDish = DishModel.idDish " +
-            "WHERE DishModel.dish_name = :dishName")
+            "WHERE DishModel.dish_name = :dishName ORDER BY variantName")
     List<String> getVariantsNameOfDish(String dishName);
 
 
