@@ -1,0 +1,149 @@
+swagger: '2.0'
+info:
+  version: '1.0'
+  title: "ristomatic"
+
+host: localhost:3000
+basePath: "/v1"
+schemes:
+- http
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+  /login/{code}:
+    x-summary: /v1/login
+    parameters:
+        - name: code
+          in: path
+          required: true
+          type: integer
+          x-example: 1234
+    get:
+      summary: login cameriere
+      responses:
+        200:
+          description: Utente trovato, rispondi con utente(OBJECT e NON ARRAY) --> {cameriere_id:1, password:1234, nome_cameriere:'asd'}
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Cameriere'
+        404:
+          description: Utente non trovato, rispondi con oggetto vuoto --> {}
+  /rooms:
+    get:
+      summary: Tutti i tavoli per ogni sala 
+      responses:
+        200:
+          description: array di oggetti tavoli, tutti i tavoli nella sala; state è 0=occupato e 1=libero
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Sala'
+          
+  /rooms/{idRoom}:
+    parameters:
+      - name: idRoom
+        description: numero sala
+        in: path
+        required: true
+        type: integer
+        x-example: 2
+    get:
+      summary: Tavoli di una sala 
+      responses:
+        200:
+          description: array di oggetti tavoli, tutti i tavoli nella sala; state è 0=occupato e 1=libero
+          schema:
+            type: object
+            items:
+              $ref: '#/definitions/Tavolo'
+
+
+  /tables/{idTable}:
+    parameters:
+      - name: idTable
+        in: path
+        description: numero tavolo da modificare
+        required: true
+        type: integer
+        x-example: 2
+    put:
+      summary: Update tavolo
+      produces: 
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Update tavolo"
+        required: true
+        schema:
+          $ref: "#/definitions/putTable"
+      responses:
+        201:
+          description: 'valid'
+  /dates:
+    put:
+      summary: update dates
+      produces: 
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Update dates"
+        required: true
+        schema:
+          $ref: "#/definitions/putTable"
+      responses:
+        201:
+          description: 'valid'
+definitions:
+  Cameriere:
+    type: object
+    properties:
+      cameriere_id:
+        type: "integer"
+      password:
+        type: "integer"
+      nome_cameriere:
+        type: "string"        
+    example: 
+      cameriere_id: 12273
+      password: 1234
+      nome_cameriere: "Davide"
+      
+  Tavolo:
+    type: object
+    properties:
+      idTable:
+        type: "integer"
+      state:
+        type: "integer"
+    example: 
+      idTable: 12
+      state: 1
+      
+  Sala:
+    type: object
+    properties:
+      roomName:
+        type : string
+      tables:
+        type : array
+        properties: 
+          tables :
+            type : array
+            properties:
+              idTable:
+                type: "integer"
+              state:
+                type: "integer"
+                  
+  putTable:
+    type: object
+    properties:
+      state:
+        type : integer
+    example: 
+      state: 1
