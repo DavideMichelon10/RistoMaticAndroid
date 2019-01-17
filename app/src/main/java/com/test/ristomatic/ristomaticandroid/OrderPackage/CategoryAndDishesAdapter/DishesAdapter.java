@@ -14,6 +14,7 @@ import com.test.ristomatic.ristomaticandroid.OrderPackage.InsertDishUtilities.In
 import com.test.ristomatic.ristomaticandroid.OrderPackage.OrderActivity;
 
 import com.test.ristomatic.ristomaticandroid.OrderPackage.OrderViewModel;
+import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.CoursesAdapter;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.SelectedDish;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.Dialogs.SelectVariantsModel.SelectVariantsDialog;
 import com.test.ristomatic.ristomaticandroid.R;

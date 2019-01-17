@@ -24,7 +24,6 @@ import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelRep
 import com.test.ristomatic.ristomaticandroid.R;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -130,7 +129,6 @@ public class SelectVariantsDialog extends DialogFragment {
         });
 
         builder.setCustomTitle(timeSelectedEditText);
-        //editText note + recyclerView varianti (se invertite note sparisce)
         LinearLayout layout = new LinearLayout(getContext());
         layout.setOrientation(LinearLayout.VERTICAL);
         noteEditText.setHint("NOTE: ");

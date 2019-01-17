@@ -21,6 +21,8 @@ import com.test.ristomatic.ristomaticandroid.R;
 public class SelectSeatsDialog extends DialogFragment {
     public Dialog onCreateDialog(final Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
+        builder.setTitle("Numero coperti: ");
         //Assegna gli argomenti
         final String idTable = getArguments().getString("idTavolo");
         final int currentSubs = getArguments().getInt("currentSubs");

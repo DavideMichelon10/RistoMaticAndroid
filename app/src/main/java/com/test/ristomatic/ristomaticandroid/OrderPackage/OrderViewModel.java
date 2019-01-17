@@ -3,6 +3,7 @@ package com.test.ristomatic.ristomaticandroid.OrderPackage;
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.content.Context;
+import android.widget.Toast;
 
 
 import com.google.gson.Gson;
@@ -121,7 +122,8 @@ public class OrderViewModel extends AndroidViewModel {
         JSONObject user = new JSONObject(StartActivity.getUser(userLoggedFile));
         report.put(getApplication().getString(R.string.Waiter),user.get("nome_cameriere"));
         report.put(getApplication().getString(R.string.id_tavolo), tableId);
-        report.put(getApplication().getString(R.string.coperti), seatsNumber);
+        if(seatsNumber != 0)
+            report.put(getApplication().getString(R.string.coperti), seatsNumber);
         for(int i=0; i<CoursesAdapter.getCourses().size(); i++){
             Course course = CoursesAdapter.getCourses().get(i);
             Gson gson = new Gson();
@@ -141,7 +143,7 @@ public class OrderViewModel extends AndroidViewModel {
         orderRepository.sendReport(report, new VolleyCallbackObject() {
             @Override
             public void onSuccess(JSONObject result) {
-                System.out.println("on SUcc");
+                Toast.makeText(context,"COMANDA INVIATA", Toast.LENGTH_SHORT).show();
             }
         });
     }

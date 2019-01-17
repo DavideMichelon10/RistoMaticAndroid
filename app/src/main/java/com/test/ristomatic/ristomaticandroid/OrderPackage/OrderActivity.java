@@ -43,7 +43,7 @@ public class OrderActivity extends AppCompatActivity {
 
         orderViewModel = ViewModelProviders.of(this).get(OrderViewModel.class);
         idTable = Integer.parseInt(intent.getStringExtra(getString(R.string.id_tavolo)));
-        seatsNumber=intent.getIntExtra(getString(R.string.coperti),3);
+        seatsNumber=intent.getIntExtra(getString(R.string.coperti),0);
         orderViewModel.init(this,idTable, seatsNumber);
         createCourseSelection();
         //RecyclerView categories
@@ -88,6 +88,7 @@ public class OrderActivity extends AppCompatActivity {
 
     public void sendReport(View view) throws JSONException {
         orderViewModel.sendReport();
+        super.onBackPressed();
     }
     //disabilita buttone backPressed
     @Override
