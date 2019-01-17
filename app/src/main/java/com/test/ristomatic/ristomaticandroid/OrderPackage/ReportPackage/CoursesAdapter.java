@@ -38,18 +38,20 @@ public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.CourseVi
     public CourseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_course,parent, false);
         CourseViewHolder courseViewHolder = new CourseViewHolder(v);
+        System.out.println("in onCreateViewHolder");
         return courseViewHolder;
     }
 
     //creare lista con elementi in position di array course e passarlo a SelectedDishesAdapter
     //Si occuperà SelectedDishesAdapter di creare la lista di piatti selezionati per quella portata
     @Override
-    public void onBindViewHolder(CourseViewHolder holder, int position) {
+    public void onBindViewHolder(final CourseViewHolder holder, final int position) {
         Course course = getCourses().get(position);
         holder.courseNumber.setText("Portata: "+courses.get(position).getCourseNumber());
         holder.courses.setHasFixedSize(false);
         holder.courses.setLayoutManager(new GridLayoutManager(context, 2));
-        holder.courses.setAdapter(new SelectedDishesAdapter(context, course));
+        final SelectedDishesAdapter selectedDishesAdapter = new SelectedDishesAdapter(context, course);
+        holder.courses.setAdapter(selectedDishesAdapter);
     }
 
     @Override
