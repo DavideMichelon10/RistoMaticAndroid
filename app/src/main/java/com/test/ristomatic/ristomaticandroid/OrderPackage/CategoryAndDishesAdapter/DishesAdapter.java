@@ -76,16 +76,29 @@ public class DishesAdapter extends RecyclerView.Adapter<DishesAdapter.DishViewHo
                     int radioButtonIdid = ((RadioGroup)((OrderActivity)context).findViewById(R.id.flow_group)).getCheckedRadioButtonId();
                     //Posizione nella lista di portate della portata corrente
                     int coursePosition = 0;
-                    int courseNumber = Integer.parseInt((String) ((RadioButton)((OrderActivity)context)
+                    final int courseNumber = Integer.parseInt((String) ((RadioButton)((OrderActivity)context)
                             .findViewById(radioButtonIdid))
                             .getText());
-                    //Vero se la portata esiste già
                     try{
                         SelectedDish insertedDish = new SelectedDish(dishes.get(getAdapterPosition()).getDishName());
                         //Se la portata non esiste ne viene creata una nuova con il numero di portata e viene aggiunta alla lista
                         //successivamente viene chiamato il notifyItemInserted sulla recyclerViewCourses
                         if(!InsertDishUtilities.doesCourseExist(courseNumber)){
                             InsertDishUtilities.insertDishInNewCourse(courseNumber, insertedDish);
+                            // scrolla recyclerView portate fino, va fuori da if perchè comune
+                            new Runnable(){
+                                @Override
+                                public void run() {
+                                    RecyclerView recyclerViewCourses = (RecyclerView) ((OrderActivity)context).findViewById(R.id.recyclerViewCourses);
+                                    int coursePos = InsertDishUtilities.isCoursePositionOccupied(courseNumber);
+                                    if(coursePos != -1){
+                                        recyclerViewCourses.scrollToPosition(coursePos-1);
+                                    }else{
+                                        recyclerViewCourses.scrollToPosition(recyclerViewCourses.getAdapter().getItemCount() -1);
+                                    }
+                                }
+                            }.run();
+
                         }
 
                         //se la portata esiste
