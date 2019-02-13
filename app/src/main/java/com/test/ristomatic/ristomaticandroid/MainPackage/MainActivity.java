@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager());
         graphicComponents = new GraphicComponents(viewPager, tabLayout, pagerAdapter);
 
-        mainViewModel.init(new MainRepository(), graphicComponents.getPagerAdapter());
+        mainViewModel.init(new MainRepository(), graphicComponents.getPagerAdapter(), this);
 
         mainViewModel.updateablesDate();
     }
@@ -73,8 +73,6 @@ public class MainActivity extends AppCompatActivity {
                     outputStream.write("".getBytes());
                     outputStream.close();
                     MainActivity.super.onBackPressed();
-                    //Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                    //startActivity(intent);
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 } catch (IOException e) {

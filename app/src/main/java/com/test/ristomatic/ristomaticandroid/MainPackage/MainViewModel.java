@@ -2,13 +2,16 @@ package com.test.ristomatic.ristomaticandroid.MainPackage;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
+import android.arch.persistence.room.Dao;
 import android.content.SharedPreferences;
 import android.support.v7.widget.RecyclerView;
 
 import com.google.gson.Gson;
 import com.test.ristomatic.ristomaticandroid.Application.ContextApplication;
 import com.test.ristomatic.ristomaticandroid.Application.VolleyCallback;
+import com.test.ristomatic.ristomaticandroid.Application.VolleyCallbackObject;
 import com.test.ristomatic.ristomaticandroid.MainPackage.GraphicDirectory.PagerAdapter;
+import com.test.ristomatic.ristomaticandroid.MainPackage.GraphicDirectory.RoomAdapter;
 import com.test.ristomatic.ristomaticandroid.MainPackage.GraphicDirectory.RoomFragment;
 import com.test.ristomatic.ristomaticandroid.Model.Table;
 import com.test.ristomatic.ristomaticandroid.RoomDatabase.AppDatabase;
@@ -59,7 +62,7 @@ public class MainViewModel extends AndroidViewModel {
 
 
     //metodo chiamato una sola volta, inizilizza tutte le sale con i tavoli
-    public void init(final MainRepository mainRepository, final PagerAdapter pagerAdapter) {
+    public void init(final MainRepository mainRepository, final PagerAdapter pagerAdapter, final MainActivity mainActivity) {
         this.mainRepository = mainRepository;
         setPagerAdapter(pagerAdapter);
 
@@ -67,7 +70,7 @@ public class MainViewModel extends AndroidViewModel {
             @Override
             public void onSuccess(JSONArray result) {
                 try {
-                    initializeTableFragments(result, pagerAdapter);
+                    initializeTableFragments(result, pagerAdapter, mainActivity);
                     numberRooms = result.length();
                     MainActivity.createView(numberRooms);
                 } catch (JSONException e) {
@@ -77,7 +80,7 @@ public class MainViewModel extends AndroidViewModel {
         });
     }
 
-    public void initializeTableFragments(JSONArray result, PagerAdapter pagerAdapter) throws JSONException {
+    public void initializeTableFragments(JSONArray result, PagerAdapter pagerAdapter, MainActivity mainActivity) throws JSONException {
         //chiamata sale e tavoli iniziali
         for(int i=0; i<result.length(); i++){
             JSONArray tablesRoomFromCallback = result.getJSONArray(i);
@@ -88,7 +91,7 @@ public class MainViewModel extends AndroidViewModel {
             RoomFragment roomFragment = new RoomFragment();
             roomFragment.setFragmentId(i);
             pagerAdapter.getRooms().add(roomFragment);
-            roomFragment.init(tablesRoom, new RecyclerView(ContextApplication.getAppContext()), getApplication().getApplicationContext());
+            roomFragment.init(tablesRoom, new RecyclerView(ContextApplication.getAppContext()), mainActivity);
         }
     }
 
@@ -204,15 +207,7 @@ public class MainViewModel extends AndroidViewModel {
             @Override
             public void onSuccess(JSONArray result) {
                 try {
-                    //cicla per ogni tavolo in sala
-                    for(int j=0;j<result.length();j++) {
-                        Table newTable = new Gson().fromJson(result.getJSONObject(j).toString(), Table.class);
-                        Table currentTable = pagerAdapter.getItem(room).getRoom().getRoomAdapter().getTables().get(j);
-                        if (newTable.hashCode() != currentTable.hashCode()) {
-                            pagerAdapter.getItem(room).getRoom().getRoomAdapter().getTables().get(j).setState(newTable.getState());
-                            pagerAdapter.getItem(room).getRoom().getRoomAdapter().notifyDataSetChanged();
-                        }
-                    }
+                    changeTableStateOnGraphic(result, room);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -221,14 +216,39 @@ public class MainViewModel extends AndroidViewModel {
         }, room);
     }
 
+    private void changeTableStateOnGraphic(JSONArray result, int room) throws JSONException {
+        //cicla per ogni sala
+        for(int j=0;j<result.length();j++) {
+            Table newTable = new Gson().fromJson(result.getJSONObject(j).toString(), Table.class);
+            RoomAdapter roomAdapter = pagerAdapter.getItem(room).getRoom().getRoomAdapter();
+            Table currentTable = roomAdapter.getTables().get(j);
+            if (newTable.hashCode() != currentTable.hashCode()) {
+                roomAdapter.getTables().get(j).setState(newTable.getState());
+                roomAdapter.notifyItemChanged(j);
+            }
+        }
+    }
 
     //Cambia lo stato del tavolo indicato nello stato specificato
-    public void changeTableState(final int idTavolo, final String stato){
-        mainRepository.changeTableState(new VolleyCallback() {
+    public void changeTableState(final int idTable, final String state){
+        JSONObject objectToSend = new JSONObject();
+        try {
+            objectToSend = createJsonToSend(idTable, state);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        mainRepository.changeTableState(new VolleyCallbackObject() {
             @Override
-            public void onSuccess(JSONArray result) {
-                System.out.println("STATO CAMBIATO");
-            }
-        }, idTavolo, stato);
+            public void onSuccess(JSONObject result) { }
+        },objectToSend);
+    }
+
+    public JSONObject createJsonToSend(int idTable, String state) throws JSONException {
+        JSONObject valuesToChange = new JSONObject();
+        valuesToChange.put("idTavolo", idTable);
+        valuesToChange.put("stato", state);
+        return valuesToChange;
+
     }
 }
