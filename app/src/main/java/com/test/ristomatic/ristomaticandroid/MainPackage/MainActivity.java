@@ -67,8 +67,6 @@ public class MainActivity extends AppCompatActivity {
                     outputStream.write("".getBytes());
                     outputStream.close();
                     MainActivity.super.onBackPressed();
-                    //Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                    //startActivity(intent);
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 } catch (IOException e) {

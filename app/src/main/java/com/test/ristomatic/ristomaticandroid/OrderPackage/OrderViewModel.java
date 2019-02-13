@@ -8,7 +8,6 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.test.ristomatic.ristomaticandroid.Application.ContextApplication;
-import com.test.ristomatic.ristomaticandroid.Application.VolleyCallback;
 import com.test.ristomatic.ristomaticandroid.Application.VolleyCallbackObject;
 import com.test.ristomatic.ristomaticandroid.LoginPackage.LoginViewModel;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.CategoryAndDishesAdapter.CategoriesAdapter;
@@ -19,17 +18,12 @@ import com.test.ristomatic.ristomaticandroid.R;
 import com.test.ristomatic.ristomaticandroid.RoomDatabase.AppDatabase;
 import com.test.ristomatic.ristomaticandroid.RoomDatabase.Category.CategoryModelDao;
 import com.test.ristomatic.ristomaticandroid.RoomDatabase.Dish.DishModelDao;
-import com.test.ristomatic.ristomaticandroid.StartPackage.StartActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -119,7 +113,7 @@ public class OrderViewModel extends AndroidViewModel {
         JSONArray courses = new JSONArray();
         //get information of user
         File userLoggedFile = new File(ContextApplication.getAppContext().getFilesDir(), LoginViewModel.filename);
-        JSONObject user = new JSONObject(StartActivity.getUser(userLoggedFile));
+        JSONObject user = new JSONObject(LoginViewModel.getUserFileInString());
         report.put(getApplication().getString(R.string.Waiter),user.get("nome_cameriere"));
         report.put(getApplication().getString(R.string.id_tavolo), tableId);
         if(seatsNumber != 0)
