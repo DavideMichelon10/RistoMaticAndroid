@@ -45,6 +45,7 @@ public class LoginActivity extends AppCompatActivity {
                         break;
 
                     default:
+                        printToast("Errore. Riprova.");
                         break;
                 }
             }
@@ -55,7 +56,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         checkAlreadyLogged();
-        editCode = (EditText) findViewById(R.id.editCode);
+        editCode =  findViewById(R.id.editCode);
         editCode.setText("");
         super.onResume();
     }
@@ -63,7 +64,7 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() { }
-    
+
 
     private void checkAlreadyLogged() {
         if(loginViewModel.checkAlreadyLogged() != null){
@@ -73,7 +74,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
     public void login(View view){
-        editCode = (EditText) findViewById(R.id.editCode);
+        editCode = findViewById(R.id.editCode);
         int code;
 
         if(editCode.getText().toString().matches("")){
