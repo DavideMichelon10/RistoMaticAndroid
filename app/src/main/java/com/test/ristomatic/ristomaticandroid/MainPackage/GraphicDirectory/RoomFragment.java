@@ -21,7 +21,7 @@ import java.util.List;
 import static com.test.ristomatic.ristomaticandroid.Application.GlobalVariableApplication.DELAY_REQUEST_TIME;
 
 
-public class TablesFragment extends Fragment {
+public class RoomFragment extends Fragment {
     //Time in mills
     private Room room;
     private int fragmentId;
@@ -29,25 +29,36 @@ public class TablesFragment extends Fragment {
     private Runnable runnable;
     private LinearLayout linearLayout;
     private View v;
-    public TablesFragment(){
+
+
+    public RoomFragment(){
     }
+
+
     public int getFragmentId() {
         return fragmentId;
     }
 
+
     public void setFragmentId(int fragmentId) {
         this.fragmentId = fragmentId;
     }
+
+
     public Room getRoom() {
         return room;
     }
+
+
     public void setRoom(Room room) {
         this.room = room;
     }
-    public void init(List<Table> roomTables, RecyclerView recyclerView, Context mainActivityContext){
 
+
+    public void init(List<Table> roomTables, RecyclerView recyclerView, Context mainActivityContext) {
         room = new Room(roomTables, recyclerView, mainActivityContext);
     }
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,7 +72,8 @@ public class TablesFragment extends Fragment {
             }
         };
     }
-    static int counter = 0;
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -76,11 +88,13 @@ public class TablesFragment extends Fragment {
         return v;
     }
 
+
     @Override
     public void onPause() {
         super.onPause();
         handler.removeCallbacksAndMessages(null);
     }
+
 
     @Override
     public void onResume() {

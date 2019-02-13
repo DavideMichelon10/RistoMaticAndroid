@@ -14,6 +14,7 @@ public class Room {
     private final static int COLUMN_NUMBER = 3;
     private RoomAdapter roomAdapter;
     private RecyclerView myRecyleView;
+    //statico per rendere l'id univoco?
     public static int index;
     public Room(List<Table> newTableList, RecyclerView myRecyleView, Context mainActivityContext) {
         this.roomAdapter = new RoomAdapter(newTableList, mainActivityContext);
@@ -27,6 +28,7 @@ public class Room {
     public RoomAdapter getRoomAdapter() {
         return roomAdapter;
     }
+
     public void setRoomAdapter(RoomAdapter roomAdapter) {
         this.roomAdapter = roomAdapter;
     }
@@ -35,31 +37,8 @@ public class Room {
     public RecyclerView getMyRecyleView() {
         return myRecyleView;
     }
+
     public void setMyRecyleView(RecyclerView myRecyleView) {
         this.myRecyleView = myRecyleView;
     }
-
-    public void addTable(Table newTable){
-        for (int i = 0; i< roomAdapter.getTables().size(); i++){
-
-            if(i!= roomAdapter.getTables().size()-1 && i!= 0){
-                if (newTable.getIdTable() < roomAdapter.getTables().get(i+1).getIdTable() && newTable.getIdTable() > roomAdapter.getTables().get(i-1).getIdTable()){
-                    roomAdapter.getTables().add(i, newTable);
-                    break;
-                }
-            }
-            else if(i == 0) {
-                if (newTable.getIdTable() < roomAdapter.getTables().get(i).getIdTable()){
-                    roomAdapter.getTables().add(i, newTable);
-                    break;
-                }
-            }
-            else {
-                if (newTable.getIdTable() > roomAdapter.getTables().get(i).getIdTable())
-                    roomAdapter.getTables().add(newTable);
-            }
-        }
-    }
-
-
 }

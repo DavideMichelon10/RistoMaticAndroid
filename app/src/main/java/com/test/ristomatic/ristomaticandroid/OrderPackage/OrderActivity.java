@@ -33,6 +33,8 @@ public class OrderActivity extends AppCompatActivity {
 
     private RadioGroup rgp;
     private int seatsNumber, idTable;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +67,7 @@ public class OrderActivity extends AppCompatActivity {
         recyclerViewCourses.setAdapter(orderViewModel.getCoursesAdapter());
     }
 
+
     private void createCourseSelection()
     {
         //assegna a rgp il RadioGroup dell'activity_order.xml
@@ -91,6 +94,8 @@ public class OrderActivity extends AppCompatActivity {
         orderViewModel.sendReport();
         super.onBackPressed();
     }
+
+
     //disabilita buttone backPressed
     @Override
     public void onBackPressed() {
@@ -115,6 +120,7 @@ public class OrderActivity extends AppCompatActivity {
         dialog.show();
 
     }
+
 
     @Override
     protected void onPause() {

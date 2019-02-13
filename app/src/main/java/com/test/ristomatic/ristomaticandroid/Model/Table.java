@@ -85,7 +85,7 @@ public class Table {
     }
     @Override
     public String toString() {
-        String s = "IN TOSTRING " +this.getIdTable() +" "+ this.getState() +" ";
+        String s = "IN TOSTRING " + this.getIdTable() + " " + this.getState() + " ";
         //for (Date date : reservations) {
             //s+= date.toString();
         //}
