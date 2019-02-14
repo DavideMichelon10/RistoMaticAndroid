@@ -13,17 +13,19 @@ import java.util.List;
 public class Room {
     private final static int COLUMN_NUMBER = 3;
     private RoomAdapter roomAdapter;
-    private RecyclerView myRecyleView;
+    private RecyclerView roomRecyclerView;
     //statico per rendere l'id univoco?
     public static int index;
-    public Room(List<Table> newTableList, RecyclerView myRecyleView, Context mainActivityContext) {
+
+
+    public Room(List<Table> newTableList, RecyclerView roomRecyclerView, Context mainActivityContext) {
         this.roomAdapter = new RoomAdapter(newTableList, mainActivityContext);
-        this.roomAdapter = roomAdapter;
-        this.myRecyleView = myRecyleView;
-        this.myRecyleView.setAdapter(this.roomAdapter);
-        this.myRecyleView.setLayoutManager(new GridLayoutManager(ContextApplication.getAppContext(), COLUMN_NUMBER));
-        this.myRecyleView.setId(index++);
+        this.roomRecyclerView = roomRecyclerView;
+        this.roomRecyclerView.setAdapter(this.roomAdapter);
+        this.roomRecyclerView.setLayoutManager(new GridLayoutManager(ContextApplication.getAppContext(), COLUMN_NUMBER));
+        this.roomRecyclerView.setId(index++);
     }
+
 
     public RoomAdapter getRoomAdapter() {
         return roomAdapter;
@@ -34,11 +36,11 @@ public class Room {
     }
 
 
-    public RecyclerView getMyRecyleView() {
-        return myRecyleView;
+    public RecyclerView getRoomRecyclerView() {
+        return roomRecyclerView;
     }
 
-    public void setMyRecyleView(RecyclerView myRecyleView) {
-        this.myRecyleView = myRecyleView;
+    public void setRoomRecyclerView(RecyclerView roomRecyclerView) {
+        this.roomRecyclerView = roomRecyclerView;
     }
 }

@@ -134,7 +134,6 @@ public class MainViewModel extends AndroidViewModel {
         });
     }
 
-
     //viene passato indice e oggetto della tabella, eliminata e ripopolata
     private void updateTable(int index, JSONObject jsonTable) throws JSONException{
         SharedPreferences.Editor editor = allDataUpdated.edit();

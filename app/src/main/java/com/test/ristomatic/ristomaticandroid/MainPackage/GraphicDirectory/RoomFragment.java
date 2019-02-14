@@ -87,12 +87,14 @@ public class RoomFragment extends Fragment {
         return fragmentView;
     }
 
+
     private void setLinearLayout(){
         linearLayout = fragmentView.findViewById(R.id.linearLayout);
-        linearLayout.addView(room.getMyRecyleView());
+        linearLayout.addView(room.getRoomRecyclerView());
         int backgroundColor = ContextCompat.getColor(getContext(),R.color.backGroundMainActivity);
         linearLayout.setBackgroundColor(backgroundColor);
     }
+
 
     @Override
     public void onPause() {
