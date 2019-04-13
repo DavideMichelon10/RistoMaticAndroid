@@ -121,7 +121,6 @@ public class OrderViewModel extends AndroidViewModel {
         JSONObject report = getReportInformations();
         JSONArray courses = convertReportToJSON();
         report.put("portate",courses);
-
         orderRepository.sendReport(report, new VolleyCallbackObject() {
             @Override
             public void onSuccess(JSONObject result) {

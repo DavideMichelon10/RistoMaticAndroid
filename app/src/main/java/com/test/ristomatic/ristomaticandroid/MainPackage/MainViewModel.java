@@ -115,6 +115,7 @@ public class MainViewModel extends AndroidViewModel {
         currentDates.put(allDataUpdated.getString("CategoryDate","0"));
         currentDates.put(allDataUpdated.getString("DishVariantDate","0"));
         currentDates.put(allDataUpdated.getString("DishCategoryDate","0"));
+        System.out.println("DATE");
         System.out.println(currentDates.toString());
         mainRepository.updateTablesDate(currentDates, new VolleyCallback() {
             @Override
