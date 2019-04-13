@@ -32,7 +32,6 @@ public final class InsertDishUtilities {
 
                 return i;
             }
-            //System.out.println("I: "+CoursesAdapter.getCourses().get(coursePosition).getAllSelectedDishes().get(i).toString());
         }
         return -1;
     }
@@ -41,21 +40,14 @@ public final class InsertDishUtilities {
     public static void changeTimeSelectedDish(int coursePosition, int dishPosition, RecyclerView recyclerViewCourses) {
         int timeSelected = CoursesAdapter.getCourses().get(coursePosition).getAllSelectedDishes().get(dishPosition).getTimeSelected();
         CoursesAdapter.getCourses().get(coursePosition).getAllSelectedDishes().get(dishPosition).setTimeSelected(++timeSelected);
-        ((CoursesAdapter.CourseViewHolder) recyclerViewCourses
-                .findViewHolderForAdapterPosition(coursePosition))
-                .getRecyclerViewCourse()
-                .getAdapter()
-                .notifyItemChanged(dishPosition);
+        notifyItemChanged(recyclerViewCourses, coursePosition, dishPosition);
     }
+
     //Cambia timeSelectedDish nel caso sia specificato
     public static void changeTimeSelectedDish(int coursePosition, int dishPosition, RecyclerView recyclerViewCourses, int timeSelected) {
         int currentTimeSelected = CoursesAdapter.getCourses().get(coursePosition).getAllSelectedDishes().get(dishPosition).getTimeSelected();
         CoursesAdapter.getCourses().get(coursePosition).getAllSelectedDishes().get(dishPosition).setTimeSelected(currentTimeSelected + timeSelected);
-        ((CoursesAdapter.CourseViewHolder) recyclerViewCourses
-                .findViewHolderForAdapterPosition(coursePosition))
-                .getRecyclerViewCourse()
-                .getAdapter()
-                .notifyItemChanged(dishPosition);
+        notifyItemChanged(recyclerViewCourses, coursePosition, dishPosition);
     }
 
     //Inserisce il piatto all'interno della portata
@@ -72,6 +64,7 @@ public final class InsertDishUtilities {
                 .getAdapter()
                 .notifyItemInserted(CoursesAdapter.getCourses().get(coursePosition).getAllSelectedDishes().size() - 1);
     }
+
     //Inserisce il piatto all'interno della portata nel caso timeSelected sia specificato
     public static void insertDishInCourse(int coursePosition, SelectedDish insertedDish, RecyclerView recyclerViewCourses, int timeSelected) {
         insertedDish.setTimeSelected(timeSelected);
@@ -87,6 +80,7 @@ public final class InsertDishUtilities {
                 .getAdapter()
                 .notifyItemInserted(CoursesAdapter.getCourses().get(coursePosition).getAllSelectedDishes().size() - 1);
     }
+
     //Modifica il piatto all'interno della portata
     public static void modifyDishInCourse(int courseNumber, int dishPosition, RecyclerView recyclerViewCourses, int timeSelected, ArrayList<String> selectedVariants) {
         int coursePosition = 0;
@@ -105,13 +99,9 @@ public final class InsertDishUtilities {
                 break;
             }
         }
-        //Chiamo il notifyItemChanged sull'adapter della portata e come position passo dishPosition
-        ((CoursesAdapter.CourseViewHolder) recyclerViewCourses
-                .findViewHolderForAdapterPosition(coursePosition))
-                .getRecyclerViewCourse()
-                .getAdapter()
-                .notifyItemChanged(dishPosition);
+        notifyItemChanged(recyclerViewCourses, coursePosition, dishPosition);
     }
+
 
     //Inserisce il piatto nel caso la portata esista già
     public static void handleInExistingCourse(int courseNumber, final SelectedDish insertedDish) {
@@ -133,7 +123,7 @@ public final class InsertDishUtilities {
             } else {
                 insertDishInCourse(coursePosition, insertedDish, recyclerViewCourses);
             }
-        } catch (NullPointerException exeption) {
+        } catch (NullPointerException exception) {
             final int finalCoursePosition = coursePosition;
             final int finalCoursePosition1 = coursePosition;
             recyclerViewCourses.postDelayed(new Runnable() {
@@ -208,6 +198,7 @@ public final class InsertDishUtilities {
             ((RecyclerView) ((OrderActivity) context).findViewById(R.id.recyclerViewCourses)).getAdapter().notifyItemInserted(indexCoursePosition);
         }
     }
+
     //Inserisce il piatto nel caso la portata non esiste e timeSelected è specificato
     public static void insertDishInNewCourse(int courseNumber, SelectedDish insertedDish, int timeSelected) {
         //Assegna al piatto il timeSelected specificato
@@ -221,12 +212,25 @@ public final class InsertDishUtilities {
         //Se la portata da inserire non va inserita in una posizione già occupata da un altra portata
         if (indexCoursePosition == -1) {
             CoursesAdapter.getCourses().add(courseInserted);
-            ((RecyclerView) ((OrderActivity) context).findViewById(R.id.recyclerViewCourses)).getAdapter().notifyItemInserted(CoursesAdapter.getCourses().size());
+            notifyItemInserted(CoursesAdapter.getCourses().size());
         } else {
             CoursesAdapter.getCourses().add(indexCoursePosition, courseInserted);
-            ((RecyclerView) ((OrderActivity) context).findViewById(R.id.recyclerViewCourses)).getAdapter().notifyItemInserted(indexCoursePosition);
+            notifyItemInserted(indexCoursePosition);
         }
     }
+
+    private static void notifyItemInserted(int indexCoursePosition) {
+        try {
+            ((RecyclerView) ((OrderActivity) context).findViewById(R.id.recyclerViewCourses))
+                    .getAdapter()
+                    .notifyItemInserted(indexCoursePosition);
+        } catch (NullPointerException e) {
+            System.out.println(e.getMessage());
+            notifyItemInserted(indexCoursePosition);
+        }
+    }
+
+
     //Controlla se la portata da inserire esiste già
     public static boolean doesCourseExist(int courseNumber) {
         for (int i = 0; i < CoursesAdapter.getCourses().size(); i++) {
@@ -246,5 +250,21 @@ public final class InsertDishUtilities {
             }
         }
         return -1;
+    }
+
+
+    private static void notifyItemChanged(RecyclerView recyclerViewCourses, int coursePosition, int dishPosition) {
+        try {
+            //Chiamo il notifyItemChanged sull'adapter della portata e come position passo dishPosition
+            ((CoursesAdapter.CourseViewHolder) recyclerViewCourses
+                    .findViewHolderForAdapterPosition(coursePosition))
+                    .getRecyclerViewCourse()
+                    .getAdapter()
+                    .notifyItemChanged(dishPosition);
+        } catch (NullPointerException e) {
+            System.out.println(e.getMessage());
+            notifyItemChanged(recyclerViewCourses, coursePosition, dishPosition);
+        }
+
     }
 }

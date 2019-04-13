@@ -70,7 +70,7 @@ public class MainRepository {
 
     //manda 5 date da confrontare e riceve jsonArray con tabelle da aggiornare
     public void updateTablesDate(final JSONArray currentDates, final VolleyCallback volleyCallback){
-        JsonArrayRequest jsonArrayDateUpdated = new JsonArrayRequest(Request.Method.GET, VolleyCallApplication.updateTablesDate(), currentDates,
+        JsonArrayRequest jsonArrayDateUpdated = new JsonArrayRequest(Request.Method.PUT, VolleyCallApplication.updateTablesDate(), currentDates,
                 new Response.Listener<JSONArray>(){
                     @Override
                     public void onResponse(JSONArray response) {

@@ -3,8 +3,11 @@ package com.test.ristomatic.ristomaticandroid.LoginPackage;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
@@ -36,20 +39,31 @@ public class LoginActivity extends AppCompatActivity {
                         startActivity(intent);
                         break;
 
-                    case WRONG_PASSWORD:
-                        printToast("La password inserita non è corretta.");
+                    case CONNECTION_PROBLEM:
+                        showSnackBar("CONTROLLA LA CONNESSIONE");
+                        //printToast("La password inserita non è corretta.");
                         break;
 
-                    case CONNECTION_PROBLEM:
-                        printToast("Controlla la connessione");
+                    case WRONG_PASSWORD:
+                        showSnackBar("PASSWORD SBAGLIATA");
+                        //printToast("Controlla la connessione");
                         break;
 
                     default:
-                        printToast("Errore. Riprova.");
+                        showSnackBar("ERRORE SCONOSCIUTO");
+                        //printToast("Errore. Riprova.");
                         break;
                 }
             }
         });
+
+    }
+
+    private void showSnackBar(String text){
+        Snackbar snackbar = Snackbar.make(findViewById(R.id.buttonLogin),text, Snackbar.LENGTH_LONG);
+        View snackBarView = snackbar.getView();
+        snackBarView.setBackgroundColor(Color.RED);
+        snackbar.show();
     }
 
 
@@ -78,13 +92,13 @@ public class LoginActivity extends AppCompatActivity {
         int code;
 
         if(editCode.getText().toString().matches("")){
-            printToast("Inserisci il codice");
+            showSnackBar("Inserisci il codice");
         }else{
             code = Integer.parseInt(editCode.getText().toString());
             if(code > 999 && code < 10000){
                 loginViewModel.sendCode(code);
             }else{
-                printToast("Inserisci un numero di 4 cifre");
+                showSnackBar("Inserisci un numero di 4 cifre");
             }
         }
     }
