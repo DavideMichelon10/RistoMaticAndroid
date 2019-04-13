@@ -14,5 +14,5 @@
     <string name="Waiter">cameriere</string>
     <string name="id_tavolo">idTavolo</string>
     <string name="coperti">coperti</string>
-
+    <string name="comandaInviata">COMANDA INVIATA</string>
 </resources>

@@ -3,7 +3,7 @@ package com.test.ristomatic.ristomaticandroid.Application;
 import android.app.Application;
 
 //tutte le chiamate eseguite con volley
-public class VolleyCallApplication extends Application {
+public class VolleyCallApplication {
 
     public static String checkLogin(){
         return GlobalVariableApplication.serverAddress() +"v1/login";
@@ -21,6 +21,6 @@ public class VolleyCallApplication extends Application {
         return GlobalVariableApplication.serverAddress() + "v1/dates";
     }
     public static String report(){
-        return GlobalVariableApplication.serverAddress() +"report";
+        return GlobalVariableApplication.serverAddress() +"v1/report";
     }
 }
