@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,33 +22,44 @@ import java.util.List;
 import static com.test.ristomatic.ristomaticandroid.Application.GlobalVariableApplication.DELAY_REQUEST_TIME;
 
 
-public class TablesFragment extends Fragment {
+public class RoomFragment extends Fragment {
     //Time in mills
     private Room room;
     private int fragmentId;
     private Handler handler;
     private Runnable runnable;
     private LinearLayout linearLayout;
-    private View v;
-    public TablesFragment(){
+    private View fragmentView;
+
+
+    public RoomFragment(){
     }
+
+
     public int getFragmentId() {
         return fragmentId;
     }
 
+
     public void setFragmentId(int fragmentId) {
         this.fragmentId = fragmentId;
     }
+
+
     public Room getRoom() {
         return room;
     }
+
+
     public void setRoom(Room room) {
         this.room = room;
     }
-    public void init(List<Table> roomTables, RecyclerView recyclerView, Context mainActivityContext){
 
+
+    public void init(List<Table> roomTables, RecyclerView recyclerView, Context mainActivityContext) {
         room = new Room(roomTables, recyclerView, mainActivityContext);
     }
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,26 +73,36 @@ public class TablesFragment extends Fragment {
             }
         };
     }
-    static int counter = 0;
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        if(v == null){
-            v =  inflater.inflate(R.layout.fragment_room, container, false);
-            linearLayout = (LinearLayout) v.findViewById(R.id.linearLayout);
-            linearLayout.addView(room.getMyRecyleView());
-            linearLayout.setBackgroundColor(0xFFFFFF);
+        if(fragmentView == null){
+            fragmentView =  inflater.inflate(R.layout.fragment_room, container, false);
+            setLinearLayout();
+            room.getRoomAdapter().notifyDataSetChanged();
         }
-        room.getRoomAdapter().notifyDataSetChanged();
-        return v;
+        return fragmentView;
     }
+
+
+    private void setLinearLayout(){
+        linearLayout = fragmentView.findViewById(R.id.linearLayout);
+        linearLayout.addView(room.getRoomRecyclerView());
+        int backgroundColor = ContextCompat.getColor(getContext(),R.color.backGroundMainActivity);
+        linearLayout.setBackgroundColor(backgroundColor);
+    }
+
 
     @Override
     public void onPause() {
         super.onPause();
+
         handler.removeCallbacksAndMessages(null);
     }
+
 
     @Override
     public void onResume() {

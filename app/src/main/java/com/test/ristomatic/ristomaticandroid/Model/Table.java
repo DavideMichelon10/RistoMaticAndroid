@@ -1,12 +1,6 @@
 package com.test.ristomatic.ristomaticandroid.Model;
 
-import android.support.design.widget.TabLayout;
-import android.widget.Adapter;
-
-import com.test.ristomatic.ristomaticandroid.MainPackage.MainActivity;
-
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
@@ -20,17 +14,20 @@ public class Table {
 
 
     public Table(int idTable, String state,List<Date> reservations){
-        this.idTable = idTable;
-        this.state = state;
-        this.reservations = reservations;
-        this.subs = 3;
+        setIdTable(idTable);
+        setState(state);
+        setReservations(reservations);
+        setSubs(1);
     }
+
+
     public Table(int idTable, String state,List<Date> reservations, int subs){
-        this.idTable = idTable;
-        this.state = state;
-        this.reservations = reservations;
-        this.subs = subs;
+        setIdTable(idTable);
+        setState(state);
+        setReservations(reservations);
+        setSubs(subs);
     }
+
 
     public int getSubs() {
         return subs;
@@ -40,6 +37,7 @@ public class Table {
         this.subs = subs;
     }
 
+
     public void increseSubs() {
         this.subs++;
     }
@@ -47,6 +45,7 @@ public class Table {
     public void decreseSubs() {
         this.subs--;
     }
+
 
     public String getState() {
         return state;
@@ -56,6 +55,7 @@ public class Table {
         this.state = state;
     }
 
+
     public int getIdTable() {
         return idTable;
     }
@@ -63,6 +63,7 @@ public class Table {
     public void setIdTable(int idTable) {
         this.idTable = idTable;
     }
+
 
     public int getIdRoom() {
         return idRoom;
@@ -72,6 +73,7 @@ public class Table {
         this.idRoom = idRoom;
     }
 
+
     public List<Date> getReservations() {
         return reservations;
     }
@@ -80,33 +82,33 @@ public class Table {
         this.reservations = reservations;
     }
 
+
     public void addReservations(Date reservation) {
         this.reservations.add(reservation);
     }
     @Override
     public String toString() {
-        String s = "IN TOSTRING " +this.getIdTable() +" "+ this.getState() +" ";
+        String s = "IN TOSTRING " + this.getIdTable() + " " + this.getState() + " ";
         //for (Date date : reservations) {
             //s+= date.toString();
         //}
         return s;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Table)) return false;
         Table table = (Table) o;
-        return idTable == table.idTable &&
-                idRoom == table.idRoom &&
-                Objects.equals(state, table.state);
+        return getIdTable() == table.idTable &&
+                getIdRoom() == table.idRoom &&
+                Objects.equals(getState(), table.state);
     }
+
 
     @Override
     public int hashCode() {
         return Objects.hash(idTable, state, idRoom);
     }
-
-
 }
-

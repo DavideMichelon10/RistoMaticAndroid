@@ -8,16 +8,16 @@ import java.util.List;
 
 //contiene lista fragment presenti nella viewPager
 public class PagerAdapter extends FragmentStatePagerAdapter {
-    private List<TablesFragment> rooms = new LinkedList<>();
+    private List<RoomFragment> rooms = new LinkedList<>();
     public PagerAdapter(FragmentManager fm) {
         super(fm);
     }
 
-    public void addFragment(TablesFragment tablesFragment){
-        getRooms().add(tablesFragment);
+    public void addFragment(RoomFragment roomFragment){
+        getRooms().add(roomFragment);
     }
     @Override
-    public TablesFragment getItem(int position) {
+    public RoomFragment getItem(int position) {
         return getRooms().get(position);
     }
 
@@ -26,11 +26,11 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
         return getRooms().size();
     }
 
-    public List<TablesFragment> getRooms() {
+    public List<RoomFragment> getRooms() {
         return rooms;
     }
 
-    public void setRooms(List<TablesFragment> rooms) {
+    public void setRooms(List<RoomFragment> rooms) {
         this.rooms = rooms;
     }
 

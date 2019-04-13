@@ -28,22 +28,29 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
         this.context = context;
     }
 
+
     public List<Table> getTables() {
         return tables;
     }
+
 
     public void setTables(List<Table> tables) {
         this.tables = tables;
     }
 
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.table_layout, parent, false);
-        ViewHolder viewHolder = new ViewHolder(v);
-        if (viewHolder.getAdapterPosition() >= 0)
-            viewHolder.setState(tables.get(viewHolder.getAdapterPosition()).getState());
-        return viewHolder;
+        ViewHolder tableViewHolder = new ViewHolder(v);
+        setStateViewHolder(tableViewHolder);
+        return tableViewHolder;
+    }
+
+    public void setStateViewHolder(ViewHolder tableViewHolder){
+        if (tableViewHolder.getAdapterPosition() >= 0)
+            tableViewHolder.setState(tables.get(tableViewHolder.getAdapterPosition()).getState());
     }
 
     @Override
@@ -52,6 +59,7 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
         holder.textViewId.setText(Integer.toString(table.getIdTable()));
         holder.setState(table.getState());
     }
+
 
     @Override
     public int getItemCount() {
@@ -64,19 +72,17 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
         public String State;
         View itemView;
 
+
         public ViewHolder(@NonNull final View itemView) {
             super(itemView);
             this.itemView = itemView;
             //all'interno di list_item
-            textViewId = (TextView) itemView.findViewById(R.id.textViewIdTavolo);
-            /*TODO: rendere il seguente codice D.R.Y.*/
+            textViewId = itemView.findViewById(R.id.textViewIdTavolo);
             textViewId.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (getState().compareTo("Occupato") != 0) {
-                        FragmentManager fm = ((MainActivity) context).getSupportFragmentManager();
-                        SelectSeatsDialog selectSeatsDialog = SelectSeatsDialog.newInstance((String) textViewId.getText(), tables.get(getAdapterPosition()).getSubs());
-                        selectSeatsDialog.show(fm, "selected_seats_fragment");
+                        showSelectSeatsDialog();
                     } else {
                         MainActivity.getMainViewModel().changeTableState(Integer.parseInt((String) textViewId.getText()), "Occupato");
                         Intent intent = new Intent(ContextApplication.getAppContext(), OrderActivity.class);
@@ -90,13 +96,20 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
             textViewId.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    FragmentManager fm = ((MainActivity) context).getSupportFragmentManager();
-                    SelectSeatsDialog selectSeatsDialog = SelectSeatsDialog.newInstance((String) textViewId.getText(), tables.get(getAdapterPosition()).getSubs());
-                    selectSeatsDialog.show(fm, "selected_seats_fragment");
+                    showSelectSeatsDialog();
                     return false;
                 }
             });
         }
+
+
+        public void showSelectSeatsDialog(){
+            FragmentManager fm = ((MainActivity) context).getSupportFragmentManager();
+            int subs = tables.get(getAdapterPosition()).getSubs();
+            SelectSeatsDialog selectSeatsDialog = SelectSeatsDialog.newInstance((String) textViewId.getText(), subs);
+            selectSeatsDialog.show(fm, "selected_seats_fragment");
+        }
+
 
         public String getState() {
             return State;
@@ -106,7 +119,7 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
             State = state;
             if (State.compareTo("Occupato") == 0)
                 textViewId.setBackgroundColor(0xFFAFAFAF);
-            else
+            else if(State.compareTo("Libero") == 0)
                 this.textViewId.setBackgroundColor(0xFF32E567);
         }
     }

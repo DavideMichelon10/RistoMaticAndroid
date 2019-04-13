@@ -13,6 +13,7 @@ import android.os.Bundle;
 import com.test.ristomatic.ristomaticandroid.Application.ContextApplication;
 import com.test.ristomatic.ristomaticandroid.LoginPackage.LoginActivity;
 import com.test.ristomatic.ristomaticandroid.LoginPackage.LoginViewModel;
+import com.test.ristomatic.ristomaticandroid.MainPackage.GraphicDirectory.GraphicComponents;
 import com.test.ristomatic.ristomaticandroid.MainPackage.GraphicDirectory.PagerAdapter;
 import com.test.ristomatic.ristomaticandroid.R;
 import com.test.ristomatic.ristomaticandroid.RoomDatabase.AppDatabase;
@@ -24,12 +25,11 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.Semaphore;
 
 public class MainActivity extends AppCompatActivity {
     private static MainViewModel mainViewModel;
-    public ViewPager viewPager;
-    private TabLayout tabLayout;
-    private PagerAdapter pagerAdapter;
+    private static GraphicComponents graphicComponents;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,15 +37,21 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+        ViewPager viewPager = findViewById(R.id.viewPager);
+        TabLayout tabLayout = findViewById(R.id.tabLayout);
+        PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager());
+        graphicComponents = new GraphicComponents(viewPager, tabLayout, pagerAdapter);
 
-        final ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
-        pagerAdapter = new PagerAdapter(getSupportFragmentManager());
-        tabLayout = (TabLayout) findViewById(R.id.tabLayout);
+        mainViewModel.init(new MainRepository(), graphicComponents.getPagerAdapter(), this);
 
-       mainViewModel.init(new MainRepository(), pagerAdapter, viewPager, tabLayout, this);
-       mainViewModel.updateablesDate();
-
+        mainViewModel.updateablesDate();
     }
+
+
+    public static void createView(int numberRooms){
+        graphicComponents.createView(numberRooms);
+    }
+
 
     public static MainViewModel getMainViewModel() {
         return mainViewModel;
