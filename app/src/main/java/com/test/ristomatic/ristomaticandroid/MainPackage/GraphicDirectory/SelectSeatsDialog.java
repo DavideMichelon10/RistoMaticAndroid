@@ -25,18 +25,6 @@ public class SelectSeatsDialog extends DialogFragment {
         builder.setTitle("Numero coperti: ");
         //Assegna gli argomenti
         final String idTable = getArguments().getString("idTavolo");
-        final int currentSubs = getArguments().getInt("currentSubs");
-
-        //Crea il radiogroup per scegliere il sottoconto
-        final RadioGroup subSelector = new RadioGroup(getContext());
-        if (currentSubs > 0){
-            for (int i=0;i<=currentSubs;i++){
-                RadioButton radioButton = new RadioButton(getContext());
-                radioButton.setText(i+1);
-                subSelector.addView(radioButton, i);
-            }
-            builder.setCustomTitle(subSelector);
-        }
 
         //Crea il numberPicker per i coperti e il tasto "ok"
         final NumberPicker seatsPicker = new NumberPicker(getContext());
@@ -48,17 +36,7 @@ public class SelectSeatsDialog extends DialogFragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Intent intent = new Intent(ContextApplication.getAppContext(), OrderActivity.class);
-                /*TODO: retrive the checked radioButton and add the selected sub to the json sended after pressing "SEND"*/
-                if(currentSubs > 0){
-                    RadioButton selectedSub = subSelector.findViewById(subSelector.getCheckedRadioButtonId());
-                    //vero se bisogna aggiungere un sottoconto
-                    if(currentSubs == Integer.parseInt(selectedSub.getText().toString())-1)
-                        intent.putExtra("selectedSub", selectedSub.getText().toString());
-                }
-                else{
-                    intent.putExtra("selectedSub", 1);
-                    MainActivity.getMainViewModel().changeTableState(Integer.parseInt(idTable), "Occupato");
-                }
+                MainActivity.getMainViewModel().changeTableState(Integer.parseInt(idTable), "Occupato");
                 intent.putExtra(getString(R.string.id_tavolo), idTable);
                 intent.putExtra(getString(R.string.coperti), seatsPicker.getValue());
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -69,11 +47,10 @@ public class SelectSeatsDialog extends DialogFragment {
     }
 
 
-    public static SelectSeatsDialog newInstance(String idTavolo, int currentSubs) {
+    public static SelectSeatsDialog newInstance(String idTavolo) {
         SelectSeatsDialog frag = new SelectSeatsDialog();
         Bundle args = new Bundle();
         args.putString("idTavolo", idTavolo);
-        args.putInt("currentSubs", currentSubs);
         frag.setArguments(args);
         return frag;
     }
