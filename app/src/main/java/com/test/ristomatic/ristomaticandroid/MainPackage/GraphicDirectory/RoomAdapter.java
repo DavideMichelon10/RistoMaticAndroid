@@ -84,7 +84,6 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
                     if (getState().compareTo("Occupato") != 0) {
                         showSelectSeatsDialog();
                     } else {
-                        MainActivity.getMainViewModel().changeTableState(Integer.parseInt((String) textViewId.getText()), "Occupato");
                         Intent intent = new Intent(ContextApplication.getAppContext(), OrderActivity.class);
                         String idTable = (String) textViewId.getText();
                         intent.putExtra("idTavolo", idTable);

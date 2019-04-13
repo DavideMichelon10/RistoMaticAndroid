@@ -1,30 +1,26 @@
 package com.test.ristomatic.ristomaticandroid.Model;
 
-import java.util.Date;
-import java.util.List;
+
 import java.util.Objects;
 
 public class Table {
     private int idTable;
     private String state;
-    private List<Date> reservations;
     private int idRoom;
     //Numero di sottoconti presenti su questo tavolo
     private int subs;
 
 
-    public Table(int idTable, String state,List<Date> reservations){
+    public Table(int idTable, String state){
         setIdTable(idTable);
         setState(state);
-        setReservations(reservations);
         setSubs(1);
     }
 
 
-    public Table(int idTable, String state,List<Date> reservations, int subs){
+    public Table(int idTable, String state, int subs){
         setIdTable(idTable);
         setState(state);
-        setReservations(reservations);
         setSubs(subs);
     }
 
@@ -71,28 +67,6 @@ public class Table {
 
     public void setIdRoom(int idRoom) {
         this.idRoom = idRoom;
-    }
-
-
-    public List<Date> getReservations() {
-        return reservations;
-    }
-
-    public void setReservations(List<Date> reservations) {
-        this.reservations = reservations;
-    }
-
-
-    public void addReservations(Date reservation) {
-        this.reservations.add(reservation);
-    }
-    @Override
-    public String toString() {
-        String s = "IN TOSTRING " + this.getIdTable() + " " + this.getState() + " ";
-        //for (Date date : reservations) {
-            //s+= date.toString();
-        //}
-        return s;
     }
 
 

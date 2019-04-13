@@ -35,7 +35,7 @@ public class MainRepository {
     }
     //
     public void getTablesInRoom(final VolleyCallback volleyCallback, int room) {
-        JsonArrayRequest jsonArrayTableRoom = new JsonArrayRequest(Request.Method.GET, VolleyCallApplication.getTablesInRoom() + "/" + room, null,
+        JsonArrayRequest jsonArrayTableRoom = new JsonArrayRequest(Request.Method.GET, VolleyCallApplication.getTablesRooms() + "/" + room, null,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
@@ -44,7 +44,6 @@ public class MainRepository {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                System.out.println("OnError getTablesInRoom");
                 //getTablesRooms(volleyCallback);
             }
         });
@@ -71,7 +70,7 @@ public class MainRepository {
 
     //manda 5 date da confrontare e riceve jsonArray con tabelle da aggiornare
     public void updateTablesDate(final JSONArray currentDates, final VolleyCallback volleyCallback){
-        JsonArrayRequest jsonArrayDateUpdated = new JsonArrayRequest(Request.Method.POST, VolleyCallApplication.updateTablesDate(), currentDates,
+        JsonArrayRequest jsonArrayDateUpdated = new JsonArrayRequest(Request.Method.GET, VolleyCallApplication.updateTablesDate(), currentDates,
                 new Response.Listener<JSONArray>(){
                     @Override
                     public void onResponse(JSONArray response) {
