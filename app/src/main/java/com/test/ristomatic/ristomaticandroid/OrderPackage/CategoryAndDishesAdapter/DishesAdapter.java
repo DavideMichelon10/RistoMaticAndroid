@@ -91,15 +91,19 @@ public class DishesAdapter extends RecyclerView.Adapter<DishesAdapter.DishViewHo
 
 
         public SelectVariantsDialog createAlertDialog(){
-            SelectedDish insertedDish = new SelectedDish(dishes.get(getAdapterPosition()).getDishName());
+            String selectedDishName = dishes.get(getAdapterPosition()).getDishName();
+            int selectedDishId = dishes.get(getAdapterPosition()).getIdDish();
+            SelectedDish insertedDish = new SelectedDish(selectedDishName, selectedDishId);
             List<String> variants = OrderViewModel.getDishModelDao().getVariantsNameOfDish(dishes.get(getAdapterPosition()).getIdDish());
-            SelectVariantsDialog selectVariantsDialog = SelectVariantsDialog.newInsertionInstance(insertedDish.getSelectedDishName(), (ArrayList<String>) variants, context);
+            SelectVariantsDialog selectVariantsDialog = SelectVariantsDialog.newInsertionInstance(insertedDish.getSelectedDishName(), insertedDish.getSelectedDishId(), (ArrayList<String>) variants, context);
             return selectVariantsDialog;
         }
 
 
         public void insertDish(final int courseNumber) throws ArrayIndexOutOfBoundsException{
-            SelectedDish insertedDish = new SelectedDish(dishes.get(getAdapterPosition()).getDishName());
+            String selectedDishName = dishes.get(getAdapterPosition()).getDishName();
+            int selectedDishId = dishes.get(getAdapterPosition()).getIdDish();
+            SelectedDish insertedDish = new SelectedDish(selectedDishName, selectedDishId);
             if(InsertDishUtilities.doesCourseExist(courseNumber)){
                 InsertDishUtilities.handleInExistingCourse(courseNumber, insertedDish);
             }

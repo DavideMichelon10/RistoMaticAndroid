@@ -21,6 +21,6 @@ public class VolleyCallApplication extends Application {
         return GlobalVariableApplication.serverAddress() + "v1/dates";
     }
     public static String report(){
-        return GlobalVariableApplication.serverAddress() +"report";
+        return GlobalVariableApplication.serverAddress() +"v1/report";
     }
 }

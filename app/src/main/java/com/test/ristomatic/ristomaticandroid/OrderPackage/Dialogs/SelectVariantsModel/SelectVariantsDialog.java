@@ -38,6 +38,7 @@ public class SelectVariantsDialog extends DialogFragment {
 
         final EditText timeSelectedEditText = new EditText(getContext());
         final String dishName = getArguments().getString("dish");
+        final int dishId = getArguments().getInt("dishId");
         final ArrayList<String> variants = getArguments().getStringArrayList("variants");
         final List<Boolean> checkedVariants;
         final EditText noteEditText = new EditText(getContext());
@@ -104,7 +105,7 @@ public class SelectVariantsDialog extends DialogFragment {
                     } else {
                         if (noteEditText.getText().toString().compareTo("") != 0)
                             selectedVariants.add(noteEditText.getText().toString());
-                        SelectedDish insertedDish = new SelectedDish(dishName, selectedVariants);
+                        SelectedDish insertedDish = new SelectedDish(dishName, dishId, selectedVariants);
                         //Se la portata non esiste ne viene creata una nuova con il numero di portata e viene aggiunta alla lista
                         //successivamente viene chiamato il notifyItemInserted sulla recyclerViewCourses
                         if (!InsertDishUtilities.doesCourseExist(courseNumber)) {
@@ -146,11 +147,12 @@ public class SelectVariantsDialog extends DialogFragment {
     }
 
     //Aggiunge a arguments la lista di varianti da mostrare e ritorna l'istanza del Dialog
-    public static SelectVariantsDialog newInsertionInstance(String dishName, ArrayList<String> variants, Context orderActivityContext) {
+    public static SelectVariantsDialog newInsertionInstance(String dishName, int dishID, ArrayList<String> variants, Context orderActivityContext) {
         SelectVariantsDialog.orderActivityContext = orderActivityContext;
         SelectVariantsDialog frag = new SelectVariantsDialog();
         Bundle args = new Bundle();
         args.putString("dish", dishName);
+        args.putInt("dishId", dishID);
 
         args.putStringArrayList("variants", variants);
         frag.setArguments(args);
