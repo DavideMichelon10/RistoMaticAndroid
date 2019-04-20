@@ -31,7 +31,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract DishModelDao getDishModelDao();
     public abstract VariantModelDao getVariantModelDao();
     public abstract CategoryModelDao getCategoryModelDao();
-    public abstract CategoryVariantJoinDao getdishVariantJoinDao();
+    public abstract CategoryVariantJoinDao getCategoryVariantJoinDao();
     public abstract DishCategoryJoinDao getDishCategoryJoinDao();
 
 }

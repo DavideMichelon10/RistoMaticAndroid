@@ -172,7 +172,7 @@ public class MainViewModel extends AndroidViewModel {
                 editor.commit();
                 break;
             case 3:
-                CategoryVariantJoinDao categoryVariantJoinDao = appDatabase.getdishVariantJoinDao();
+                CategoryVariantJoinDao categoryVariantJoinDao = appDatabase.getCategoryVariantJoinDao();
                 categoryVariantJoinDao.nukeTableDishVariant();
                 for(int i=0; i<jsonTable.getJSONArray("table").length(); i++){
                     String dishVariantJoinInString = jsonTable.getJSONArray("table").get(i).toString();

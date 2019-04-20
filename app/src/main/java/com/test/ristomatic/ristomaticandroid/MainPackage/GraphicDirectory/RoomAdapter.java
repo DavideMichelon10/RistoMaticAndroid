@@ -95,7 +95,7 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
             textViewId.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    showSelectSeatsDialog();
+                    infoTableDialog();
                     return false;
                 }
             });
@@ -106,6 +106,12 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
             FragmentManager fm = ((MainActivity) context).getSupportFragmentManager();
             SelectSeatsDialog selectSeatsDialog = SelectSeatsDialog.newInstance((String) textViewId.getText());
             selectSeatsDialog.show(fm, "selected_seats_fragment");
+        }
+
+        public void infoTableDialog(){
+            FragmentManager fm = ((MainActivity) context).getSupportFragmentManager();
+            InfoTableDialog infoTableDialog = new InfoTableDialog();
+            infoTableDialog.show(fm, "info_table_dialog");
         }
 
 

@@ -6,6 +6,7 @@ import android.app.Application;
 public class GlobalVariableApplication extends Application {
     public static final int DELAY_REQUEST_TIME = 3000;
     public static final int COURSES_NUMBER = 4;
+    public static final int VALUE_NUMBER_PICKER_COPERTI_START = 2;
     public static boolean firstTime = false;
     private static String ipServer;
     private static String port;
@@ -31,6 +32,6 @@ public class GlobalVariableApplication extends Application {
 
     public static String serverAddress(){
         //return "http://"+ getIpServer() +":"+getPort()+"/";
-        return "http://192.168.1.86:8080/";
+        return "http://192.168.1.124:8080/";
     }
 }

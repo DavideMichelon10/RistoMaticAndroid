@@ -14,6 +14,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.test.ristomatic.ristomaticandroid.Application.ContextApplication;
+import com.test.ristomatic.ristomaticandroid.Application.GlobalVariableApplication;
 import com.test.ristomatic.ristomaticandroid.MainPackage.MainActivity;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.OrderActivity;
 import com.test.ristomatic.ristomaticandroid.R;
@@ -31,7 +32,7 @@ public class SelectSeatsDialog extends DialogFragment {
         builder.setView(seatsPicker);
         seatsPicker.setMinValue(1);
         seatsPicker.setMaxValue(100);
-        seatsPicker.setValue(2);
+        seatsPicker.setValue(GlobalVariableApplication.VALUE_NUMBER_PICKER_COPERTI_START);
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
