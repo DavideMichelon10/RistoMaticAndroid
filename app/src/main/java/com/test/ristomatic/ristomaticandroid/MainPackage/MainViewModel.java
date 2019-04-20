@@ -112,7 +112,7 @@ public class MainViewModel extends AndroidViewModel {
         currentDates.put(allDataUpdated.getString("VariantDate","0"));
         currentDates.put(allDataUpdated.getString("DishDate","0"));
         currentDates.put(allDataUpdated.getString("CategoryDate","0"));
-        currentDates.put(allDataUpdated.getString("DishVariantDate","0"));
+        currentDates.put(allDataUpdated.getString("CategoryVariantDate","0"));
         currentDates.put(allDataUpdated.getString("DishCategoryDate","0"));
 
         mainRepository.updateTablesDate(currentDates, new VolleyCallback() {
@@ -179,7 +179,7 @@ public class MainViewModel extends AndroidViewModel {
                     CategoryVariantJoin categoryVariantJoin = gson.fromJson(dishVariantJoinInString, CategoryVariantJoin.class);
                     categoryVariantJoinDao.addCategoryVariant(categoryVariantJoin);
                 }
-                editor.putString("DishVariantDate", jsonTable.getString("dataUpdated"));
+                editor.putString("CategoryVariantDate", jsonTable.getString("dataUpdated"));
                 editor.commit();
                 break;
             case 4:
@@ -187,6 +187,7 @@ public class MainViewModel extends AndroidViewModel {
                 dishCategoryJoinDao.nukeTableDishCategory();
                 for(int i=0; i<jsonTable.getJSONArray("table").length(); i++){
                     String dishCategoryJoinInString = jsonTable.getJSONArray("table").get(i).toString();
+                    System.out.println("STRINGAA: "+dishCategoryJoinInString);
                     DishCategoryJoin dishCategoryJoin = gson.fromJson(dishCategoryJoinInString, DishCategoryJoin.class);
                     dishCategoryJoinDao.addDishCategory(dishCategoryJoin);
                 }

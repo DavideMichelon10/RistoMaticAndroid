@@ -51,8 +51,8 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ca
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    
-                    OrderViewModel.getDishedAdapter().setDishes(OrderViewModel.getDishModelDao().getSelectedDishes(getAdapterPosition()+1));
+                    int idCategory = categories.get(getAdapterPosition()).getIdCategory();
+                    OrderViewModel.getDishedAdapter().setDishes(OrderViewModel.getDishModelDao().getSelectedDishes(idCategory));
                     OrderViewModel.getDishedAdapter().notifyDataSetChanged();
                 }
             });
