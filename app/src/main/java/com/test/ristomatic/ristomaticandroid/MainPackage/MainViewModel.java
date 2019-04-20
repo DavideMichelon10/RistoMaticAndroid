@@ -2,6 +2,7 @@ package com.test.ristomatic.ristomaticandroid.MainPackage;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.v7.widget.RecyclerView;
 
@@ -61,7 +62,7 @@ public class MainViewModel extends AndroidViewModel {
 
 
     //metodo chiamato una sola volta, inizilizza tutte le sale con i tavoli
-    public void init(final MainRepository mainRepository, final PagerAdapter pagerAdapter, final MainActivity mainActivity) {
+    public void init(final MainRepository mainRepository, final PagerAdapter pagerAdapter) {
         this.mainRepository = mainRepository;
         setPagerAdapter(pagerAdapter);
 
@@ -69,7 +70,7 @@ public class MainViewModel extends AndroidViewModel {
             @Override
             public void onSuccess(JSONArray result) {
                 try {
-                    initializeTableFragments(result, pagerAdapter, mainActivity);
+                    initializeTableFragments(result, pagerAdapter);
                     numberRooms = result.length();
                     MainActivity.createView(numberRooms);
                 } catch (JSONException e) {
@@ -79,7 +80,7 @@ public class MainViewModel extends AndroidViewModel {
         });
     }
 
-    public void initializeTableFragments(JSONArray result, PagerAdapter pagerAdapter, MainActivity mainActivity) throws JSONException {
+    public void initializeTableFragments(JSONArray result, PagerAdapter pagerAdapter) throws JSONException {
         //chiamata sale e tavoli iniziali
         for(int i=0; i<result.length(); i++){
             JSONArray tablesRoomFromCallback = result.getJSONArray(i);
@@ -90,7 +91,7 @@ public class MainViewModel extends AndroidViewModel {
             RoomFragment roomFragment = new RoomFragment();
             roomFragment.setFragmentId(i);
             pagerAdapter.getRooms().add(roomFragment);
-            roomFragment.init(tablesRoom, new RecyclerView(ContextApplication.getAppContext()), mainActivity);
+            roomFragment.init(tablesRoom, new RecyclerView(ContextApplication.getAppContext()), ContextApplication.getAppContext());
         }
     }
 
@@ -99,7 +100,6 @@ public class MainViewModel extends AndroidViewModel {
             JSONObject jsonObject = tablesRoomFromCallback.getJSONObject(j);
             Table table = new Gson().fromJson(jsonObject.toString(), Table.class);
             tablesRoom.add(table);
-            //popolare per prima volta lista tables, mettere progressDialog o qualcosa che attenda la fine
         }
     }
 
