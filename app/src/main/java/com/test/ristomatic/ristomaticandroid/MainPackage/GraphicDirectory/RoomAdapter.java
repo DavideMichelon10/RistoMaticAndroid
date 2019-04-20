@@ -104,13 +104,13 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
 
         public void showSelectSeatsDialog(){
             FragmentManager fm = ((MainActivity) context).getSupportFragmentManager();
-            SelectSeatsDialog selectSeatsDialog = SelectSeatsDialog.newInstance((String) textViewId.getText());
+            SelectSeatsDialog selectSeatsDialog = SelectSeatsDialog.newInstance(Integer.parseInt(textViewId.getText().toString()));
             selectSeatsDialog.show(fm, "selected_seats_fragment");
         }
 
         public void infoTableDialog(){
             FragmentManager fm = ((MainActivity) context).getSupportFragmentManager();
-            InfoTableDialog infoTableDialog = new InfoTableDialog();
+            InfoTableDialog infoTableDialog = InfoTableDialog.newIstance(Integer.parseInt(textViewId.getText().toString()));
             infoTableDialog.show(fm, "info_table_dialog");
         }
 

@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.test.ristomatic.ristomaticandroid.Application.ContextApplication;
+import com.test.ristomatic.ristomaticandroid.Application.GlobalVariableApplication;
 import com.test.ristomatic.ristomaticandroid.Application.VolleyCallbackObject;
 import com.test.ristomatic.ristomaticandroid.LoginPackage.LoginViewModel;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.CategoryAndDishesAdapter.CategoriesAdapter;
@@ -47,17 +48,24 @@ public class OrderViewModel extends AndroidViewModel {
         orderRepository = new OrderRepository();
     }
 
+    public void init(int tableId){
+        this.seatsNumber = GlobalVariableApplication.VALUE_NUMBER_PICKER_COPERTI_START;
+        initializeVM();
+    }
 
-    public void init(Context context, int tableId, int seatsNumber) {
+    public void init(int tableId, int seatsNumber) {
         this.seatsNumber = seatsNumber;
         this.tableId = tableId;
+        initializeVM();
+    }
+
+    public void initializeVM(){
         setAppDatabase(AppDatabase.getDatabase(this.getApplication()));
         setCategoryModelDao(getAppDatabase().getCategoryModelDao());
         setDishModelDao(getAppDatabase().getDishModelDao());
         setAdapterCategories(new CategoriesAdapter(getCategoryModelDao().getAllCategories()));
-        setDishedAdapter(new DishesAdapter(getDishModelDao().getSelectedDishes(1), context));
-        setCoursesAdapter(new CoursesAdapter(context, courses));
-
+        setDishedAdapter(new DishesAdapter(getDishModelDao().getSelectedDishes(1), getApplication()));
+        setCoursesAdapter(new CoursesAdapter(getApplication(), courses));
     }
 
 

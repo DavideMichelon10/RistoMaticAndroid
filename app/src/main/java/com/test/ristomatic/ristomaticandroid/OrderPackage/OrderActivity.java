@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -34,11 +35,17 @@ public class OrderActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
-        //intent contenete idTavolo e seatsNumber
-        //Assegna il context alla utilities per inserire il piatto
         InsertDishUtilities.setContext(this);
+        final ProgressBar progress = (ProgressBar) findViewById(R.id.progressBar);
+        progress.setVisibility(View.VISIBLE);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                initializeVM();
+                progress.setVisibility(View.GONE);
+            }
+        }).start();
 
-        initializeViewModel();
         createCourseSelection();
         initializeRecyclerViewCategories();
         initializeRecyclerViewDishes();
@@ -46,30 +53,30 @@ public class OrderActivity extends AppCompatActivity {
     }
 
 
-    public void initializeViewModel(){
-        Intent intent = getIntent();
+    public void initializeVM(){
         orderViewModel = ViewModelProviders.of(this).get(OrderViewModel.class);
-        idTable = Integer.parseInt(intent.getStringExtra(getString(R.string.id_tavolo)));
-        seatsNumber=intent.getIntExtra(getString(R.string.coperti),0);
-        orderViewModel.init(this,idTable, seatsNumber);
+        Intent intent = getIntent();
+        idTable = intent.getIntExtra(String.valueOf(R.string.id_tavolo), 0);
+
+        boolean richiama = intent.getBooleanExtra(String.valueOf(R.string.richiama), false);
+        if(richiama){
+            orderViewModel.init(idTable);
+        }else{
+            seatsNumber = intent.getIntExtra(getString(R.string.coperti),GlobalVariableApplication.VALUE_NUMBER_PICKER_COPERTI_START);
+            orderViewModel.init(idTable, seatsNumber);
+        }
     }
 
 
     private void createCourseSelection()
     {
-        //assegna a rgp il RadioGroup dell'activity_order.xml
         rgp = findViewById(R.id.flow_group);
-        //Parametri grafici del RadioGroup
         RadioGroup.LayoutParams rprms;
-        //Aggiunge un RadioButton ogni volta che cicla
         for(int i = 0; i< GlobalVariableApplication.getCoursesNumber(); i++){
-            //Settando i valori del RadioButon
             RadioButton radioButton = new RadioButton(this);
             radioButton.setText(""+(i+1));
             rprms= new RadioGroup.LayoutParams(RadioGroup.LayoutParams.WRAP_CONTENT, RadioGroup.LayoutParams.MATCH_PARENT);
-            //Aggiugnge il radioButton al RadioGroup
             rgp.addView(radioButton, -1, rprms);
-            //Il primo button è già clickato di default
             if(i==0) {
                 radioButton.performClick();
             }

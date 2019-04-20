@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.test.ristomatic.ristomaticandroid.OrderPackage.OrderActivity;
@@ -22,7 +23,6 @@ import static com.test.ristomatic.ristomaticandroid.Application.GlobalVariableAp
 public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.CourseViewHolder> {
     private Context context;
     private static List<Course> courses;
-
 
     public CoursesAdapter(Context context, List<Course> courses){
         this.context = context;
