@@ -6,7 +6,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.TextView;
 
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.SelectedVariant;
 
@@ -68,7 +67,7 @@ public class MultiChoiceAdapter extends RecyclerView.Adapter<MultiChoiceAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull CheckItemViewHolder holder, int position) {
-        holder.setText(variants.get(position).getSelectedVariantName());
+        holder.setText(variants.get(position).getVariantName());
         holder.check(checkedVariants.get(position));
     }
 

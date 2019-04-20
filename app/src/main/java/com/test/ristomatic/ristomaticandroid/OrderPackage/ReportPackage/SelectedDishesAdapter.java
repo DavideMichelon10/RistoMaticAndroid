@@ -8,17 +8,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.test.ristomatic.ristomaticandroid.Application.ContextApplication;
-import com.test.ristomatic.ristomaticandroid.MainPackage.GraphicDirectory.SelectSeatsDialog;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.Dialogs.SelectVariantsModel.SelectVariantsDialog;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.OrderActivity;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.OrderViewModel;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.Course;
-import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.SelectedDish;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.SelectedVariant;
 import com.test.ristomatic.ristomaticandroid.R;
 
@@ -95,15 +91,16 @@ public class SelectedDishesAdapter extends RecyclerView.Adapter<SelectedDishesAd
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Map<Integer, String> variantsMap = (Map<Integer, String>) OrderViewModel.getDishModelDao().getVariantsNameOfDish(dishName
+                    Map<Integer, String> variantsMap = (Map<Integer, String>) OrderViewModel.getDishModelDao().getVariantsNameAndIdOfDish(dishName
                             .getText().toString());
-                    List<SelectedVariant> variants = hashMapToSelectedVariants(variantsMap);
+                    ArrayList<SelectedVariant> variants = (ArrayList<SelectedVariant>) OrderViewModel.getDishModelDao().getVariantsNameAndIdOfDish(dishName
+                            .getText().toString());
                     ArrayList<SelectedVariant> selectedVariantsList = (ArrayList<SelectedVariant>) ((SelectedVariantsAdapter)selectedVariants
                             .getAdapter()).variantsSelected;
                     String note = "";
                     selectedVariantsList = new ArrayList<>(selectedVariantsList);
                     if(selectedVariantsList.size() > 0 && !variants.contains(selectedVariantsList.get(selectedVariantsList.size()-1)))
-                        note = selectedVariantsList.remove(selectedVariantsList.size()-1).getSelectedVariantName();
+                        note = selectedVariantsList.remove(selectedVariantsList.size()-1).getVariantName();
                     String timeSelectedString = timeSelected.getText().toString();
                     SelectVariantsDialog selectVariantsDialog = SelectVariantsDialog.newModificationInstance(getAdapterPosition(),
                             variants, timeSelectedString, selectedVariantsList, note, context);

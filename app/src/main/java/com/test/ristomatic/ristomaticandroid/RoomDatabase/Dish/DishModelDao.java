@@ -4,6 +4,7 @@ import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 
+import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.SelectedVariant;
 import com.test.ristomatic.ristomaticandroid.RoomDatabase.Dish.DishModel;
 import com.test.ristomatic.ristomaticandroid.RoomDatabase.Variant.VariantModel;
 
@@ -39,6 +40,15 @@ public interface DishModelDao {
             "JOIN DishModel on DishModel.idDish = DishCategoryJoin.idDish "+
             "WHERE DishModel.dish_name = :dishName ORDER BY variantName")
     List<String> getVariantsNameOfDish(String dishName);
+
+
+    @Query("select VariantModel.idVariant, variantName from VariantModel " +
+            "JOIN CategoryVariantJoin on VariantModel.idVariant = CategoryVariantJoin.idVariant " +
+            "JOIN CategoryModel on CategoryModel.idCategory = CategoryVariantJoin.idCategory " +
+            "JOIN DishCategoryJoin on DishCategoryJoin.idCategory = CategoryModel.idCategory " +
+            "JOIN DishModel on DishModel.idDish = DishCategoryJoin.idDish "+
+            "WHERE DishModel.dish_name = :dishName ORDER BY variantName")
+    List<SelectedVariant> getVariantsNameAndIdOfDish(String dishName);
 
     @Insert(onConflict = REPLACE)
     void addDish(DishModel dishModel);

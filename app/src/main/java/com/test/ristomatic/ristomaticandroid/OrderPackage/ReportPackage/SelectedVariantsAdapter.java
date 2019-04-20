@@ -32,7 +32,7 @@ public class SelectedVariantsAdapter extends RecyclerView.Adapter<SelectedVarian
 
     @Override
     public void onBindViewHolder(@NonNull SelectedVariantViewHolder holder, int position) {
-        holder.variantSelected.setText(variantsSelected.get(position).getSelectedVariantName());
+        holder.variantSelected.setText((CharSequence) variantsSelected.get(position).getVariantName());
     }
 
     @Override

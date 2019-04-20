@@ -4,18 +4,18 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class SelectedVariant implements Parcelable{
-    private String selectedVariantName;
-    private int selectedVariantId;
+    private String variantName;
+    private int idVariant;
 
 
-    public SelectedVariant(String selectedVariantName, int selectedVariantId){
-        setSelectedVariantName(selectedVariantName);
-        setSelectedVariantId(selectedVariantId);
+    public SelectedVariant(String variantName, int idVariant){
+        setVariantName(variantName);
+        setIdVariant(idVariant);
     }
 
     protected SelectedVariant(Parcel in) {
-        selectedVariantName = in.readString();
-        selectedVariantId = in.readInt();
+        variantName = in.readString();
+        idVariant = in.readInt();
     }
 
     public static final Creator<SelectedVariant> CREATOR = new Creator<SelectedVariant>() {
@@ -30,20 +30,20 @@ public class SelectedVariant implements Parcelable{
         }
     };
 
-    public String getSelectedVariantName() {
-        return selectedVariantName;
+    public String getVariantName() {
+        return variantName;
     }
 
-    public void setSelectedVariantName(String selectedVariantName) {
-        this.selectedVariantName = selectedVariantName;
+    public void setVariantName(String variantName) {
+        this.variantName = variantName;
     }
 
-    public int getSelectedVariantId() {
-        return selectedVariantId;
+    public int getIdVariant() {
+        return idVariant;
     }
 
-    public void setSelectedVariantId(int selectedVariantId) {
-        this.selectedVariantId = selectedVariantId;
+    public void setIdVariant(int idVariant) {
+        this.idVariant = idVariant;
     }
 
     @Override
@@ -53,7 +53,7 @@ public class SelectedVariant implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(selectedVariantName);
-        dest.writeInt(selectedVariantId);
+        dest.writeString(variantName);
+        dest.writeInt(idVariant);
     }
 }
