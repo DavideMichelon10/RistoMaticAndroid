@@ -16,6 +16,7 @@ import com.test.ristomatic.ristomaticandroid.OrderPackage.OrderActivity;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.OrderViewModel;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.SelectedDish;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.Dialogs.SelectVariantsModel.SelectVariantsDialog;
+import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.SelectedVariant;
 import com.test.ristomatic.ristomaticandroid.R;
 import com.test.ristomatic.ristomaticandroid.RoomDatabase.Dish.DishModel;
 
@@ -94,8 +95,8 @@ public class DishesAdapter extends RecyclerView.Adapter<DishesAdapter.DishViewHo
             String selectedDishName = dishes.get(getAdapterPosition()).getDishName();
             int selectedDishId = dishes.get(getAdapterPosition()).getIdDish();
             SelectedDish insertedDish = new SelectedDish(selectedDishName, selectedDishId);
-            List<String> variants = OrderViewModel.getDishModelDao().getVariantsNameOfDish(dishes.get(getAdapterPosition()).getIdDish());
-            SelectVariantsDialog selectVariantsDialog = SelectVariantsDialog.newInsertionInstance(insertedDish.getSelectedDishName(), insertedDish.getSelectedDishId(), (ArrayList<String>) variants, context);
+            List<SelectedVariant> variants = OrderViewModel.getDishModelDao().getVariantsNameAndIdOfDish(dishes.get(getAdapterPosition()).getDishName());
+            SelectVariantsDialog selectVariantsDialog = SelectVariantsDialog.newInsertionInstance(insertedDish.getSelectedDishName(), insertedDish.getSelectedDishId(), (ArrayList<SelectedVariant>) variants, context);
             return selectVariantsDialog;
         }
 

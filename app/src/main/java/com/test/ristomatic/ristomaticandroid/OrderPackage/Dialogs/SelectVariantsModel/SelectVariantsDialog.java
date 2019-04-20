@@ -157,14 +157,13 @@ public class SelectVariantsDialog extends DialogFragment {
     }
 
     //Aggiunge a arguments la lista di varianti da mostrare e ritorna l'istanza del Dialog
-    public static SelectVariantsDialog newInsertionInstance(String dishName, int dishID, ArrayList<String> variants, Context orderActivityContext) {
+    public static SelectVariantsDialog newInsertionInstance(String dishName, int dishID, ArrayList<SelectedVariant> variants, Context orderActivityContext) {
         SelectVariantsDialog.orderActivityContext = orderActivityContext;
         SelectVariantsDialog frag = new SelectVariantsDialog();
         Bundle args = new Bundle();
         args.putString("dish", dishName);
         args.putInt("dishId", dishID);
-
-        args.putStringArrayList("variants", variants);
+        args.putParcelableArrayList("variants", variants);
         frag.setArguments(args);
         return frag;
     }
@@ -179,7 +178,7 @@ public class SelectVariantsDialog extends DialogFragment {
         //Gli elementi saranno true se la checkbox corrispondente è selezionata false altrimenti
         boolean[] selectedVariantsBoolean = new boolean[variants.size()];
         for (int i = 0; i < variants.size(); i++) {
-            if (selectedVariants.contains(variants.get(i)))
+            if (containsVariant(variants.get(i), selectedVariants))
                 selectedVariantsBoolean[i] = true;
             else
                 selectedVariantsBoolean[i] = false;
@@ -189,5 +188,14 @@ public class SelectVariantsDialog extends DialogFragment {
         args.putString("timeSelected", timeSelected);
         frag.setArguments(args);
         return frag;
+    }
+
+    private static boolean containsVariant(SelectedVariant variants, ArrayList<SelectedVariant> selectedVariantsList){
+        List<String> variantsNames = new ArrayList<>();
+        for (int i = 0;i<selectedVariantsList.size();i++){
+            if(variants.getVariantName().compareTo(selectedVariantsList.get(i).getVariantName()) == 0)
+                return true;
+        }
+        return false;
     }
 }

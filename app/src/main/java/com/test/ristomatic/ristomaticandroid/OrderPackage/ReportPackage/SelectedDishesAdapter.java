@@ -91,15 +91,13 @@ public class SelectedDishesAdapter extends RecyclerView.Adapter<SelectedDishesAd
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Map<Integer, String> variantsMap = (Map<Integer, String>) OrderViewModel.getDishModelDao().getVariantsNameAndIdOfDish(dishName
-                            .getText().toString());
                     ArrayList<SelectedVariant> variants = (ArrayList<SelectedVariant>) OrderViewModel.getDishModelDao().getVariantsNameAndIdOfDish(dishName
                             .getText().toString());
                     ArrayList<SelectedVariant> selectedVariantsList = (ArrayList<SelectedVariant>) ((SelectedVariantsAdapter)selectedVariants
                             .getAdapter()).variantsSelected;
                     String note = "";
                     selectedVariantsList = new ArrayList<>(selectedVariantsList);
-                    if(selectedVariantsList.size() > 0 && !variants.contains(selectedVariantsList.get(selectedVariantsList.size()-1)))
+                    if(selectedVariantsList.size() > 0 && !containsNote(variants, selectedVariantsList))
                         note = selectedVariantsList.remove(selectedVariantsList.size()-1).getVariantName();
                     String timeSelectedString = timeSelected.getText().toString();
                     SelectVariantsDialog selectVariantsDialog = SelectVariantsDialog.newModificationInstance(getAdapterPosition(),
@@ -108,6 +106,15 @@ public class SelectedDishesAdapter extends RecyclerView.Adapter<SelectedDishesAd
                     selectVariantsDialog.show(fm, "fragment_alert");
                 }
             });
+        }
+        private boolean containsNote(ArrayList<SelectedVariant> variants, ArrayList<SelectedVariant> selectedVariantsList){
+            List<String> variantsNames = new ArrayList<>();
+            for (int i = 0;i<variants.size();i++){
+                if(variants.get(i).getVariantName().compareTo(selectedVariantsList.get(selectedVariantsList.size()-1).getVariantName()) == 0){
+                    return true;
+                }
+            }
+            return false;
         }
 
 
