@@ -37,7 +37,6 @@ public class OrderViewModel extends AndroidViewModel {
     private static DishModelDao dishModelDao;
     private OrderRepository orderRepository;
     private int tableId, seatsNumber;
-    private Context context;
 
 
     //test
@@ -51,7 +50,6 @@ public class OrderViewModel extends AndroidViewModel {
 
     public void init(Context context, int tableId, int seatsNumber) {
         this.seatsNumber = seatsNumber;
-        this.context = context;
         this.tableId = tableId;
         setAppDatabase(AppDatabase.getDatabase(this.getApplication()));
         setCategoryModelDao(getAppDatabase().getCategoryModelDao());
@@ -67,7 +65,7 @@ public class OrderViewModel extends AndroidViewModel {
         return coursesAdapter;
     }
 
-    public void setCoursesAdapter(CoursesAdapter coursesAdapter){
+    private void setCoursesAdapter(CoursesAdapter coursesAdapter){
         this.coursesAdapter = coursesAdapter;
     }
 
@@ -76,7 +74,7 @@ public class OrderViewModel extends AndroidViewModel {
         return appDatabase;
     }
 
-    public static void setAppDatabase(AppDatabase appDatabase) {
+    private static void setAppDatabase(AppDatabase appDatabase) {
         OrderViewModel.appDatabase = appDatabase;
     }
 
@@ -90,20 +88,20 @@ public class OrderViewModel extends AndroidViewModel {
     }
 
 
-    public static void setDishedAdapter(DishesAdapter dishedAdapter) {
+    private static void setDishedAdapter(DishesAdapter dishedAdapter) {
         OrderViewModel.dishedAdapter = dishedAdapter;
     }
 
-    public void setAdapterCategories(CategoriesAdapter adapterCategories) {
+    private void setAdapterCategories(CategoriesAdapter adapterCategories) {
         this.adapterCategories = adapterCategories;
     }
 
 
-    public CategoryModelDao getCategoryModelDao() {
+    private CategoryModelDao getCategoryModelDao() {
         return categoryModelDao;
     }
 
-    public void setCategoryModelDao(CategoryModelDao categoryModelDao) {
+    private void setCategoryModelDao(CategoryModelDao categoryModelDao) {
         this.categoryModelDao = categoryModelDao;
     }
 
@@ -112,26 +110,26 @@ public class OrderViewModel extends AndroidViewModel {
         return dishModelDao;
     }
 
-    public static void setDishModelDao(DishModelDao dishModelDao) {
+    private static void setDishModelDao(DishModelDao dishModelDao) {
         OrderViewModel.dishModelDao = dishModelDao;
     }
 
 
-    public void sendReport() throws JSONException {
-        JSONObject report = getReportInformations();
+    protected void sendReport() throws JSONException {
+        JSONObject report = getReportInformation();
         JSONArray courses = convertReportToJSON();
         report.put("portate",courses);
-
         orderRepository.sendReport(report, new VolleyCallbackObject() {
             @Override
             public void onSuccess(JSONObject result) {
-                Toast.makeText(context,"COMANDA INVIATA", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplication(),getApplication().getString(R.string.comandaInviata), Toast.LENGTH_SHORT).show();
             }
         });
     }
 
 
-    public JSONObject getReportInformations() throws JSONException {
+
+    public JSONObject getReportInformation() throws JSONException {
         JSONObject report = new JSONObject();
         File userLoggedFile = new File(ContextApplication.getAppContext().getFilesDir(), LoginViewModel.filename);
         JSONObject user = new JSONObject(LoginViewModel.getUserFileInString());
@@ -143,7 +141,7 @@ public class OrderViewModel extends AndroidViewModel {
     }
 
 
-    public JSONArray convertReportToJSON(){
+    private JSONArray convertReportToJSON(){
         JSONArray courses = new JSONArray();
         for(int i=0; i<CoursesAdapter.getCourses().size(); i++){
             Course course = CoursesAdapter.getCourses().get(i);

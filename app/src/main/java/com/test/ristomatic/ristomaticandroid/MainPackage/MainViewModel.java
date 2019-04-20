@@ -2,7 +2,6 @@ package com.test.ristomatic.ristomaticandroid.MainPackage;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
-import android.arch.persistence.room.Dao;
 import android.content.SharedPreferences;
 import android.support.v7.widget.RecyclerView;
 
@@ -17,12 +16,12 @@ import com.test.ristomatic.ristomaticandroid.Model.Table;
 import com.test.ristomatic.ristomaticandroid.RoomDatabase.AppDatabase;
 import com.test.ristomatic.ristomaticandroid.RoomDatabase.Category.CategoryModel;
 import com.test.ristomatic.ristomaticandroid.RoomDatabase.Category.CategoryModelDao;
+import com.test.ristomatic.ristomaticandroid.RoomDatabase.CategoryVariantJoinDao;
 import com.test.ristomatic.ristomaticandroid.RoomDatabase.Dish.DishModel;
 import com.test.ristomatic.ristomaticandroid.RoomDatabase.Dish.DishModelDao;
 import com.test.ristomatic.ristomaticandroid.RoomDatabase.DishCategoryJoin;
 import com.test.ristomatic.ristomaticandroid.RoomDatabase.DishCategoryJoinDao;
-import com.test.ristomatic.ristomaticandroid.RoomDatabase.DishVariantJoin;
-import com.test.ristomatic.ristomaticandroid.RoomDatabase.DishVariantJoinDao;
+import com.test.ristomatic.ristomaticandroid.RoomDatabase.CategoryVariantJoin;
 import com.test.ristomatic.ristomaticandroid.RoomDatabase.Variant.VariantModel;
 import com.test.ristomatic.ristomaticandroid.RoomDatabase.Variant.VariantModelDao;
 
@@ -115,7 +114,7 @@ public class MainViewModel extends AndroidViewModel {
         currentDates.put(allDataUpdated.getString("CategoryDate","0"));
         currentDates.put(allDataUpdated.getString("DishVariantDate","0"));
         currentDates.put(allDataUpdated.getString("DishCategoryDate","0"));
-        System.out.println(currentDates.toString());
+
         mainRepository.updateTablesDate(currentDates, new VolleyCallback() {
             @Override
             public void onSuccess(JSONArray result) {
@@ -173,12 +172,12 @@ public class MainViewModel extends AndroidViewModel {
                 editor.commit();
                 break;
             case 3:
-                DishVariantJoinDao dishVariantJoinDao = appDatabase.getdishVariantJoinDao();
-                dishVariantJoinDao.nukeTableDishVariant();
+                CategoryVariantJoinDao categoryVariantJoinDao = appDatabase.getdishVariantJoinDao();
+                categoryVariantJoinDao.nukeTableDishVariant();
                 for(int i=0; i<jsonTable.getJSONArray("table").length(); i++){
                     String dishVariantJoinInString = jsonTable.getJSONArray("table").get(i).toString();
-                    DishVariantJoin dishVariantJoin = gson.fromJson(dishVariantJoinInString, DishVariantJoin.class);
-                    dishVariantJoinDao.addDishVariant(dishVariantJoin);
+                    CategoryVariantJoin categoryVariantJoin = gson.fromJson(dishVariantJoinInString, CategoryVariantJoin.class);
+                    categoryVariantJoinDao.addCategoryVariant(categoryVariantJoin);
                 }
                 editor.putString("DishVariantDate", jsonTable.getString("dataUpdated"));
                 editor.commit();

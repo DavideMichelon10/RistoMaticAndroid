@@ -13,7 +13,7 @@ import com.test.ristomatic.ristomaticandroid.RoomDatabase.Variant.VariantModel;
 import com.test.ristomatic.ristomaticandroid.RoomDatabase.Variant.VariantModelDao;
 
 
-@Database(entities = {VariantModel.class, DishModel.class,CategoryModel.class, DishVariantJoin.class, DishCategoryJoin.class} , version = 1)
+@Database(entities = {VariantModel.class, DishModel.class,CategoryModel.class, CategoryVariantJoin.class, DishCategoryJoin.class} , version = 1)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static AppDatabase INSTANCE;
@@ -31,7 +31,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract DishModelDao getDishModelDao();
     public abstract VariantModelDao getVariantModelDao();
     public abstract CategoryModelDao getCategoryModelDao();
-    public abstract DishVariantJoinDao getdishVariantJoinDao();
+    public abstract CategoryVariantJoinDao getdishVariantJoinDao();
     public abstract DishCategoryJoinDao getDishCategoryJoinDao();
 
 }

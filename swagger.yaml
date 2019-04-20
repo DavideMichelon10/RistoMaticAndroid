@@ -24,10 +24,8 @@ paths:
       summary: login cameriere
       responses:
         200:
-          description: Utente trovato, rispondi con utente(OBJECT e NON ARRAY) --> {cameriere_id:1, password:1234, nome_cameriere:'asd'}
+          description: Utente trovato, rispondi con utente
           schema:
-            type: array
-            items:
               $ref: '#/definitions/Cameriere'
         404:
           description: Utente non trovato, rispondi con oggetto vuoto --> {}
@@ -36,7 +34,7 @@ paths:
       summary: Tutti i tavoli per ogni sala 
       responses:
         200:
-          description: array di oggetti tavoli, tutti i tavoli nella sala; state è 0=occupato e 1=libero
+          description: array di oggetti sala. Ogni sala ha un attributo roomName(nome della sala) e tables. Tables è un array di oggetti che comprende tutti i tavoli della sala specifica. Tables ha come attributi state(0 se occupato e 1 se libero) e idTable(ID del tavolo)
           schema:
             type: array
             items:
@@ -82,22 +80,45 @@ paths:
           $ref: "#/definitions/putTable"
       responses:
         201:
-          description: 'valid'
+          description: '{status : 201}'
   /dates:
     put:
-      summary: update dates
+      summary: Update date
       produces: 
       - "application/json"
       parameters:
       - in: "body"
         name: "body"
-        description: "Update dates"
+        description: "Update tavolo"
         required: true
         schema:
-          $ref: "#/definitions/putTable"
+          $ref: "#/definitions/putDates"
+
       responses:
         201:
-          description: 'valid'
+          description: 'Viene inviata un array di 5 stringhe contenenti il timestamp  delle 5 tabelle in locale. I timestamp vengono confrontati con quelli presenti sul server(quindi quelli aggiornati). Viene ritornato un array di 5 elementi; se i timestamp coincidono l elemento è vuoto altrimenti viene inviata la tabella interessata e quelle legate ad essa (ES: variante modificata. invio tab. variante e piatto-variante). IMPORTANTE: le tabelle devono essere inviate nell ordine: Varianti, Piatti, Categorie, Piatto_variante, Piatto_categoria. N.B. il json qua sotto viene inviato nel caso tutte le tabelle siano da aggiornare(nel caso qualcuna non lo fosse dovrebbe essere un oggetto vuoto --> {}. Il JSON dei dati delle 5 tabelle ve lo consegnamo a mano.)  '
+          
+          schema:
+            type: object
+            items:
+              $ref: '#/definitions/Tavolo'
+  
+  /report:
+    post:
+      summary: Manda comanda
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Update tavolo"
+        required: true
+        schema:
+          $ref: "#/definitions/Comanda"
+      responses:
+        201:
+          description: 'Uno schema di esempio dei dati vi verrà consegnato a parte'
+    
 definitions:
   Cameriere:
     type: object
@@ -143,7 +164,46 @@ definitions:
   putTable:
     type: object
     properties:
-      state:
-        type : integer
+      idTavolo:
+        type: integer
+      stato:
+        type : string
     example: 
-      state: 1
+      idTavolo: 1
+      stato: "Occupato"
+  
+  putDates:
+    type: array
+    items:
+      type: string
+    example:
+      "[1540209530,1540209530,1540209530,1540209515,0]"
+      
+  putDatesResponse:
+    type: object
+    example:
+      ""
+      
+  Comanda:
+    type: object
+    properties:
+      cameriere:
+        type: string
+      idTavolo:
+        type: integer
+      portate:
+        type: array
+        properties:
+          courseNumber:
+            type: integer
+          selectedDishes:
+            type: array
+            properties: 
+              selectedDishName: 
+                type: string
+              timeSelected:
+                type: integer
+              selectedVariantName:
+                type: array
+                items:
+                  type: string
