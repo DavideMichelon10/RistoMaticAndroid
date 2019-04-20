@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         final TabLayout tabLayout = findViewById(R.id.tabLayout);
         final PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager());
         graphicComponents = new GraphicComponents(viewPager, tabLayout, pagerAdapter);
-        mainViewModel.init(new MainRepository(), graphicComponents.getPagerAdapter());
+        mainViewModel.init(new MainRepository(), graphicComponents.getPagerAdapter(),this);
 
         new Thread(new Runnable() {
             @Override

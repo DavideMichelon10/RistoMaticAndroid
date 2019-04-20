@@ -95,7 +95,7 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
             textViewId.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    //infoTableDialog();
+                    infoTableDialog();
                     return false;
                 }
             });

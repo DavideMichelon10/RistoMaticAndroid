@@ -62,7 +62,7 @@ public class MainViewModel extends AndroidViewModel {
 
 
     //metodo chiamato una sola volta, inizilizza tutte le sale con i tavoli
-    public void init(final MainRepository mainRepository, final PagerAdapter pagerAdapter) {
+    public void init(final MainRepository mainRepository, final PagerAdapter pagerAdapter, final MainActivity mainActivity) {
         this.mainRepository = mainRepository;
         setPagerAdapter(pagerAdapter);
 
@@ -70,7 +70,7 @@ public class MainViewModel extends AndroidViewModel {
             @Override
             public void onSuccess(JSONArray result) {
                 try {
-                    initializeTableFragments(result, pagerAdapter);
+                    initializeTableFragments(result, pagerAdapter, mainActivity);
                     numberRooms = result.length();
                     MainActivity.createView(numberRooms);
                 } catch (JSONException e) {
@@ -80,7 +80,7 @@ public class MainViewModel extends AndroidViewModel {
         });
     }
 
-    public void initializeTableFragments(JSONArray result, PagerAdapter pagerAdapter) throws JSONException {
+    public void initializeTableFragments(JSONArray result, PagerAdapter pagerAdapter, MainActivity mainActivity) throws JSONException {
         //chiamata sale e tavoli iniziali
         for(int i=0; i<result.length(); i++){
             JSONArray tablesRoomFromCallback = result.getJSONArray(i);
@@ -91,7 +91,7 @@ public class MainViewModel extends AndroidViewModel {
             RoomFragment roomFragment = new RoomFragment();
             roomFragment.setFragmentId(i);
             pagerAdapter.getRooms().add(roomFragment);
-            roomFragment.init(tablesRoom, new RecyclerView(ContextApplication.getAppContext()), ContextApplication.getAppContext());
+            roomFragment.init(tablesRoom, new RecyclerView(ContextApplication.getAppContext()), mainActivity);
         }
     }
 
