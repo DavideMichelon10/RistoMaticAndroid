@@ -7,7 +7,7 @@ import java.util.List;
 public class SelectedDish {
     private String selectedDishName;
     private int selectedDishId;
-    private List<String> selectedVariantName;
+    private List<SelectedVariant> selectedVariantName;
     //numero volte piatto selezionato, è il numero che verrà visualizzato a fianco del nome del piatto
     private int timeSelected = 1;
 
@@ -16,7 +16,7 @@ public class SelectedDish {
         this.setSelectedDishName(selectedDishName);
         selectedVariantName = new ArrayList<>();
     }
-    public SelectedDish(String selectedDishName, int selectedDishId, List<String> selectedVariantName){
+    public SelectedDish(String selectedDishName, int selectedDishId, List<SelectedVariant> selectedVariantName){
         this.setSelectedDishId(selectedDishId);
         this.setSelectedDishName(selectedDishName);
         this.setSelectedVariantName(selectedVariantName);
@@ -46,11 +46,11 @@ public class SelectedDish {
         this.selectedDishName = selectedDishName;
     }
 
-    public List<String> getSelectedVariantName() {
+    public List<SelectedVariant> getSelectedVariantName() {
         return selectedVariantName;
     }
 
-    public void setSelectedVariantName(List<String> selectedVariantName) {
+    public void setSelectedVariantName(List<SelectedVariant> selectedVariantName) {
         this.selectedVariantName = selectedVariantName;
     }
 

@@ -7,6 +7,7 @@ import com.test.ristomatic.ristomaticandroid.OrderPackage.OrderActivity;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.CoursesAdapter;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.Course;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.SelectedDish;
+import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.SelectedVariant;
 import com.test.ristomatic.ristomaticandroid.R;
 
 import java.util.ArrayList;
@@ -82,7 +83,7 @@ public final class InsertDishUtilities {
     }
 
     //Modifica il piatto all'interno della portata
-    public static void modifyDishInCourse(int courseNumber, int dishPosition, RecyclerView recyclerViewCourses, int timeSelected, ArrayList<String> selectedVariants) {
+    public static void modifyDishInCourse(int courseNumber, int dishPosition, RecyclerView recyclerViewCourses, int timeSelected, ArrayList<SelectedVariant> selectedVariants) {
         int coursePosition = 0;
         for (int i = 0; i < CoursesAdapter.getCourses().size(); i++) {
             if (CoursesAdapter.getCourses().get(i).getCourseNumber() == (courseNumber)) {

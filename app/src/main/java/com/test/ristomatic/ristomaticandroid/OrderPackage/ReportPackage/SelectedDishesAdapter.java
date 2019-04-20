@@ -19,10 +19,12 @@ import com.test.ristomatic.ristomaticandroid.OrderPackage.OrderActivity;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.OrderViewModel;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.Course;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.SelectedDish;
+import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.SelectedVariant;
 import com.test.ristomatic.ristomaticandroid.R;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 //adapter per singola portata e gestisce tutti i piatti al suo interno
 public class SelectedDishesAdapter extends RecyclerView.Adapter<SelectedDishesAdapter.SelectedDishViewHolder> {
@@ -43,7 +45,7 @@ public class SelectedDishesAdapter extends RecyclerView.Adapter<SelectedDishesAd
 
     @Override
     public void onBindViewHolder(@NonNull SelectedDishViewHolder holder, int position) {
-        List<String> variantsSelected = course.getAllSelectedDishes().get(position).getSelectedVariantName();
+        List<SelectedVariant> variantsSelected = course.getAllSelectedDishes().get(position).getSelectedVariantName();
         holder.timeSelected.setText(" "+(course.getAllSelectedDishes().get(position).getTimeSelected()));
         holder.dishName.setText(course.getAllSelectedDishes().get(position).getSelectedDishName());
         holder.selectedVariants.setHasFixedSize(false);
@@ -93,14 +95,15 @@ public class SelectedDishesAdapter extends RecyclerView.Adapter<SelectedDishesAd
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ArrayList<String> variants = (ArrayList<String>) OrderViewModel.getDishModelDao().getVariantsNameOfDish(dishName
+                    Map<Integer, String> variantsMap = (Map<Integer, String>) OrderViewModel.getDishModelDao().getVariantsNameOfDish(dishName
                             .getText().toString());
-                    ArrayList<String> selectedVariantsList = (ArrayList<String>) ((SelectedVariantsAdapter)selectedVariants
+                    List<SelectedVariant> variants = hashMapToSelectedVariants(variantsMap);
+                    ArrayList<SelectedVariant> selectedVariantsList = (ArrayList<SelectedVariant>) ((SelectedVariantsAdapter)selectedVariants
                             .getAdapter()).variantsSelected;
                     String note = "";
                     selectedVariantsList = new ArrayList<>(selectedVariantsList);
                     if(selectedVariantsList.size() > 0 && !variants.contains(selectedVariantsList.get(selectedVariantsList.size()-1)))
-                        note = selectedVariantsList.remove(selectedVariantsList.size()-1);
+                        note = selectedVariantsList.remove(selectedVariantsList.size()-1).getSelectedVariantName();
                     String timeSelectedString = timeSelected.getText().toString();
                     SelectVariantsDialog selectVariantsDialog = SelectVariantsDialog.newModificationInstance(getAdapterPosition(),
                             variants, timeSelectedString, selectedVariantsList, note, context);
@@ -108,6 +111,17 @@ public class SelectedDishesAdapter extends RecyclerView.Adapter<SelectedDishesAd
                     selectVariantsDialog.show(fm, "fragment_alert");
                 }
             });
+        }
+
+
+        private List<SelectedVariant> hashMapToSelectedVariants(Map<Integer, String> selectedVariants){
+            List<Integer> id = new ArrayList<Integer>(selectedVariants.keySet());
+            List<String> name = new ArrayList<String>(selectedVariants.values());
+            List<SelectedVariant> selectedVariantsConverted = new ArrayList<SelectedVariant>();
+            for (int i = 0; i < id.size(); i++){
+                selectedVariantsConverted.add(new SelectedVariant(name.get(i), id.get(i)));
+            }
+            return selectedVariantsConverted;
         }
     }
 }

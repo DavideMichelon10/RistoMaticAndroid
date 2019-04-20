@@ -21,6 +21,7 @@ import android.widget.RadioGroup;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.InsertDishUtilities.InsertDishUtilities;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.OrderActivity;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.SelectedDish;
+import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.SelectedVariant;
 import com.test.ristomatic.ristomaticandroid.R;
 
 import java.util.ArrayList;
@@ -39,10 +40,9 @@ public class SelectVariantsDialog extends DialogFragment {
         final EditText timeSelectedEditText = new EditText(getContext());
         final String dishName = getArguments().getString("dish");
         final int dishId = getArguments().getInt("dishId");
-        final ArrayList<String> variants = getArguments().getStringArrayList("variants");
+        final ArrayList<SelectedVariant> variants = getArguments().getParcelableArrayList("variants");
         final List<Boolean> checkedVariants;
         final EditText noteEditText = new EditText(getContext());
-
         timeSelectedEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
         //Make the filter that avoid to insert spaces inside editText
         InputFilter spaceFilter = new InputFilter() {
@@ -79,6 +79,7 @@ public class SelectVariantsDialog extends DialogFragment {
         }
 
 
+        timeSelectedEditText.requestFocus();
         //Tasto "OK"
         builder.setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
             @Override
@@ -91,20 +92,20 @@ public class SelectVariantsDialog extends DialogFragment {
                 //Posizione della portata selezionata nella lista di portate
                 int courseNumber = Integer.parseInt((String) ((RadioButton) ((OrderActivity) orderActivityContext).findViewById(radioButtonId)).getText());
                 RecyclerView recyclerViewCourses = ((OrderActivity) orderActivityContext).findViewById(R.id.recyclerViewCourses);
-                List<String> selectedVariants = ((MultiChoiceAdapter) multiChoiceItems.getAdapter()).getSelectedVariants();
+                List<SelectedVariant> selectedVariants = ((MultiChoiceAdapter) multiChoiceItems.getAdapter()).getSelectedVariants();
                 try {
                     //se è una modifica
                     if (getArguments().getString("note") != null) {
                         int dishPosition = getArguments().getInt("dishPosition");
                         int timeSelected = Integer.parseInt(timeSelectedEditText.getText().toString());
                         if (noteEditText.getText().toString().compareTo("") != 0){
-                            selectedVariants.add(noteEditText.getText().toString());
+                            selectedVariants.add(new SelectedVariant(noteEditText.getText().toString(), -1));
                         }
-                        InsertDishUtilities.modifyDishInCourse(courseNumber, dishPosition, recyclerViewCourses, timeSelected,(ArrayList<String>) selectedVariants);
+                        InsertDishUtilities.modifyDishInCourse(courseNumber, dishPosition, recyclerViewCourses, timeSelected,(ArrayList<SelectedVariant>) selectedVariants);
 
                     } else {
                         if (noteEditText.getText().toString().compareTo("") != 0)
-                            selectedVariants.add(noteEditText.getText().toString());
+                            selectedVariants.add(new SelectedVariant(noteEditText.getText().toString(), -1));
                         SelectedDish insertedDish = new SelectedDish(dishName, dishId, selectedVariants);
                         //Se la portata non esiste ne viene creata una nuova con il numero di portata e viene aggiunta alla lista
                         //successivamente viene chiamato il notifyItemInserted sulla recyclerViewCourses
@@ -136,8 +137,17 @@ public class SelectVariantsDialog extends DialogFragment {
         layout.addView(noteEditText);
         layout.addView(multiChoiceItems);
         builder.setView(layout);
-
-        return builder.create();
+        final Dialog dialog = builder.create();
+        timeSelectedEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+                }
+            }
+        });
+        timeSelectedEditText.requestFocus();
+        return dialog;
     }
 
     @Override
@@ -160,10 +170,11 @@ public class SelectVariantsDialog extends DialogFragment {
     }
 
     //Aggiunge a arguments la lista di varianti, varianti selezionata da mostrare e note, ritorna l'istanza del Dialog
-    public static SelectVariantsDialog newModificationInstance(int dishPosition, ArrayList<String> variants, String timeSelected, ArrayList<String> selectedVariants, String note, Context orderActivityContext) {
+    public static SelectVariantsDialog newModificationInstance(int dishPosition, ArrayList<SelectedVariant> variants, String timeSelected, ArrayList<SelectedVariant> selectedVariants, String note, Context orderActivityContext) {
         SelectVariantsDialog.orderActivityContext = orderActivityContext;
         SelectVariantsDialog frag = new SelectVariantsDialog();
         Bundle args = new Bundle();
+        args.putParcelableArrayList("variants", variants);
         args.putInt("dishPosition", dishPosition);
         //Gli elementi saranno true se la checkbox corrispondente è selezionata false altrimenti
         boolean[] selectedVariantsBoolean = new boolean[variants.size()];
@@ -176,7 +187,6 @@ public class SelectVariantsDialog extends DialogFragment {
         args.putBooleanArray("selectedVariants", selectedVariantsBoolean);
         args.putString("note", note);
         args.putString("timeSelected", timeSelected);
-        args.putStringArrayList("variants", variants);
         frag.setArguments(args);
         return frag;
     }

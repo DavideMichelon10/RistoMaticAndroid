@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.SelectedVariant;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,13 +17,13 @@ public class MultiChoiceAdapter extends RecyclerView.Adapter<MultiChoiceAdapter.
 
     Context fragmentDialogContext;
 
-    private List<String> variants;;
+    private List<SelectedVariant> variants;
 
-    public List<String> getVariants() {
+    public List<SelectedVariant> getVariants() {
         return variants;
     }
 
-    public void setVariants(List<String> variants) {
+    public void setVariants(List<SelectedVariant> variants) {
         this.variants = variants;
     }
 
@@ -36,7 +38,7 @@ public class MultiChoiceAdapter extends RecyclerView.Adapter<MultiChoiceAdapter.
         this.checkedVariants = checkedVariants;
     }
 
-    public MultiChoiceAdapter(List<String> variants, Context fragmentDialogContext){
+    public MultiChoiceAdapter(List<SelectedVariant> variants, Context fragmentDialogContext){
         setVariants(variants);
         this.fragmentDialogContext = fragmentDialogContext;
         setCheckedVariants(new ArrayList<Boolean>());
@@ -45,7 +47,7 @@ public class MultiChoiceAdapter extends RecyclerView.Adapter<MultiChoiceAdapter.
         }
     }
 
-    public MultiChoiceAdapter(List<String> variants, List<Boolean> checkedVariants, Context fragmentDialogContext){
+    public MultiChoiceAdapter(List<SelectedVariant> variants, List<Boolean> checkedVariants, Context fragmentDialogContext){
         setVariants(variants);
         this.fragmentDialogContext = fragmentDialogContext;
         setCheckedVariants(checkedVariants);
@@ -66,7 +68,7 @@ public class MultiChoiceAdapter extends RecyclerView.Adapter<MultiChoiceAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull CheckItemViewHolder holder, int position) {
-        holder.setText(variants.get(position));
+        holder.setText(variants.get(position).getSelectedVariantName());
         holder.check(checkedVariants.get(position));
     }
 
@@ -75,8 +77,8 @@ public class MultiChoiceAdapter extends RecyclerView.Adapter<MultiChoiceAdapter.
         return variants.size();
     }
 
-    public List<String> getSelectedVariants(){
-        List<String> selectedVariants = new ArrayList<>();
+    public List<SelectedVariant> getSelectedVariants(){
+        List<SelectedVariant> selectedVariants = new ArrayList<>();
         for (int i=0;i<variants.size();i++){
             if(checkedVariants.get(i))
                 selectedVariants.add(variants.get(i));
