@@ -12,7 +12,7 @@ import static android.arch.persistence.room.OnConflictStrategy.REPLACE;
 
 @Dao
 public interface CategoryModelDao {
-    @Query("select * from CategoryModel")
+    @Query("select * from CategoryModel order by CategoryModel.categoryName")
     List<CategoryModel> getAllCategories();
 
     @Insert(onConflict = REPLACE)

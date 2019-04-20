@@ -24,12 +24,18 @@ public interface DishModelDao {
     @Query("select * from DishModel where idDish = :idDish")
     DishModel getDish(int idDish);
 
-    @Query("select variantName from VariantModel JOIN DishVariantJoin on VariantModel.idVariant = DishVariantJoin.idVariant " +
-            "WHERE DishVariantJoin.idDish = :idDish ORDER BY variantName")
+    @Query("select variantName from VariantModel " +
+            "JOIN CategoryVariantJoin on VariantModel.idVariant = CategoryVariantJoin.idVariant " +
+            "JOIN CategoryModel on CategoryModel.idCategory = CategoryVariantJoin.idCategory " +
+            "JOIN DishCategoryJoin on DishCategoryJoin.idCategory = CategoryModel.idCategory " +
+            "WHERE DishCategoryJoin.idDish = :idDish ORDER BY variantName")
     List<String> getVariantsNameOfDish(int idDish);
 
-    @Query("select variantName from VariantModel JOIN DishVariantJoin on VariantModel.idVariant = DishVariantJoin.idVariant " +
-            "JOIN DishModel on DishVariantJoin.idDish = DishModel.idDish " +
+    @Query("select variantName from VariantModel " +
+            "JOIN CategoryVariantJoin on VariantModel.idVariant = CategoryVariantJoin.idVariant " +
+            "JOIN CategoryModel on CategoryModel.idCategory = CategoryVariantJoin.idCategory " +
+            "JOIN DishCategoryJoin on DishCategoryJoin.idCategory = CategoryModel.idCategory " +
+            "JOIN DishModel on DishModel.idDish = DishCategoryJoin.idDish "+
             "WHERE DishModel.dish_name = :dishName ORDER BY variantName")
     List<String> getVariantsNameOfDish(String dishName);
 
