@@ -32,7 +32,10 @@ public class SelectedVariantsAdapter extends RecyclerView.Adapter<SelectedVarian
 
     @Override
     public void onBindViewHolder(@NonNull SelectedVariantViewHolder holder, int position) {
-        holder.variantSelected.setText((CharSequence) variantsSelected.get(position).getVariantName());
+        String plusOrMinus = "-";
+        if (variantsSelected.get(position).isPlus())
+            plusOrMinus = "+";
+        holder.variantSelected.setText((CharSequence) variantsSelected.get(position).getVariantName() + " " + plusOrMinus);
     }
 
     @Override

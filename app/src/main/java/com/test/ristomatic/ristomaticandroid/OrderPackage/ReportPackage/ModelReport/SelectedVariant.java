@@ -6,16 +6,18 @@ import android.os.Parcelable;
 public class SelectedVariant implements Parcelable{
     private String variantName;
     private int idVariant;
-
+    private boolean isPlus;
 
     public SelectedVariant(String variantName, int idVariant){
         setVariantName(variantName);
         setIdVariant(idVariant);
+        isPlus = true;
     }
 
     protected SelectedVariant(Parcel in) {
         variantName = in.readString();
         idVariant = in.readInt();
+        isPlus = in.readByte() != 0;
     }
 
     public static final Creator<SelectedVariant> CREATOR = new Creator<SelectedVariant>() {
@@ -46,6 +48,14 @@ public class SelectedVariant implements Parcelable{
         this.idVariant = idVariant;
     }
 
+    public boolean isPlus() {
+        return isPlus;
+    }
+
+    public void setPlus(boolean plus) {
+        isPlus = plus;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -55,5 +65,6 @@ public class SelectedVariant implements Parcelable{
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(variantName);
         dest.writeInt(idVariant);
+        dest.writeByte((byte) (isPlus ? 1 : 0));
     }
 }

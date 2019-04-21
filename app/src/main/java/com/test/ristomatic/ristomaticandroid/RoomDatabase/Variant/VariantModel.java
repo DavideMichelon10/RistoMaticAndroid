@@ -27,5 +27,4 @@ public class VariantModel {
     public float getVariantPrice() {
         return variantPrice;
     }
-
 }

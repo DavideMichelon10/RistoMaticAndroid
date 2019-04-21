@@ -24,6 +24,7 @@ import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelRep
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.SelectedVariant;
 import com.test.ristomatic.ristomaticandroid.R;
 
+import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -41,6 +42,7 @@ public class SelectVariantsDialog extends DialogFragment {
         final String dishName = getArguments().getString("dish");
         final int dishId = getArguments().getInt("dishId");
         final ArrayList<SelectedVariant> variants = getArguments().getParcelableArrayList("variants");
+
         final List<Boolean> checkedVariants;
         final EditText noteEditText = new EditText(getContext());
         timeSelectedEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
@@ -74,8 +76,12 @@ public class SelectVariantsDialog extends DialogFragment {
             }
             noteEditText.setText(getArguments().getString("note"));
             timeSelectedEditText.setText(getArguments().getString("timeSelected"));
-
-            multiChoiceItems.setAdapter(new MultiChoiceAdapter(variants, checkedVariants, getContext()));
+            boolean[] selectedVariantsPlusArray = getArguments().getBooleanArray("selectedVariantsPlus");
+            List<Boolean> selectedVariantsPlus = new ArrayList<>();
+            for (boolean selectedVariantPlus: selectedVariantsPlusArray) {
+                selectedVariantsPlus.add(selectedVariantPlus);
+            }
+            multiChoiceItems.setAdapter(new MultiChoiceAdapter(variants, checkedVariants,selectedVariantsPlus, getContext()));
         }
 
 
@@ -177,12 +183,21 @@ public class SelectVariantsDialog extends DialogFragment {
         args.putInt("dishPosition", dishPosition);
         //Gli elementi saranno true se la checkbox corrispondente è selezionata false altrimenti
         boolean[] selectedVariantsBoolean = new boolean[variants.size()];
+        boolean[] selectedVariantsPlus = new boolean[variants.size()];
         for (int i = 0; i < variants.size(); i++) {
             if (containsVariant(variants.get(i), selectedVariants))
+            {
                 selectedVariantsBoolean[i] = true;
-            else
+                selectedVariantsPlus[i] = selectedVariants.get(i).isPlus();
+            }
+            else {
                 selectedVariantsBoolean[i] = false;
+                selectedVariantsPlus[i] = true;
+            }
+
         }
+        args.putBooleanArray("selectedVariantsPlus", selectedVariantsPlus);
+
         args.putBooleanArray("selectedVariants", selectedVariantsBoolean);
         args.putString("note", note);
         args.putString("timeSelected", timeSelected);

@@ -107,6 +107,8 @@ public class SelectedDishesAdapter extends RecyclerView.Adapter<SelectedDishesAd
                 }
             });
         }
+
+
         private boolean containsNote(ArrayList<SelectedVariant> variants, ArrayList<SelectedVariant> selectedVariantsList){
             List<String> variantsNames = new ArrayList<>();
             for (int i = 0;i<variants.size();i++){
