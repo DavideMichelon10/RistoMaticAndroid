@@ -24,7 +24,6 @@ import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelRep
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.SelectedVariant;
 import com.test.ristomatic.ristomaticandroid.R;
 
-import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -32,7 +31,6 @@ import java.util.Objects;
 public class SelectVariantsDialog extends DialogFragment {
 
     private static Context orderActivityContext;
-
     @Override
     public Dialog onCreateDialog(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +40,6 @@ public class SelectVariantsDialog extends DialogFragment {
         final String dishName = getArguments().getString("dish");
         final int dishId = getArguments().getInt("dishId");
         final ArrayList<SelectedVariant> variants = getArguments().getParcelableArrayList("variants");
-
         final List<Boolean> checkedVariants;
         final EditText noteEditText = new EditText(getContext());
         timeSelectedEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
@@ -84,8 +81,6 @@ public class SelectVariantsDialog extends DialogFragment {
             multiChoiceItems.setAdapter(new MultiChoiceAdapter(variants, checkedVariants,selectedVariantsPlus, getContext()));
         }
 
-
-        timeSelectedEditText.requestFocus();
         //Tasto "OK"
         builder.setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
             @Override
@@ -143,17 +138,10 @@ public class SelectVariantsDialog extends DialogFragment {
         layout.addView(noteEditText);
         layout.addView(multiChoiceItems);
         builder.setView(layout);
-        final Dialog dialog = builder.create();
-        timeSelectedEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-                }
-            }
-        });
-        timeSelectedEditText.requestFocus();
-        return dialog;
+        Dialog d = builder.create();
+        d.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        timeSelectedEditText.selectAll();
+        return d;
     }
 
     @Override
