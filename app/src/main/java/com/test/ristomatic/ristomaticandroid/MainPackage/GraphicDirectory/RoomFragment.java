@@ -56,7 +56,7 @@ public class RoomFragment extends Fragment {
     }
 
 
-    public void init(List<Table> roomTables, RecyclerView recyclerView, Context mainActivityContext) {
+    public void init(List<Table> roomTables, RecyclerView recyclerView, MainActivity mainActivityContext) {
         room = new Room(roomTables, recyclerView, mainActivityContext);
     }
 

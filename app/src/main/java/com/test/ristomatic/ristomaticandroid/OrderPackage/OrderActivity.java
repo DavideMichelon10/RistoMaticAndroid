@@ -60,10 +60,10 @@ public class OrderActivity extends AppCompatActivity {
 
         boolean richiama = intent.getBooleanExtra(String.valueOf(R.string.richiama), false);
         if(richiama){
-            orderViewModel.init(idTable);
+            orderViewModel.init(idTable,this);
         }else{
             seatsNumber = intent.getIntExtra(getString(R.string.coperti),GlobalVariableApplication.VALUE_NUMBER_PICKER_COPERTI_START);
-            orderViewModel.init(idTable, seatsNumber);
+            orderViewModel.init(idTable, seatsNumber,this);
         }
     }
 

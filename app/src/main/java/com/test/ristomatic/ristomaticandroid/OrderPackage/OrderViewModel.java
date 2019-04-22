@@ -48,24 +48,24 @@ public class OrderViewModel extends AndroidViewModel {
         orderRepository = new OrderRepository();
     }
 
-    public void init(int tableId){
+    public void init(int tableId, Context context){
         this.seatsNumber = GlobalVariableApplication.VALUE_NUMBER_PICKER_COPERTI_START;
-        initializeVM();
+        initializeVM(context);
     }
 
-    public void init(int tableId, int seatsNumber) {
+    public void init(int tableId, int seatsNumber,Context context) {
         this.seatsNumber = seatsNumber;
         this.tableId = tableId;
-        initializeVM();
+        initializeVM(context);
     }
 
-    public void initializeVM(){
+    public void initializeVM(Context context){
         setAppDatabase(AppDatabase.getDatabase(this.getApplication()));
         setCategoryModelDao(getAppDatabase().getCategoryModelDao());
         setDishModelDao(getAppDatabase().getDishModelDao());
         setAdapterCategories(new CategoriesAdapter(getCategoryModelDao().getAllCategories()));
-        setDishedAdapter(new DishesAdapter(getDishModelDao().getSelectedDishes(1), getApplication()));
-        setCoursesAdapter(new CoursesAdapter(getApplication(), courses));
+        setDishedAdapter(new DishesAdapter(getDishModelDao().getSelectedDishes(1), context));
+        setCoursesAdapter(new CoursesAdapter(context, courses));
     }
 
 
