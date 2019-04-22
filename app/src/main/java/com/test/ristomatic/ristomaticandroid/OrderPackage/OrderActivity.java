@@ -38,30 +38,27 @@ public class OrderActivity extends AppCompatActivity {
         InsertDishUtilities.setContext(this);
         orderViewModel = ViewModelProviders.of(this).get(OrderViewModel.class);
         progress = findViewById(R.id.progressBar);
-        createCourseSelection();
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                initializeVM();
-                initializeRecyclerViewCategories();
-                initializeRecyclerViewDishes();
-                initializeRecyclerViewCourses();
-            }
-        }).start();
+        initializeVM();
+        createCourseSelection();
+        initializeRecyclerViewCategories();
+        initializeRecyclerViewDishes();
+        initializeRecyclerViewCourses();
 
     }
 
     public void initializeVM(){
         Intent intent = getIntent();
-        idTable = intent.getIntExtra(String.valueOf(R.string.id_tavolo), 0);
-        boolean richiama = intent.getBooleanExtra(String.valueOf(R.string.richiama), true);
-        System.out.println(""+richiama+"    "+idTable);
+        idTable = intent.getIntExtra("idTable", 0);
+        boolean richiama = intent.getBooleanExtra("richiama",false);
+
         if(richiama){
             orderViewModel.init(idTable,this);
         }else{
-            seatsNumber = intent.getIntExtra(getString(R.string.coperti),GlobalVariableApplication.VALUE_NUMBER_PICKER_COPERTI_START);
+            seatsNumber = intent.getIntExtra("coperti",0);
+            System.out.println("coperti: "+seatsNumber);
             orderViewModel.init(idTable, seatsNumber,this);
+            //TODO: far partire magari un altro thread qua
         }
     }
 

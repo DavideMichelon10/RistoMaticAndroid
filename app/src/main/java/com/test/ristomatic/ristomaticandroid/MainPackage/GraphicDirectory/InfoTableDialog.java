@@ -32,9 +32,10 @@ public class InfoTableDialog extends DialogFragment {
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ContextApplication.getAppContext(), OrderActivity.class);
-                intent.putExtra(getString(R.string.id_tavolo),idTable);
-                intent.putExtra(getString(R.string.richiama),true);
+                Intent intent = new Intent(getContext(), OrderActivity.class);
+                intent.putExtra("idTable",idTable);
+                System.out.println("ID TABLE: "+idTable);
+                intent.putExtra("richiama",true);
                 startActivity(intent);
             }
         });

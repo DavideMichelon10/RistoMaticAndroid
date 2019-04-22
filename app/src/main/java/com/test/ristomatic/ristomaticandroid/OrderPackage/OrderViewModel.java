@@ -42,7 +42,7 @@ public class OrderViewModel extends AndroidViewModel {
 
     public void init(int tableId, Context context){
         this.tableId = tableId;
-        this.seatsNumber = GlobalVariableApplication.VALUE_NUMBER_PICKER_COPERTI_START;
+        this.seatsNumber = 0;
         setAdaptersContainer(new AdaptersContainer(context, courses, getInitDB()));
     }
 

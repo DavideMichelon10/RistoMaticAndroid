@@ -182,7 +182,6 @@ public class MainViewModel extends AndroidViewModel {
                 dishCategoryJoinDao.nukeTableDishCategory();
                 for(int i=0; i<jsonTable.getJSONArray("table").length(); i++){
                     String dishCategoryJoinInString = jsonTable.getJSONArray("table").get(i).toString();
-                    System.out.println("STRINGAA: "+dishCategoryJoinInString);
                     DishCategoryJoin dishCategoryJoin = gson.fromJson(dishCategoryJoinInString, DishCategoryJoin.class);
                     dishCategoryJoinDao.addDishCategory(dishCategoryJoin);
                 }

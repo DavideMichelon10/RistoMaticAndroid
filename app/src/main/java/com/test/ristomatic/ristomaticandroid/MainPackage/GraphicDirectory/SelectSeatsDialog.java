@@ -38,9 +38,9 @@ public class SelectSeatsDialog extends DialogFragment {
             public void onClick(DialogInterface dialog, int which) {
                 Intent intent = new Intent(ContextApplication.getAppContext(), OrderActivity.class);
                 MainActivity.getMainViewModel().changeTableState(idTable, "Occupato");
-                intent.putExtra(getString(R.string.id_tavolo), idTable);
-                intent.putExtra(getString(R.string.coperti), seatsPicker.getValue());
-                intent.putExtra(getString(R.string.richiama),false);
+                intent.putExtra("idTable", idTable);
+                intent.putExtra("coperti", seatsPicker.getValue());
+                intent.putExtra("richiama",false);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 ContextApplication.getAppContext().startActivity(intent);
             }
