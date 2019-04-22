@@ -3,11 +3,15 @@ package com.test.ristomatic.ristomaticandroid.MainPackage;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Toast;
 
 import com.test.ristomatic.ristomaticandroid.Application.ContextApplication;
 import com.test.ristomatic.ristomaticandroid.LoginPackage.LoginViewModel;
@@ -41,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
                 mainViewModel.updateablesDate();
             }
         }).start();
+
     }
 
 

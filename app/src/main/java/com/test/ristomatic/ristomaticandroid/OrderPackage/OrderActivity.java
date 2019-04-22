@@ -29,36 +29,34 @@ public class OrderActivity extends AppCompatActivity {
 
     private RadioGroup rgp;
     private int seatsNumber, idTable;
-
+    private ProgressBar progress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
         InsertDishUtilities.setContext(this);
-        final ProgressBar progress = (ProgressBar) findViewById(R.id.progressBar);
-        progress.setVisibility(View.VISIBLE);
+        orderViewModel = ViewModelProviders.of(this).get(OrderViewModel.class);
+        progress = findViewById(R.id.progressBar);
+        createCourseSelection();
+
         new Thread(new Runnable() {
             @Override
             public void run() {
                 initializeVM();
-                progress.setVisibility(View.GONE);
+                initializeRecyclerViewCategories();
+                initializeRecyclerViewDishes();
+                initializeRecyclerViewCourses();
             }
         }).start();
 
-        createCourseSelection();
-        initializeRecyclerViewCategories();
-        initializeRecyclerViewDishes();
-        initializeRecyclerViewCourses();
     }
 
-
     public void initializeVM(){
-        orderViewModel = ViewModelProviders.of(this).get(OrderViewModel.class);
         Intent intent = getIntent();
         idTable = intent.getIntExtra(String.valueOf(R.string.id_tavolo), 0);
-
-        boolean richiama = intent.getBooleanExtra(String.valueOf(R.string.richiama), false);
+        boolean richiama = intent.getBooleanExtra(String.valueOf(R.string.richiama), true);
+        System.out.println(""+richiama+"    "+idTable);
         if(richiama){
             orderViewModel.init(idTable,this);
         }else{
@@ -88,7 +86,7 @@ public class OrderActivity extends AppCompatActivity {
         recyclerViewCategories = findViewById(R.id.recyclerViewCategories);
         recyclerViewCategories.setHasFixedSize(true);
         recyclerViewCategories.setLayoutManager(new GridLayoutManager(this,1));
-        recyclerViewCategories.setAdapter(orderViewModel.getAdapterCategories());
+        recyclerViewCategories.setAdapter(orderViewModel.getAdaptersContainer().getCategoriesAdapter());
     }
 
 
@@ -96,7 +94,7 @@ public class OrderActivity extends AppCompatActivity {
         recyclerViewDishes = findViewById(R.id.recyclerViewDishes);
         recyclerViewDishes.setHasFixedSize(true);
         recyclerViewDishes.setLayoutManager(new GridLayoutManager(this, 3));
-        recyclerViewDishes.setAdapter(orderViewModel.getDishedAdapter());
+        recyclerViewDishes.setAdapter(orderViewModel.getAdaptersContainer().getDishesAdapter());
     }
 
 
@@ -104,7 +102,7 @@ public class OrderActivity extends AppCompatActivity {
         recyclerViewCourses = findViewById(R.id.recyclerViewCourses);
         recyclerViewCourses.setHasFixedSize(true);
         recyclerViewCourses.setLayoutManager(new GridLayoutManager(this, 1));
-        recyclerViewCourses.setAdapter(orderViewModel.getCoursesAdapter());
+        recyclerViewCourses.setAdapter(orderViewModel.getAdaptersContainer().getCoursesAdapter());
     }
 
 

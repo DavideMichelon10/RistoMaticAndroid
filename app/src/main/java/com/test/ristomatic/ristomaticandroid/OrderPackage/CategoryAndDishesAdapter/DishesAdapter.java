@@ -92,7 +92,7 @@ public class DishesAdapter extends RecyclerView.Adapter<DishesAdapter.DishViewHo
 
         public SelectVariantsDialog createAlertDialog(){
             SelectedDish insertedDish = new SelectedDish(dishes.get(getAdapterPosition()).getDishName());
-            List<String> variants = OrderViewModel.getDishModelDao().getVariantsNameOfDish(dishes.get(getAdapterPosition()).getIdDish());
+            List<String> variants = OrderViewModel.getInitDB().getDishModelDao().getVariantsNameOfDish(dishes.get(getAdapterPosition()).getIdDish());
             SelectVariantsDialog selectVariantsDialog = SelectVariantsDialog.newInsertionInstance(insertedDish.getSelectedDishName(), (ArrayList<String>) variants, context);
             return selectVariantsDialog;
         }

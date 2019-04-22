@@ -43,11 +43,6 @@ public class MainViewModel extends AndroidViewModel {
     private static int numberRooms;
     private PagerAdapter pagerAdapter;
 
-
-    public PagerAdapter getPagerAdapter() {
-        return pagerAdapter;
-    }
-
     public void setPagerAdapter(PagerAdapter pagerAdapter) {
         this.pagerAdapter = pagerAdapter;
     }

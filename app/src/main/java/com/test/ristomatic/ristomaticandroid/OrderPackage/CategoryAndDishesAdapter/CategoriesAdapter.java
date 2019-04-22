@@ -52,8 +52,8 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ca
                 @Override
                 public void onClick(View view) {
                     int idCategory = categories.get(getAdapterPosition()).getIdCategory();
-                    OrderViewModel.getDishedAdapter().setDishes(OrderViewModel.getDishModelDao().getSelectedDishes(idCategory));
-                    OrderViewModel.getDishedAdapter().notifyDataSetChanged();
+                    OrderViewModel.getAdaptersContainer().getDishesAdapter().setDishes(OrderViewModel.getInitDB().getDishModelDao().getSelectedDishes(idCategory));
+                    OrderViewModel.getAdaptersContainer().getDishesAdapter().notifyDataSetChanged();
                 }
             });
         }
