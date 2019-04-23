@@ -19,7 +19,7 @@ import android.widget.TextView;
 import com.test.ristomatic.ristomaticandroid.Application.GlobalVariableApplication;
 import com.test.ristomatic.ristomaticandroid.Application.VolleyCallbackObject;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.InsertDishUtilities.InsertDishUtilities;
-import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.CoursesAdapter;
+import com.test.ristomatic.ristomaticandroid.OrderPackage.OrderViewModel;
 import com.test.ristomatic.ristomaticandroid.R;
 
 import org.json.JSONException;
@@ -58,8 +58,7 @@ public class OrderActivity extends AppCompatActivity {
 
         initializeVM(richiama,seatsNumber,this);
         createCourseSelection();
-        initializeRecyclerViewCategories();
-        initializeRecyclerViewDishes();
+
 
     }
 
@@ -79,6 +78,8 @@ public class OrderActivity extends AppCompatActivity {
                             runOnUiThread( new Runnable(){
                                 @Override
                                 public void run() {
+                                    initializeRecyclerViewCategories();
+                                    initializeRecyclerViewDishes();
                                     initializeRecyclerViewCourses(context);
                                     float importo = 0;
                                     try {
@@ -97,8 +98,11 @@ public class OrderActivity extends AppCompatActivity {
             }).start();
 
         }else{
+
             orderViewModel.init(idTable, seatsNumber,this);
             initializeRecyclerViewCourses(context);
+            initializeRecyclerViewCategories();
+            initializeRecyclerViewDishes();
             progress.setVisibility(View.INVISIBLE);
             b.setEnabled(true);
         }
