@@ -30,6 +30,7 @@ public class OrderViewModel extends AndroidViewModel {
     private static InitDB initDB;
 
     private List<Course> courses;
+    private JSONObject comandaRichiamata = null;
 
     public OrderViewModel(Application application) {
         super(application);
@@ -68,15 +69,20 @@ public class OrderViewModel extends AndroidViewModel {
         JSONObject report = getReportInformation();
         JSONArray courses = convertReportToJSON();
         report.put("portate",courses);
-        orderRepository.sendReport(report, new VolleyCallbackObject() {
-            @Override
-            public void onSuccess(JSONObject result) {
-                Toast.makeText(getApplication(),getApplication().getString(R.string.comandaInviata), Toast.LENGTH_SHORT).show();
-            }
-        });
+        if(comandaRichiamata == null){
+            orderRepository.sendReport(report, new VolleyCallbackObject() {
+                @Override
+                public void onSuccess(JSONObject result) {
+                    Toast.makeText(getApplication(),getApplication().getString(R.string.comandaInviata), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }else{
+            System.out.println(report.toString());
+            Toast.makeText(getApplication(),"e un richiama", Toast.LENGTH_SHORT).show();
+
+        }
+
     }
-
-
 
     public JSONObject getReportInformation() throws JSONException {
         JSONObject report = new JSONObject();
@@ -87,7 +93,6 @@ public class OrderViewModel extends AndroidViewModel {
             report.put(getApplication().getString(R.string.coperti), seatsNumber);
         return report;
     }
-
 
     private JSONArray convertReportToJSON(){
         JSONArray courses = new JSONArray();
@@ -110,6 +115,7 @@ public class OrderViewModel extends AndroidViewModel {
             @Override
             public void onSuccess(JSONObject result) {
                 try {
+                    comandaRichiamata = result;
                     List<Course> courses = createReport(result);
                     adaptersContainer.setCoursesAdapter(new CoursesAdapter(context, courses));
                     callbackObject.onSuccess(getJsonToSendToOrderActivity(result));
