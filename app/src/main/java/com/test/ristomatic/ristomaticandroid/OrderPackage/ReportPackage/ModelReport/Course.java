@@ -10,13 +10,15 @@ public class Course {
     public Course(){
         selectedDishes =new ArrayList<>();
     }
-    public Course(List<SelectedDish> selectedDishes){
-        this.selectedDishes = selectedDishes;
-    }
 
     public Course(int courseNumber) {
         this.courseNumber = courseNumber;
         selectedDishes =new ArrayList<>();
+    }
+
+    public Course(int courseNumber,List<SelectedDish> selectedDishes){
+        this.courseNumber = courseNumber;
+        this.selectedDishes = selectedDishes;
     }
 
     public int getCourseNumber() {

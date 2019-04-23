@@ -18,6 +18,11 @@ public class SelectedDish {
         this.setSelectedDishName(selectedDishName); this.setSelectedVariantName(selectedVariantName);
     }
 
+    public SelectedDish(String selectedDishName, List<String> selectedVariantName, int timeSelected){
+        this.setSelectedDishName(selectedDishName); this.setSelectedVariantName(selectedVariantName);
+        this.timeSelected = timeSelected;
+    }
+
     public int getTimeSelected() {
         return timeSelected;
     }
@@ -54,5 +59,10 @@ public class SelectedDish {
                 return true;
         }
         return false;
+    }
+
+    @Override
+    public String toString() {
+        return ""+timeSelected+" name: "+selectedDishName;
     }
 }

@@ -3,16 +3,17 @@ package com.test.ristomatic.ristomaticandroid.OrderPackage;
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
 
 import com.google.gson.Gson;
 import com.test.ristomatic.ristomaticandroid.Application.ContextApplication;
-import com.test.ristomatic.ristomaticandroid.Application.GlobalVariableApplication;
 import com.test.ristomatic.ristomaticandroid.Application.VolleyCallbackObject;
 import com.test.ristomatic.ristomaticandroid.LoginPackage.LoginViewModel;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.CoursesAdapter;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.Course;
+import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.SelectedDish;
 import com.test.ristomatic.ristomaticandroid.R;
 
 import org.json.JSONArray;
@@ -40,10 +41,23 @@ public class OrderViewModel extends AndroidViewModel {
         setAdaptersContainer(new AdaptersContainer());
     }
 
-    public void init(int tableId, Context context){
+
+    public static AdaptersContainer getAdaptersContainer() {
+        return adaptersContainer;
+    }
+    public void setAdaptersContainer(AdaptersContainer adaptersContainer) {
+        this.adaptersContainer = adaptersContainer;
+    }
+    public static InitDB getInitDB() {
+        return initDB;
+    }
+    public void setInitDB(InitDB initDB) {
+        this.initDB = initDB;
+    }
+    public void initRichiama(int tableId, Context context){
         this.tableId = tableId;
         this.seatsNumber = 0;
-        setAdaptersContainer(new AdaptersContainer(context, courses, getInitDB()));
+        setAdaptersContainer(new AdaptersContainer(context, getInitDB()));
     }
 
     public void init(int tableId, int seatsNumber, Context context) {
@@ -51,8 +65,6 @@ public class OrderViewModel extends AndroidViewModel {
         this.tableId = tableId;
         setAdaptersContainer(new AdaptersContainer(context,courses, getInitDB()));
     }
-
-
 
     protected void sendReport() throws JSONException {
         JSONObject report = getReportInformation();
@@ -70,7 +82,6 @@ public class OrderViewModel extends AndroidViewModel {
 
     public JSONObject getReportInformation() throws JSONException {
         JSONObject report = new JSONObject();
-        File userLoggedFile = new File(ContextApplication.getAppContext().getFilesDir(), LoginViewModel.filename);
         JSONObject user = new JSONObject(LoginViewModel.getUserFileInString());
         report.put(getApplication().getString(R.string.Waiter),user.get("nome_cameriere"));
         report.put(getApplication().getString(R.string.id_tavolo), tableId);
@@ -95,19 +106,57 @@ public class OrderViewModel extends AndroidViewModel {
         return courses;
     }
 
-    public static AdaptersContainer getAdaptersContainer() {
-        return adaptersContainer;
+
+    public void getRichiama(final VolleyCallbackObject callbackObject, int idTable, final Context context) {
+        orderRepository.getRichiama(new VolleyCallbackObject() {
+            @Override
+            public void onSuccess(JSONObject result)  {
+                try {
+                    List<Course> courses = createReport(result);
+                    adaptersContainer.setCoursesAdapter(new CoursesAdapter(context, courses));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                callbackObject.onSuccess(result);
+            }
+        }, idTable);
     }
 
-    public void setAdaptersContainer(AdaptersContainer adaptersContainer) {
-        this.adaptersContainer = adaptersContainer;
+    private List<Course> createReport(JSONObject result) throws JSONException {
+        List<Course> courses = new ArrayList<>();
+        JSONArray portate = result.getJSONArray("portate");
+
+        for (int i = 0; i < portate.length(); i++) {
+            courses.add(getCourseFromJson(portate,i));
+        }
+        return courses;
     }
 
-    public static InitDB getInitDB() {
-        return initDB;
+    private Course getCourseFromJson(JSONArray portate, int i) throws JSONException {
+        JSONObject portata = portate.getJSONObject(i);
+        int courseNumber = portata.getInt("courseNumber");
+        JSONArray selectedDishes = portata.getJSONArray("selectedDishes");
+        List<SelectedDish> selectedDishes1 = new ArrayList<>();
+        for (int j = 0; j < selectedDishes.length(); j++) {
+            selectedDishes1.add(getSelectedDishFromJson(selectedDishes, j));
+        }
+        return new Course(courseNumber, selectedDishes1);
     }
 
-    public void setInitDB(InitDB initDB) {
-        this.initDB = initDB;
+    private SelectedDish getSelectedDishFromJson(JSONArray selectedDishes, int j) throws JSONException {
+        SelectedDish selDish;
+        JSONObject selectedDish = selectedDishes.getJSONObject(j);
+        JSONArray selectedVariants = selectedDish.getJSONArray("selectedVariantName");
+        List<String> variants = new ArrayList<>();
+
+        for (int z = 0; z < selectedVariants.length(); z++) {
+            String variant = selectedVariants.get(z).toString();
+            variants.add(variant);
+        }
+        int timeSelected = selectedDish.getInt("timeSelected");
+        String dishName = selectedDish.getString("selectedDishName");
+
+        selDish = new SelectedDish(dishName, variants, timeSelected);
+        return selDish;
     }
 }

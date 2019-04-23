@@ -17,6 +17,11 @@ public class AdaptersContainer {
 
     public AdaptersContainer(){}
 
+    public AdaptersContainer(Context context, InitDB initDB){
+        setCategoriesAdapter(new CategoriesAdapter(initDB.getCategoryModelDao().getAllCategories()));
+        setDishesAdapter(new DishesAdapter(initDB.getDishModelDao().getSelectedDishes(1), context));
+    }
+
     public AdaptersContainer(Context context, List<Course> courses, InitDB initDB){
         setCategoriesAdapter(new CategoriesAdapter(initDB.getCategoryModelDao().getAllCategories()));
         setDishesAdapter(new DishesAdapter(initDB.getDishModelDao().getSelectedDishes(1), context));
@@ -26,7 +31,7 @@ public class AdaptersContainer {
         return coursesAdapter;
     }
 
-    private void setCoursesAdapter(CoursesAdapter coursesAdapter){
+    public void setCoursesAdapter(CoursesAdapter coursesAdapter){
         this.coursesAdapter = coursesAdapter;
     }
     public CategoriesAdapter getCategoriesAdapter() {
@@ -37,7 +42,6 @@ public class AdaptersContainer {
         return dishesAdapter;
     }
 
-
     private void setDishesAdapter(DishesAdapter dishesAdapter) {
         this.dishesAdapter = dishesAdapter;
     }
@@ -45,5 +49,6 @@ public class AdaptersContainer {
     private void setCategoriesAdapter(CategoriesAdapter categoriesAdapter) {
         this.categoriesAdapter = categoriesAdapter;
     }
+
 
 }

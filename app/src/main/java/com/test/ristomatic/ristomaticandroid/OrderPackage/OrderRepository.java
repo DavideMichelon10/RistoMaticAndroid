@@ -28,4 +28,21 @@ public class OrderRepository {
         });
         SingeltonVolley.getInstance(ContextApplication.getAppContext()).addToRequestQueue(sendRequest);
     }
+
+    public void getRichiama(final VolleyCallbackObject volleyCallbackObject, int idTable){
+        JsonObjectRequest getRichiama = new JsonObjectRequest(Request.Method.GET, VolleyCallApplication.report()+"/"+idTable, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        volleyCallbackObject.onSuccess(response);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                System.out.println("IN ONERROR");
+            }
+        });
+
+        SingeltonVolley.getInstance(ContextApplication.getAppContext()).addToRequestQueue(getRichiama);
+    }
 }
