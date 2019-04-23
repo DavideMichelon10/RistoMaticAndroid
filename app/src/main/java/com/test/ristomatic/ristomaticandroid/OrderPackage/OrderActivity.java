@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.test.ristomatic.ristomaticandroid.Application.GlobalVariableApplication;
 import com.test.ristomatic.ristomaticandroid.Application.VolleyCallbackObject;
@@ -31,10 +32,12 @@ public class OrderActivity extends AppCompatActivity {
     private RecyclerView recyclerViewCategories;
     private RecyclerView recyclerViewDishes;
     private  RecyclerView recyclerViewCourses;
-
     private RadioGroup rgp;
-    private int seatsNumber, idTable;
     private ProgressBar progress;
+    private TextView tIdTable, tImporto;
+
+    private int seatsNumber, idTable;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,34 +46,47 @@ public class OrderActivity extends AppCompatActivity {
         InsertDishUtilities.setContext(this);
         orderViewModel = ViewModelProviders.of(this).get(OrderViewModel.class);
         progress = findViewById(R.id.progressBar);
+        tIdTable = findViewById(R.id.idTable);
+        tImporto = findViewById(R.id.importo);
+        Intent intent = getIntent();
+        idTable = intent.getIntExtra("idTable", 0);
+        seatsNumber = intent.getIntExtra("coperti",0);
 
-        initializeVM(this);
+        tIdTable.setText(Integer.toString(idTable));
+
+        boolean richiama = intent.getBooleanExtra("richiama",false);
+
+        initializeVM(richiama,seatsNumber,this);
         createCourseSelection();
         initializeRecyclerViewCategories();
         initializeRecyclerViewDishes();
 
     }
 
-    public void initializeVM(final Context context){
-        Intent intent = getIntent();
-        idTable = intent.getIntExtra("idTable", 0);
-        boolean richiama = intent.getBooleanExtra("richiama",false);
+    public void initializeVM(boolean richiama, int seatsNumber, final Context context){
+        final Button b = findViewById(R.id.sendReport);
+        b.setEnabled(false);
 
         if(richiama){
             orderViewModel.initRichiama(idTable,this);
-            final Button b = findViewById(R.id.sendReport);
-            b.setEnabled(false);
 
             new Thread(new Runnable() {
                 @Override
                 public void run() {
                     orderViewModel.getRichiama(new VolleyCallbackObject() {
                         @Override
-                        public void onSuccess(JSONObject result) {
+                        public void onSuccess(final JSONObject result) {
                             runOnUiThread( new Runnable(){
                                 @Override
                                 public void run() {
                                     initializeRecyclerViewCourses(context);
+                                    float importo = 0;
+                                    try {
+                                        importo = result.getInt("importo");
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                    tImporto.setText(importo+"€");
                                     b.setEnabled(true);
                                     progress.setVisibility(View.INVISIBLE);
                                 }
@@ -81,8 +97,10 @@ public class OrderActivity extends AppCompatActivity {
             }).start();
 
         }else{
-            seatsNumber = intent.getIntExtra("coperti",0);
             orderViewModel.init(idTable, seatsNumber,this);
+            initializeRecyclerViewCourses(context);
+            progress.setVisibility(View.INVISIBLE);
+            b.setEnabled(true);
         }
     }
 

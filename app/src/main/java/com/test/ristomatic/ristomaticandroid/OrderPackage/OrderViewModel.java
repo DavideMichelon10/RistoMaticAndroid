@@ -3,12 +3,10 @@ package com.test.ristomatic.ristomaticandroid.OrderPackage;
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
 
 import com.google.gson.Gson;
-import com.test.ristomatic.ristomaticandroid.Application.ContextApplication;
 import com.test.ristomatic.ristomaticandroid.Application.VolleyCallbackObject;
 import com.test.ristomatic.ristomaticandroid.LoginPackage.LoginViewModel;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.CoursesAdapter;
@@ -110,14 +108,14 @@ public class OrderViewModel extends AndroidViewModel {
     public void getRichiama(final VolleyCallbackObject callbackObject, int idTable, final Context context) {
         orderRepository.getRichiama(new VolleyCallbackObject() {
             @Override
-            public void onSuccess(JSONObject result)  {
+            public void onSuccess(JSONObject result) {
                 try {
                     List<Course> courses = createReport(result);
                     adaptersContainer.setCoursesAdapter(new CoursesAdapter(context, courses));
+                    callbackObject.onSuccess(getJsonToSendToOrderActivity(result));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                callbackObject.onSuccess(result);
             }
         }, idTable);
     }
@@ -158,5 +156,12 @@ public class OrderViewModel extends AndroidViewModel {
 
         selDish = new SelectedDish(dishName, variants, timeSelected);
         return selDish;
+    }
+
+    private JSONObject getJsonToSendToOrderActivity(JSONObject result) throws JSONException {
+        JSONObject jsonObject = new JSONObject();
+        String importo = result.getString("importo");
+        jsonObject.put("importo", importo);
+        return jsonObject;
     }
 }
