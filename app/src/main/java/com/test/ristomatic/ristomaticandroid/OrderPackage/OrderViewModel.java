@@ -3,7 +3,6 @@ package com.test.ristomatic.ristomaticandroid.OrderPackage;
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.content.Context;
-import android.os.AsyncTask;
 import android.widget.Toast;
 
 
@@ -19,7 +18,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,19 +66,22 @@ public class OrderViewModel extends AndroidViewModel {
 
     protected void sendReport() throws JSONException {
         JSONObject report = getReportInformation();
-        JSONArray courses = convertReportToJSON();
-        report.put("portate",courses);
         if(comandaRichiamata == null){
+            JSONArray courses = convertReportToJSON();
+            System.out.println(courses.toString());
+            report.put("portate",courses);
             orderRepository.sendReport(report, new VolleyCallbackObject() {
                 @Override
                 public void onSuccess(JSONObject result) {
                 }
             });
         }else{
-            Toast.makeText(getApplication(),"e un richiama", Toast.LENGTH_SHORT).show();
+            List<Course> currentCourses = getCurrentCourses();
+            List<Course> richiamaCourses = jsonObjectToCoursesList(comandaRichiamata);
+            //TODO continuare confronto liste; meglio aspettare merge
         }
-
     }
+
 
     public JSONObject getReportInformation() throws JSONException {
         JSONObject report = new JSONObject();
@@ -94,8 +95,8 @@ public class OrderViewModel extends AndroidViewModel {
 
     private JSONArray convertReportToJSON(){
         JSONArray courses = new JSONArray();
-        for(int i=0; i<CoursesAdapter.getCourses().size(); i++){
-            Course course = CoursesAdapter.getCourses().get(i);
+        for(int i=0; i< getCurrentCourses().size(); i++){
+            Course course = getCurrentCourses().get(i);
             Gson gson = new Gson();
             String json = gson.toJson(course);
             try {
@@ -107,6 +108,9 @@ public class OrderViewModel extends AndroidViewModel {
         return courses;
     }
 
+    private List<Course> getCurrentCourses() {
+        return CoursesAdapter.getCourses();
+    }
 
     public void getRichiama(final VolleyCallbackObject callbackObject, int idTable, final Context context) {
         orderRepository.getRichiama(new VolleyCallbackObject() {
@@ -114,7 +118,7 @@ public class OrderViewModel extends AndroidViewModel {
             public void onSuccess(JSONObject result) {
                 try {
                     comandaRichiamata = result;
-                    List<Course> courses = createReport(result);
+                    List<Course> courses = jsonObjectToCoursesList(result);
                     adaptersContainer.setCoursesAdapter(new CoursesAdapter(context, courses));
                     callbackObject.onSuccess(getJsonToSendToOrderActivity(result));
                 } catch (JSONException e) {
@@ -124,7 +128,7 @@ public class OrderViewModel extends AndroidViewModel {
         }, idTable);
     }
 
-    private List<Course> createReport(JSONObject result) throws JSONException {
+    private List<Course> jsonObjectToCoursesList(JSONObject result) throws JSONException {
         List<Course> courses = new ArrayList<>();
         JSONArray portate = result.getJSONArray("portate");
 

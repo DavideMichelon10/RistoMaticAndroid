@@ -22,14 +22,11 @@ import com.test.ristomatic.ristomaticandroid.R;
 public class LoginActivity extends AppCompatActivity {
     private LoginViewModel loginViewModel;
     private EditText editCode;
-    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        progressBar = findViewById(R.id.progressBar2);
-        progressBar.setVisibility(View.INVISIBLE);
         loginViewModel = ViewModelProviders.of(this).get(LoginViewModel.class);
         loginViewModel.init(new LoginRepository());
 
