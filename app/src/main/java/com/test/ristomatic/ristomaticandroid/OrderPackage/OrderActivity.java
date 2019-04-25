@@ -4,6 +4,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,11 +16,11 @@ import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.test.ristomatic.ristomaticandroid.Application.GlobalVariableApplication;
 import com.test.ristomatic.ristomaticandroid.Application.VolleyCallbackObject;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.InsertDishUtilities.InsertDishUtilities;
-import com.test.ristomatic.ristomaticandroid.OrderPackage.OrderViewModel;
 import com.test.ristomatic.ristomaticandroid.R;
 
 import org.json.JSONException;
@@ -35,7 +36,7 @@ public class OrderActivity extends AppCompatActivity {
     private RadioGroup rgp;
     private ProgressBar progress;
     private TextView tIdTable, tImporto;
-
+    private Button b;
     private int seatsNumber, idTable;
 
 
@@ -63,12 +64,11 @@ public class OrderActivity extends AppCompatActivity {
     }
 
     public void initializeVM(boolean richiama, int seatsNumber, final Context context){
-        final Button b = findViewById(R.id.sendReport);
+        b = findViewById(R.id.sendReport);
         b.setEnabled(false);
 
         if(richiama){
             orderViewModel.initRichiama(idTable,this);
-
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -96,7 +96,6 @@ public class OrderActivity extends AppCompatActivity {
                     }, idTable,context);
                 }
             }).start();
-
         }else{
 
             orderViewModel.init(idTable, seatsNumber,this);
@@ -150,7 +149,7 @@ public class OrderActivity extends AppCompatActivity {
 
 
     public void sendReport(View view) throws JSONException {
-        orderViewModel.sendReport();
+        new SendReport().execute();
         super.onBackPressed();
     }
 
@@ -185,5 +184,24 @@ public class OrderActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+    }
+
+
+    private class SendReport extends AsyncTask<Void, String ,Void>{
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            try {
+                orderViewModel.sendReport();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return(null);
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            Toast.makeText(getApplication(),getApplication().getString(R.string.comandaInviata), Toast.LENGTH_SHORT).show();
+        }
     }
 }

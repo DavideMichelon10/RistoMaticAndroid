@@ -3,6 +3,7 @@ package com.test.ristomatic.ristomaticandroid.OrderPackage;
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.widget.Toast;
 
 
@@ -73,13 +74,10 @@ public class OrderViewModel extends AndroidViewModel {
             orderRepository.sendReport(report, new VolleyCallbackObject() {
                 @Override
                 public void onSuccess(JSONObject result) {
-                    Toast.makeText(getApplication(),getApplication().getString(R.string.comandaInviata), Toast.LENGTH_SHORT).show();
                 }
             });
         }else{
-            System.out.println(report.toString());
             Toast.makeText(getApplication(),"e un richiama", Toast.LENGTH_SHORT).show();
-
         }
 
     }
@@ -170,4 +168,5 @@ public class OrderViewModel extends AndroidViewModel {
         jsonObject.put("importo", importo);
         return jsonObject;
     }
+
 }
