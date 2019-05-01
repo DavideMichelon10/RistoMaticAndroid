@@ -173,10 +173,11 @@ public class SelectVariantsDialog extends DialogFragment {
         boolean[] selectedVariantsBoolean = new boolean[variants.size()];
         boolean[] selectedVariantsPlus = new boolean[variants.size()];
         for (int i = 0; i < variants.size(); i++) {
-            if (containsVariant(variants.get(i), selectedVariants))
+            int selectedVariantIndex = containsVariant(variants.get(i), selectedVariants);
+            if (selectedVariantIndex != -1)
             {
                 selectedVariantsBoolean[i] = true;
-                selectedVariantsPlus[i] = selectedVariants.get(i).isPlus();
+                selectedVariantsPlus[i] = selectedVariants.get(selectedVariantIndex).isPlus();
             }
             else {
                 selectedVariantsBoolean[i] = false;
@@ -193,12 +194,11 @@ public class SelectVariantsDialog extends DialogFragment {
         return frag;
     }
 
-    private static boolean containsVariant(SelectedVariant variants, ArrayList<SelectedVariant> selectedVariantsList){
-        List<String> variantsNames = new ArrayList<>();
+    private static int containsVariant(SelectedVariant variants, ArrayList<SelectedVariant> selectedVariantsList){
         for (int i = 0;i<selectedVariantsList.size();i++){
             if(variants.getVariantName().compareTo(selectedVariantsList.get(i).getVariantName()) == 0)
-                return true;
+                return i;
         }
-        return false;
+        return -1;
     }
 }
