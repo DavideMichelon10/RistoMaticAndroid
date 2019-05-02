@@ -135,7 +135,9 @@ public class MainViewModel extends AndroidViewModel {
         switch (index){
             case 0:
                 VariantModelDao variantModelDao = appDatabase.getVariantModelDao();
+                System.out.println("PRIMA DEL NUKE TABLE");
                 variantModelDao.nukeTableVariant();
+                System.out.println("DOPO NUKE TABLE");
                 for(int i =0; i<jsonTable.getJSONArray("table").length(); i++){
                     String variantInString = jsonTable.getJSONArray("table").get(i).toString();
                     VariantModel variantModel = gson.fromJson(variantInString, VariantModel.class);

@@ -16,6 +16,7 @@ import com.test.ristomatic.ristomaticandroid.OrderPackage.OrderActivity;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.OrderViewModel;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.SelectedDish;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.Dialogs.SelectVariantsModel.SelectVariantsDialog;
+import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.SelectedVariant;
 import com.test.ristomatic.ristomaticandroid.R;
 import com.test.ristomatic.ristomaticandroid.RoomDatabase.Dish.DishModel;
 
@@ -91,15 +92,19 @@ public class DishesAdapter extends RecyclerView.Adapter<DishesAdapter.DishViewHo
 
 
         public SelectVariantsDialog createAlertDialog(){
-            SelectedDish insertedDish = new SelectedDish(dishes.get(getAdapterPosition()).getDishName());
-            List<String> variants = OrderViewModel.getInitDB().getDishModelDao().getVariantsNameOfDish(dishes.get(getAdapterPosition()).getIdDish());
-            SelectVariantsDialog selectVariantsDialog = SelectVariantsDialog.newInsertionInstance(insertedDish.getSelectedDishName(), (ArrayList<String>) variants, context);
+            String selectedDishName = dishes.get(getAdapterPosition()).getDishName();
+            int selectedDishId = dishes.get(getAdapterPosition()).getIdDish();
+            SelectedDish insertedDish = new SelectedDish(selectedDishName, selectedDishId);
+            List<SelectedVariant> variants = OrderViewModel.getInitDB().getDishModelDao().getVariantsNameAndIdOfDish(dishes.get(getAdapterPosition()).getDishName());
+            SelectVariantsDialog selectVariantsDialog = SelectVariantsDialog.newInsertionInstance(insertedDish.getSelectedDishName(), insertedDish.getSelectedDishId(), (ArrayList<SelectedVariant>) variants, context);
             return selectVariantsDialog;
         }
 
 
         public void insertDish(final int courseNumber) throws ArrayIndexOutOfBoundsException{
-            SelectedDish insertedDish = new SelectedDish(dishes.get(getAdapterPosition()).getDishName());
+            String selectedDishName = dishes.get(getAdapterPosition()).getDishName();
+            int selectedDishId = dishes.get(getAdapterPosition()).getIdDish();
+            SelectedDish insertedDish = new SelectedDish(selectedDishName, selectedDishId);
             if(InsertDishUtilities.doesCourseExist(courseNumber)){
                 InsertDishUtilities.handleInExistingCourse(courseNumber, insertedDish);
             }

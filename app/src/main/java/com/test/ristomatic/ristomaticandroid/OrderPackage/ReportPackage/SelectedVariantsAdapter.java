@@ -8,15 +8,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.SelectedVariant;
 import com.test.ristomatic.ristomaticandroid.R;
 
 import java.util.List;
 
 public class SelectedVariantsAdapter extends RecyclerView.Adapter<SelectedVariantsAdapter.SelectedVariantViewHolder> {
     Context context;
-    List<String> variantsSelected;
+    List<SelectedVariant> variantsSelected;
 
-    public SelectedVariantsAdapter(Context context, List<String> variantsSelected){
+    public SelectedVariantsAdapter(Context context, List<SelectedVariant> variantsSelected){
         this.context = context;
         this.variantsSelected = variantsSelected;
     }
@@ -31,7 +32,10 @@ public class SelectedVariantsAdapter extends RecyclerView.Adapter<SelectedVarian
 
     @Override
     public void onBindViewHolder(@NonNull SelectedVariantViewHolder holder, int position) {
-        holder.variantSelected.setText(variantsSelected.get(position));
+        String plusOrMinus = "-";
+        if (variantsSelected.get(position).isPlus())
+            plusOrMinus = "+";
+        holder.variantSelected.setText((CharSequence) plusOrMinus + " " + variantsSelected.get(position).getVariantName());
     }
 
     @Override

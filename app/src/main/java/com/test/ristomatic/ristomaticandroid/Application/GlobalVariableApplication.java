@@ -33,6 +33,6 @@ public class GlobalVariableApplication extends Application {
 
     public static String serverAddress(){
         //return "http://"+ getIpServer() +":"+getPort()+"/";
-        return "http://192.168.1.104:8080/";
+        return "http://10.196.172.216:8080/";
     }
 }

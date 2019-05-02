@@ -3,14 +3,14 @@ package com.test.ristomatic.ristomaticandroid.Application;
 import android.app.Application;
 
 //tutte le chiamate eseguite con volley
-public class VolleyCallApplication {
+public class VolleyCallApplication extends Application {
 
     public static String checkLogin(){
-        return GlobalVariableApplication.serverAddress() +"v1/login";
+        return GlobalVariableApplication.serverAddress() + "v1/login";
     }
     //sale con tavoli
     public static String getTablesRooms(){
-        return GlobalVariableApplication.serverAddress() +"v1/rooms";
+        return GlobalVariableApplication.serverAddress() + "v1/rooms";
     }
     //cambiare stato tavolo
     public static String changeTableState(){
@@ -21,6 +21,6 @@ public class VolleyCallApplication {
         return GlobalVariableApplication.serverAddress() + "v1/dates";
     }
     public static String report(){
-        return GlobalVariableApplication.serverAddress() +"v1/report";
+        return GlobalVariableApplication.serverAddress() + "v1/report";
     }
 }

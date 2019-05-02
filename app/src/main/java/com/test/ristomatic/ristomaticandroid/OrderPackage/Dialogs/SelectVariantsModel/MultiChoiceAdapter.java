@@ -3,10 +3,15 @@ package com.test.ristomatic.ristomaticandroid.OrderPackage.Dialogs.SelectVariant
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.TextView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+
+import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.SelectedVariant;
+import com.test.ristomatic.ristomaticandroid.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,13 +20,13 @@ public class MultiChoiceAdapter extends RecyclerView.Adapter<MultiChoiceAdapter.
 
     Context fragmentDialogContext;
 
-    private List<String> variants;;
+    private List<SelectedVariant> variants;
 
-    public List<String> getVariants() {
+    public List<SelectedVariant> getVariants() {
         return variants;
     }
 
-    public void setVariants(List<String> variants) {
+    public void setVariants(List<SelectedVariant> variants) {
         this.variants = variants;
     }
 
@@ -36,7 +41,7 @@ public class MultiChoiceAdapter extends RecyclerView.Adapter<MultiChoiceAdapter.
         this.checkedVariants = checkedVariants;
     }
 
-    public MultiChoiceAdapter(List<String> variants, Context fragmentDialogContext){
+    public MultiChoiceAdapter(List<SelectedVariant> variants, Context fragmentDialogContext){
         setVariants(variants);
         this.fragmentDialogContext = fragmentDialogContext;
         setCheckedVariants(new ArrayList<Boolean>());
@@ -45,16 +50,24 @@ public class MultiChoiceAdapter extends RecyclerView.Adapter<MultiChoiceAdapter.
         }
     }
 
-    public MultiChoiceAdapter(List<String> variants, List<Boolean> checkedVariants, Context fragmentDialogContext){
+    public MultiChoiceAdapter(List<SelectedVariant> variants, List<Boolean> checkedVariants, List<Boolean> selectedVariantsPlus, Context fragmentDialogContext){
         setVariants(variants);
         this.fragmentDialogContext = fragmentDialogContext;
         setCheckedVariants(checkedVariants);
+        setRadioButtonPlusMinus(selectedVariantsPlus);
+    }
+
+    private void setRadioButtonPlusMinus(List<Boolean> selectedVariantsPlus){
+        for (int i = 0;i < selectedVariantsPlus.size(); i++) {
+            variants.get(i).setPlus(selectedVariantsPlus.get(i));
+        }
     }
 
     @NonNull
     @Override
     public CheckItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new CheckItemViewHolder(new CheckBox(fragmentDialogContext));
+        View cardView = LayoutInflater.from(fragmentDialogContext).inflate(R.layout.select_variant, parent, false);
+        return new CheckItemViewHolder(cardView);
     }
 
     @Override
@@ -66,8 +79,9 @@ public class MultiChoiceAdapter extends RecyclerView.Adapter<MultiChoiceAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull CheckItemViewHolder holder, int position) {
-        holder.setText(variants.get(position));
+        holder.setText(variants.get(position).getVariantName());
         holder.check(checkedVariants.get(position));
+        holder.setRadioButton(variants.get(position).isPlus());
     }
 
     @Override
@@ -75,8 +89,8 @@ public class MultiChoiceAdapter extends RecyclerView.Adapter<MultiChoiceAdapter.
         return variants.size();
     }
 
-    public List<String> getSelectedVariants(){
-        List<String> selectedVariants = new ArrayList<>();
+    public List<SelectedVariant> getSelectedVariants(){
+        List<SelectedVariant> selectedVariants = new ArrayList<>();
         for (int i=0;i<variants.size();i++){
             if(checkedVariants.get(i))
                 selectedVariants.add(variants.get(i));
@@ -86,28 +100,62 @@ public class MultiChoiceAdapter extends RecyclerView.Adapter<MultiChoiceAdapter.
 
     public class CheckItemViewHolder extends RecyclerView.ViewHolder{
 
-        CheckBox variant;
+        CheckBox variantCheckBox;
+        RadioGroup plusMinusRadioGroup;
+        RadioButton plusRadioButton;
+        RadioButton minusRadioButton;
         public CheckItemViewHolder(View itemView) {
             super(itemView);
-            variant = (CheckBox) itemView;
-            variant.setOnClickListener(new View.OnClickListener() {
+            variantCheckBox = itemView.findViewById(R.id.checkBox);
+            variantCheckBox.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     CheckBox checkBox = (CheckBox) v;
-                    if(checkBox.isChecked())
-                        checkedVariants.set(getAdapterPosition(), true);
-                    else
-                        checkedVariants.set(getAdapterPosition(), false);
+                    setCheckedVariant(checkBox);
                 }
             });
+            plusMinusRadioGroup = itemView.findViewById(R.id.plus_minus_radiogroup);
+            plusRadioButton = plusMinusRadioGroup.findViewById(R.id.plus);
+            plusRadioButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    variants.get(getAdapterPosition()).setPlus(true);
+                    variantCheckBox.setChecked(true);
+                    setCheckedVariant(variantCheckBox);
+                }
+            });
+            minusRadioButton = plusMinusRadioGroup.findViewById(R.id.minus);
+            minusRadioButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    variants.get(getAdapterPosition()).setPlus(false);
+                    variantCheckBox.setChecked(true);
+                    setCheckedVariant(variantCheckBox);
+                }
+            });
+
+        }
+
+        private void setCheckedVariant(CheckBox checkBox){
+            if(checkBox.isChecked())
+                checkedVariants.set(getAdapterPosition(), true);
+            else
+                checkedVariants.set(getAdapterPosition(), false);
+        }
+
+        public void setRadioButton(boolean isPlus){
+            if(isPlus)
+                plusMinusRadioGroup.check(R.id.plus);
+            else
+                plusMinusRadioGroup.check(R.id.minus);
         }
 
         public void check(boolean b){
-            variant.setChecked(b);
+            variantCheckBox.setChecked(b);
         }
 
         public void setText(String text){
-            variant.setText(text);
+            variantCheckBox.setText(text);
         }
     }
 }
