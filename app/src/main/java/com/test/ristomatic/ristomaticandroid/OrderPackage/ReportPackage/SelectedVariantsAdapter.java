@@ -35,7 +35,7 @@ public class SelectedVariantsAdapter extends RecyclerView.Adapter<SelectedVarian
         String plusOrMinus = "-";
         if (variantsSelected.get(position).isPlus())
             plusOrMinus = "+";
-        holder.variantSelected.setText((CharSequence) variantsSelected.get(position).getVariantName() + " " + plusOrMinus);
+        holder.variantSelected.setText((CharSequence) plusOrMinus + " " + variantsSelected.get(position).getVariantName());
     }
 
     @Override

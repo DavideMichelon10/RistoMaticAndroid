@@ -10,7 +10,9 @@ import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelRep
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.SelectedVariant;
 import com.test.ristomatic.ristomaticandroid.R;
 
+import java.nio.channels.SeekableByteChannel;
 import java.util.ArrayList;
+import java.util.List;
 
 public final class InsertDishUtilities {
     private InsertDishUtilities() {
@@ -36,6 +38,7 @@ public final class InsertDishUtilities {
         }
         return -1;
     }
+
 
     //Cambia timeSelectedDish
     public static void changeTimeSelectedDish(int coursePosition, int dishPosition, RecyclerView recyclerViewCourses) {
@@ -92,7 +95,7 @@ public final class InsertDishUtilities {
             }
         }
         CoursesAdapter.getCourses().get(coursePosition).getAllSelectedDishes().get(dishPosition).setTimeSelected(timeSelected);
-        CoursesAdapter.getCourses().get(coursePosition).getAllSelectedDishes().get(dishPosition).setSelectedVariantName(selectedVariants);
+        CoursesAdapter.getCourses().get(coursePosition).getAllSelectedDishes().get(dishPosition).setSelectedVariants(selectedVariants);
         //ricava la posizione della portata esistente nella lista
         for (int i = 0; i < CoursesAdapter.getCourses().size(); i++) {
             if (CoursesAdapter.getCourses().get(i).getCourseNumber() == (courseNumber)) {
@@ -267,5 +270,25 @@ public final class InsertDishUtilities {
             notifyItemChanged(recyclerViewCourses, coursePosition, dishPosition);
         }
 
+    }
+
+
+    public static boolean findSameDishesInCourse(int courseNumber, int dishPosition){
+        /*TODO: Sistemare bug in findSameDishesInCourse, non esegue il confronto con il piatto che sta per essere inserito*/
+        int coursePosition = 0;
+        for (int i = 0; i < CoursesAdapter.getCourses().size(); i++) {
+            if (CoursesAdapter.getCourses().get(i).getCourseNumber() == (courseNumber)) {
+                coursePosition = i;
+                break;
+            }
+        }
+        SelectedDish currentDish = CoursesAdapter.getCourses().get(coursePosition).getAllSelectedDishes().get(dishPosition);
+        List<SelectedDish> selectedDishesList = CoursesAdapter.getCourses().get(coursePosition).getAllSelectedDishes();
+        for(int i = 0; i < selectedDishesList.size(); i++){
+            if(selectedDishesList.get(i).equals(currentDish)){
+                return true;
+            }
+        }
+        return false;
     }
 }

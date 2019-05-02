@@ -100,21 +100,18 @@ public class MultiChoiceAdapter extends RecyclerView.Adapter<MultiChoiceAdapter.
 
     public class CheckItemViewHolder extends RecyclerView.ViewHolder{
 
-        CheckBox variant;
+        CheckBox variantCheckBox;
         RadioGroup plusMinusRadioGroup;
         RadioButton plusRadioButton;
         RadioButton minusRadioButton;
         public CheckItemViewHolder(View itemView) {
             super(itemView);
-            variant = itemView.findViewById(R.id.checkBox);
-            variant.setOnClickListener(new View.OnClickListener() {
+            variantCheckBox = itemView.findViewById(R.id.checkBox);
+            variantCheckBox.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     CheckBox checkBox = (CheckBox) v;
-                    if(checkBox.isChecked())
-                        checkedVariants.set(getAdapterPosition(), true);
-                    else
-                        checkedVariants.set(getAdapterPosition(), false);
+                    setCheckedVariant(checkBox);
                 }
             });
             plusMinusRadioGroup = itemView.findViewById(R.id.plus_minus_radiogroup);
@@ -123,6 +120,8 @@ public class MultiChoiceAdapter extends RecyclerView.Adapter<MultiChoiceAdapter.
                 @Override
                 public void onClick(View v) {
                     variants.get(getAdapterPosition()).setPlus(true);
+                    variantCheckBox.setChecked(true);
+                    setCheckedVariant(variantCheckBox);
                 }
             });
             minusRadioButton = plusMinusRadioGroup.findViewById(R.id.minus);
@@ -130,9 +129,18 @@ public class MultiChoiceAdapter extends RecyclerView.Adapter<MultiChoiceAdapter.
                 @Override
                 public void onClick(View v) {
                     variants.get(getAdapterPosition()).setPlus(false);
+                    variantCheckBox.setChecked(true);
+                    setCheckedVariant(variantCheckBox);
                 }
             });
 
+        }
+
+        private void setCheckedVariant(CheckBox checkBox){
+            if(checkBox.isChecked())
+                checkedVariants.set(getAdapterPosition(), true);
+            else
+                checkedVariants.set(getAdapterPosition(), false);
         }
 
         public void setRadioButton(boolean isPlus){
@@ -143,11 +151,11 @@ public class MultiChoiceAdapter extends RecyclerView.Adapter<MultiChoiceAdapter.
         }
 
         public void check(boolean b){
-            variant.setChecked(b);
+            variantCheckBox.setChecked(b);
         }
 
         public void setText(String text){
-            variant.setText(text);
+            variantCheckBox.setText(text);
         }
     }
 }

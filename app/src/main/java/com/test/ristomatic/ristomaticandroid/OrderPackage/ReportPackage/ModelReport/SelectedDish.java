@@ -7,19 +7,19 @@ import java.util.List;
 public class SelectedDish {
     private String selectedDishName;
     private int selectedDishId;
-    private List<SelectedVariant> selectedVariantName;
+    private List<SelectedVariant> selectedVariants;
     //numero volte piatto selezionato, è il numero che verrà visualizzato a fianco del nome del piatto
     private int timeSelected = 1;
 
     public SelectedDish(String selectedDishName, int selectedDishId){
         this.setSelectedDishId(selectedDishId);
         this.setSelectedDishName(selectedDishName);
-        selectedVariantName = new ArrayList<>();
+        selectedVariants = new ArrayList<>();
     }
-    public SelectedDish(String selectedDishName, int selectedDishId, List<SelectedVariant> selectedVariantName){
+    public SelectedDish(String selectedDishName, int selectedDishId, List<SelectedVariant> selectedVariants){
         this.setSelectedDishId(selectedDishId);
         this.setSelectedDishName(selectedDishName);
-        this.setSelectedVariantName(selectedVariantName);
+        this.setSelectedVariants(selectedVariants);
     }
 
     public int getSelectedDishId() {
@@ -46,12 +46,12 @@ public class SelectedDish {
         this.selectedDishName = selectedDishName;
     }
 
-    public List<SelectedVariant> getSelectedVariantName() {
-        return selectedVariantName;
+    public List<SelectedVariant> getSelectedVariants() {
+        return selectedVariants;
     }
 
-    public void setSelectedVariantName(List<SelectedVariant> selectedVariantName) {
-        this.selectedVariantName = selectedVariantName;
+    public void setSelectedVariants(List<SelectedVariant> selectedVariants) {
+        this.selectedVariants = selectedVariants;
     }
 
     //compara due oggetti, vera solo se varianti uguali
@@ -62,7 +62,7 @@ public class SelectedDish {
         if (this.getClass() != o.getClass()) return false;
         SelectedDish selectedDish = (SelectedDish) o;
         if( this.getSelectedDishName().compareTo(selectedDish.getSelectedDishName()) == 0 &&
-                this.getSelectedVariantName().equals(selectedDish.getSelectedVariantName())){
+                this.getSelectedVariants().equals(selectedDish.getSelectedVariants())){
                 return true;
         }
         return false;

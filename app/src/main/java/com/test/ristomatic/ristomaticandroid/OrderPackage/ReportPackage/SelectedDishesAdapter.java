@@ -41,7 +41,7 @@ public class SelectedDishesAdapter extends RecyclerView.Adapter<SelectedDishesAd
 
     @Override
     public void onBindViewHolder(@NonNull SelectedDishViewHolder holder, int position) {
-        List<SelectedVariant> variantsSelected = course.getAllSelectedDishes().get(position).getSelectedVariantName();
+        List<SelectedVariant> variantsSelected = course.getAllSelectedDishes().get(position).getSelectedVariants();
         holder.timeSelected.setText(" "+(course.getAllSelectedDishes().get(position).getTimeSelected()));
         holder.dishName.setText(course.getAllSelectedDishes().get(position).getSelectedDishName());
         holder.selectedVariants.setHasFixedSize(false);

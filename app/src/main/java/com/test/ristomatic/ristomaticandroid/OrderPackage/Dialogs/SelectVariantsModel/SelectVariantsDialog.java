@@ -11,7 +11,6 @@ import android.support.v7.widget.RecyclerView;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.text.Spanned;
-import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -111,18 +110,12 @@ public class SelectVariantsDialog extends DialogFragment {
                         //Se la portata non esiste ne viene creata una nuova con il numero di portata e viene aggiunta alla lista
                         //successivamente viene chiamato il notifyItemInserted sulla recyclerViewCourses
                         if (!InsertDishUtilities.doesCourseExist(courseNumber)) {
-                            if (timeSelectedEditText.getText().toString() == "1")
-                                InsertDishUtilities.insertDishInNewCourse(courseNumber, insertedDish);
-                            else
-                                InsertDishUtilities.insertDishInNewCourse(courseNumber, insertedDish, Integer.parseInt(timeSelectedEditText.getText().toString()));
+                            InsertDishUtilities.insertDishInNewCourse(courseNumber, insertedDish, Integer.parseInt(timeSelectedEditText.getText().toString()));
                         }
 
                         //se la portata esiste
                         else {
-                            if (timeSelectedEditText.getText().toString() == "1")
-                                InsertDishUtilities.handleInExistingCourse(courseNumber, insertedDish);
-                            else
-                                InsertDishUtilities.handleInExistingCourse(courseNumber, insertedDish, Integer.parseInt(timeSelectedEditText.getText().toString()));
+                            InsertDishUtilities.handleInExistingCourse(courseNumber, insertedDish, Integer.parseInt(timeSelectedEditText.getText().toString()));
                         }
                         //eccezione tirata quando cambi categoria e selezioni un piatto ed esso è nullo
                     }

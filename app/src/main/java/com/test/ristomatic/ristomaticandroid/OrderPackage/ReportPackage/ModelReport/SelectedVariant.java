@@ -32,6 +32,14 @@ public class SelectedVariant implements Parcelable{
         }
     };
 
+    @Override
+    public boolean equals(Object obj) {
+        SelectedVariant newVariant = (SelectedVariant) obj;
+        if(this.isPlus() == newVariant.isPlus && this.getVariantName().compareTo(newVariant.getVariantName()) == 0)
+            return true;
+        return false;
+    }
+
     public String getVariantName() {
         return variantName;
     }
