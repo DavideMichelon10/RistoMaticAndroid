@@ -14,6 +14,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.test.ristomatic.ristomaticandroid.Application.ContextApplication;
+import com.test.ristomatic.ristomaticandroid.Application.GlobalVariableApplication;
 import com.test.ristomatic.ristomaticandroid.MainPackage.MainActivity;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.OrderActivity;
 import com.test.ristomatic.ristomaticandroid.R;
@@ -24,21 +25,22 @@ public class SelectSeatsDialog extends DialogFragment {
 
         builder.setTitle("Numero coperti: ");
         //Assegna gli argomenti
-        final String idTable = getArguments().getString("idTavolo");
+        final int idTable = getArguments().getInt("idTavolo");
 
         //Crea il numberPicker per i coperti e il tasto "ok"
         final NumberPicker seatsPicker = new NumberPicker(getContext());
         builder.setView(seatsPicker);
         seatsPicker.setMinValue(1);
         seatsPicker.setMaxValue(100);
-        seatsPicker.setValue(2);
+        seatsPicker.setValue(GlobalVariableApplication.VALUE_NUMBER_PICKER_COPERTI_START);
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Intent intent = new Intent(ContextApplication.getAppContext(), OrderActivity.class);
-                MainActivity.getMainViewModel().changeTableState(Integer.parseInt(idTable), "Occupato");
-                intent.putExtra(getString(R.string.id_tavolo), idTable);
-                intent.putExtra(getString(R.string.coperti), seatsPicker.getValue());
+                MainActivity.getMainViewModel().changeTableState(idTable, "Occupato");
+                intent.putExtra("idTable", idTable);
+                intent.putExtra("coperti", seatsPicker.getValue());
+                intent.putExtra("richiama",false);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 ContextApplication.getAppContext().startActivity(intent);
             }
@@ -47,10 +49,10 @@ public class SelectSeatsDialog extends DialogFragment {
     }
 
 
-    public static SelectSeatsDialog newInstance(String idTavolo) {
+    public static SelectSeatsDialog newInstance(int idTavolo) {
         SelectSeatsDialog frag = new SelectSeatsDialog();
         Bundle args = new Bundle();
-        args.putString("idTavolo", idTavolo);
+        args.putInt("idTavolo", idTavolo);
         frag.setArguments(args);
         return frag;
     }

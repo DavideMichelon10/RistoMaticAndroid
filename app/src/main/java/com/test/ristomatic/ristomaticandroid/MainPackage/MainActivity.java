@@ -3,29 +3,25 @@ package com.test.ristomatic.ristomaticandroid.MainPackage;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
+import android.graphics.Color;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Toast;
 
 import com.test.ristomatic.ristomaticandroid.Application.ContextApplication;
-import com.test.ristomatic.ristomaticandroid.LoginPackage.LoginActivity;
 import com.test.ristomatic.ristomaticandroid.LoginPackage.LoginViewModel;
 import com.test.ristomatic.ristomaticandroid.MainPackage.GraphicDirectory.GraphicComponents;
 import com.test.ristomatic.ristomaticandroid.MainPackage.GraphicDirectory.PagerAdapter;
 import com.test.ristomatic.ristomaticandroid.R;
-import com.test.ristomatic.ristomaticandroid.RoomDatabase.AppDatabase;
-import com.test.ristomatic.ristomaticandroid.RoomDatabase.Variant.VariantModel;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.concurrent.Semaphore;
 
 public class MainActivity extends AppCompatActivity {
     private static MainViewModel mainViewModel;
@@ -37,14 +33,19 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
-        ViewPager viewPager = findViewById(R.id.viewPager);
-        TabLayout tabLayout = findViewById(R.id.tabLayout);
-        PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager());
+        final ViewPager viewPager = findViewById(R.id.viewPager);
+        final TabLayout tabLayout = findViewById(R.id.tabLayout);
+        final PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager());
         graphicComponents = new GraphicComponents(viewPager, tabLayout, pagerAdapter);
+        mainViewModel.init(new MainRepository(), graphicComponents.getPagerAdapter(),this);
 
-        mainViewModel.init(new MainRepository(), graphicComponents.getPagerAdapter(), this);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                mainViewModel.updateablesDate();
+            }
+        }).start();
 
-        mainViewModel.updateablesDate();
     }
 
 

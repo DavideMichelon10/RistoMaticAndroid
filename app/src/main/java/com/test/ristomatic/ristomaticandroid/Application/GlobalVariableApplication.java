@@ -6,6 +6,8 @@ import android.app.Application;
 public class GlobalVariableApplication extends Application {
     public static final int DELAY_REQUEST_TIME = 3000;
     public static final int COURSES_NUMBER = 4;
+    public static final int VALUE_NUMBER_PICKER_COPERTI_START = 2;
+    public static final int NUMBER_COLUMN_REPORT = 1;
     public static boolean firstTime = false;
     private static String ipServer;
     private static String port;
@@ -31,6 +33,7 @@ public class GlobalVariableApplication extends Application {
 
     public static String serverAddress(){
         //return "http://"+ getIpServer() +":"+getPort()+"/";
-        return "http://10.196.172.216:8080/";
+        //return "https://ristoserver.herokuapp.com/";
+        return "http://192.168.43.75:8080/";
     }
 }

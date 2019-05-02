@@ -1,22 +1,30 @@
 package com.test.ristomatic.ristomaticandroid.OrderPackage;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.test.ristomatic.ristomaticandroid.Application.GlobalVariableApplication;
+import com.test.ristomatic.ristomaticandroid.Application.VolleyCallbackObject;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.InsertDishUtilities.InsertDishUtilities;
 import com.test.ristomatic.ristomaticandroid.R;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 
 public class OrderActivity extends AppCompatActivity {
@@ -25,8 +33,10 @@ public class OrderActivity extends AppCompatActivity {
     private RecyclerView recyclerViewCategories;
     private RecyclerView recyclerViewDishes;
     private  RecyclerView recyclerViewCourses;
-
     private RadioGroup rgp;
+    private ProgressBar progress;
+    private TextView tIdTable, tImporto;
+    private Button b;
     private int seatsNumber, idTable;
 
 
@@ -34,42 +44,79 @@ public class OrderActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
-        //intent contenete idTavolo e seatsNumber
-        //Assegna il context alla utilities per inserire il piatto
         InsertDishUtilities.setContext(this);
+        orderViewModel = ViewModelProviders.of(this).get(OrderViewModel.class);
+        progress = findViewById(R.id.progressBar);
+        tIdTable = findViewById(R.id.idTable);
+        tImporto = findViewById(R.id.importo);
+        Intent intent = getIntent();
+        idTable = intent.getIntExtra("idTable", 0);
+        seatsNumber = intent.getIntExtra("coperti",0);
 
-        initializeViewModel();
+        tIdTable.setText(Integer.toString(idTable));
+
+        boolean richiama = intent.getBooleanExtra("richiama",false);
+
+        initializeVM(richiama,seatsNumber,this);
         createCourseSelection();
-        initializeRecyclerViewCategories();
-        initializeRecyclerViewDishes();
-        initializeRecyclerViewCourses();
+
+
     }
 
+    public void initializeVM(boolean richiama, int seatsNumber, final Context context){
+        b = findViewById(R.id.sendReport);
+        b.setEnabled(false);
 
-    public void initializeViewModel(){
-        Intent intent = getIntent();
-        orderViewModel = ViewModelProviders.of(this).get(OrderViewModel.class);
-        idTable = Integer.parseInt(intent.getStringExtra(getString(R.string.id_tavolo)));
-        seatsNumber=intent.getIntExtra(getString(R.string.coperti),0);
-        orderViewModel.init(this,idTable, seatsNumber);
+        if(richiama){
+            orderViewModel.initRichiama(idTable,this);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    orderViewModel.getRichiama(new VolleyCallbackObject() {
+                        @Override
+                        public void onSuccess(final JSONObject result) {
+                            runOnUiThread( new Runnable(){
+                                @Override
+                                public void run() {
+                                    initializeRecyclerViewCategories();
+                                    initializeRecyclerViewDishes();
+                                    initializeRecyclerViewCourses(context);
+                                    float importo = 0;
+                                    try {
+                                        importo = result.getInt("importo");
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                    tImporto.setText(importo+"€");
+                                    b.setEnabled(true);
+                                    progress.setVisibility(View.INVISIBLE);
+                                }
+                            });
+                        }
+                    }, idTable,context);
+                }
+            }).start();
+        }else{
+
+            orderViewModel.init(idTable, seatsNumber,this);
+            initializeRecyclerViewCourses(context);
+            initializeRecyclerViewCategories();
+            initializeRecyclerViewDishes();
+            progress.setVisibility(View.INVISIBLE);
+            b.setEnabled(true);
+        }
     }
 
 
     private void createCourseSelection()
     {
-        //assegna a rgp il RadioGroup dell'activity_order.xml
         rgp = findViewById(R.id.flow_group);
-        //Parametri grafici del RadioGroup
         RadioGroup.LayoutParams rprms;
-        //Aggiunge un RadioButton ogni volta che cicla
         for(int i = 0; i< GlobalVariableApplication.getCoursesNumber(); i++){
-            //Settando i valori del RadioButon
             RadioButton radioButton = new RadioButton(this);
             radioButton.setText(""+(i+1));
             rprms= new RadioGroup.LayoutParams(RadioGroup.LayoutParams.WRAP_CONTENT, RadioGroup.LayoutParams.MATCH_PARENT);
-            //Aggiugnge il radioButton al RadioGroup
             rgp.addView(radioButton, -1, rprms);
-            //Il primo button è già clickato di default
             if(i==0) {
                 radioButton.performClick();
             }
@@ -81,7 +128,7 @@ public class OrderActivity extends AppCompatActivity {
         recyclerViewCategories = findViewById(R.id.recyclerViewCategories);
         recyclerViewCategories.setHasFixedSize(true);
         recyclerViewCategories.setLayoutManager(new GridLayoutManager(this,1));
-        recyclerViewCategories.setAdapter(orderViewModel.getAdapterCategories());
+        recyclerViewCategories.setAdapter(OrderViewModel.getAdaptersContainer().getCategoriesAdapter());
     }
 
 
@@ -89,20 +136,20 @@ public class OrderActivity extends AppCompatActivity {
         recyclerViewDishes = findViewById(R.id.recyclerViewDishes);
         recyclerViewDishes.setHasFixedSize(true);
         recyclerViewDishes.setLayoutManager(new GridLayoutManager(this, 3));
-        recyclerViewDishes.setAdapter(orderViewModel.getDishedAdapter());
+        recyclerViewDishes.setAdapter(OrderViewModel.getAdaptersContainer().getDishesAdapter());
     }
 
 
-    public void initializeRecyclerViewCourses(){
+    public void initializeRecyclerViewCourses(Context context){
         recyclerViewCourses = findViewById(R.id.recyclerViewCourses);
         recyclerViewCourses.setHasFixedSize(true);
-        recyclerViewCourses.setLayoutManager(new GridLayoutManager(this, 1));
-        recyclerViewCourses.setAdapter(orderViewModel.getCoursesAdapter());
+        recyclerViewCourses.setLayoutManager(new GridLayoutManager(context, 1));
+        recyclerViewCourses.setAdapter(OrderViewModel.getAdaptersContainer().getCoursesAdapter());
     }
 
 
     public void sendReport(View view) throws JSONException {
-        orderViewModel.sendReport();
+        new SendReport().execute();
         super.onBackPressed();
     }
 
@@ -137,5 +184,24 @@ public class OrderActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+    }
+
+
+    private class SendReport extends AsyncTask<Void, String ,Void>{
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            try {
+                orderViewModel.sendReport();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return(null);
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            Toast.makeText(getApplication(),getApplication().getString(R.string.comandaInviata), Toast.LENGTH_SHORT).show();
+        }
     }
 }

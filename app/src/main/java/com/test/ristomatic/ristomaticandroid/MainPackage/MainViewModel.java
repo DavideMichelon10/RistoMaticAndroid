@@ -2,6 +2,7 @@ package com.test.ristomatic.ristomaticandroid.MainPackage;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.v7.widget.RecyclerView;
 
@@ -41,11 +42,6 @@ public class MainViewModel extends AndroidViewModel {
     private MainRepository mainRepository;
     private static int numberRooms;
     private PagerAdapter pagerAdapter;
-
-
-    public PagerAdapter getPagerAdapter() {
-        return pagerAdapter;
-    }
 
     public void setPagerAdapter(PagerAdapter pagerAdapter) {
         this.pagerAdapter = pagerAdapter;
@@ -99,7 +95,6 @@ public class MainViewModel extends AndroidViewModel {
             JSONObject jsonObject = tablesRoomFromCallback.getJSONObject(j);
             Table table = new Gson().fromJson(jsonObject.toString(), Table.class);
             tablesRoom.add(table);
-            //popolare per prima volta lista tables, mettere progressDialog o qualcosa che attenda la fine
         }
     }
 
@@ -112,7 +107,7 @@ public class MainViewModel extends AndroidViewModel {
         currentDates.put(allDataUpdated.getString("VariantDate","0"));
         currentDates.put(allDataUpdated.getString("DishDate","0"));
         currentDates.put(allDataUpdated.getString("CategoryDate","0"));
-        currentDates.put(allDataUpdated.getString("DishVariantDate","0"));
+        currentDates.put(allDataUpdated.getString("CategoryVariantDate","0"));
         currentDates.put(allDataUpdated.getString("DishCategoryDate","0"));
 
         mainRepository.updateTablesDate(currentDates, new VolleyCallback() {
@@ -174,14 +169,14 @@ public class MainViewModel extends AndroidViewModel {
                 editor.commit();
                 break;
             case 3:
-                CategoryVariantJoinDao categoryVariantJoinDao = appDatabase.getdishVariantJoinDao();
+                CategoryVariantJoinDao categoryVariantJoinDao = appDatabase.getCategoryVariantJoinDao();
                 categoryVariantJoinDao.nukeTableDishVariant();
                 for(int i=0; i<jsonTable.getJSONArray("table").length(); i++){
                     String dishVariantJoinInString = jsonTable.getJSONArray("table").get(i).toString();
                     CategoryVariantJoin categoryVariantJoin = gson.fromJson(dishVariantJoinInString, CategoryVariantJoin.class);
                     categoryVariantJoinDao.addCategoryVariant(categoryVariantJoin);
                 }
-                editor.putString("DishVariantDate", jsonTable.getString("dataUpdated"));
+                editor.putString("CategoryVariantDate", jsonTable.getString("dataUpdated"));
                 editor.commit();
                 break;
             case 4:

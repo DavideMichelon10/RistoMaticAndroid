@@ -85,8 +85,8 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
                         showSelectSeatsDialog();
                     } else {
                         Intent intent = new Intent(ContextApplication.getAppContext(), OrderActivity.class);
-                        String idTable = (String) textViewId.getText();
-                        intent.putExtra("idTavolo", idTable);
+                        int idTable = Integer.parseInt(textViewId.getText().toString());
+                        intent.putExtra("idTable", idTable);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         ContextApplication.getAppContext().startActivity(intent);
                     }
@@ -95,7 +95,7 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
             textViewId.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    showSelectSeatsDialog();
+                    infoTableDialog();
                     return false;
                 }
             });
@@ -104,8 +104,14 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
 
         public void showSelectSeatsDialog(){
             FragmentManager fm = ((MainActivity) context).getSupportFragmentManager();
-            SelectSeatsDialog selectSeatsDialog = SelectSeatsDialog.newInstance((String) textViewId.getText());
+            SelectSeatsDialog selectSeatsDialog = SelectSeatsDialog.newInstance(Integer.parseInt(textViewId.getText().toString()));
             selectSeatsDialog.show(fm, "selected_seats_fragment");
+        }
+
+        public void infoTableDialog(){
+            FragmentManager fm = ((MainActivity) context).getSupportFragmentManager();
+            InfoTableDialog infoTableDialog = InfoTableDialog.newIstance(Integer.parseInt(textViewId.getText().toString()));
+            infoTableDialog.show(fm, "info_table_dialog");
         }
 
 

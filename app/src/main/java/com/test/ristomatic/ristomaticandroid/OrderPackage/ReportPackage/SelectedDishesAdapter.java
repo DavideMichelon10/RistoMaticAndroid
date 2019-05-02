@@ -91,7 +91,7 @@ public class SelectedDishesAdapter extends RecyclerView.Adapter<SelectedDishesAd
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ArrayList<SelectedVariant> variants = (ArrayList<SelectedVariant>) OrderViewModel.getDishModelDao().getVariantsNameAndIdOfDish(dishName
+                    ArrayList<SelectedVariant> variants = (ArrayList<SelectedVariant>) OrderViewModel.getInitDB().getDishModelDao().getVariantsNameAndIdOfDish(dishName
                             .getText().toString());
                     ArrayList<SelectedVariant> selectedVariantsList = (ArrayList<SelectedVariant>) ((SelectedVariantsAdapter)selectedVariants
                             .getAdapter()).variantsSelected;
@@ -125,7 +125,7 @@ public class SelectedDishesAdapter extends RecyclerView.Adapter<SelectedDishesAd
             List<String> name = new ArrayList<String>(selectedVariants.values());
             List<SelectedVariant> selectedVariantsConverted = new ArrayList<SelectedVariant>();
             for (int i = 0; i < id.size(); i++){
-                selectedVariantsConverted.add(new SelectedVariant(name.get(i), id.get(i)));
+                selectedVariantsConverted.add(new SelectedVariant( id.get(i),name.get(i)));
             }
             return selectedVariantsConverted;
         }

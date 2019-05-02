@@ -1,5 +1,6 @@
 package com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport;
 
+import android.arch.persistence.room.Ignore;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -8,12 +9,17 @@ public class SelectedVariant implements Parcelable{
     private int idVariant;
     private boolean isPlus;
 
-    public SelectedVariant(String variantName, int idVariant){
+
+    public SelectedVariant(int idVariant, String variantName){
         setVariantName(variantName);
         setIdVariant(idVariant);
         isPlus = true;
     }
 
+    @Ignore
+    public  SelectedVariant(int idVariant, boolean isPlus){
+        setIdVariant(idVariant); setPlus(isPlus);
+    }
     protected SelectedVariant(Parcel in) {
         variantName = in.readString();
         idVariant = in.readInt();

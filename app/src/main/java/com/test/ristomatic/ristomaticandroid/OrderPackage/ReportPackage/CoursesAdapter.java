@@ -9,28 +9,27 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.test.ristomatic.ristomaticandroid.OrderPackage.OrderActivity;
+import com.test.ristomatic.ristomaticandroid.Application.GlobalVariableApplication;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.Course;
-import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.SelectedDish;
 import com.test.ristomatic.ristomaticandroid.R;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import static com.test.ristomatic.ristomaticandroid.Application.GlobalVariableApplication.COURSES_NUMBER;
 
 public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.CourseViewHolder> {
     private Context context;
     private static List<Course> courses;
 
-
     public CoursesAdapter(Context context, List<Course> courses){
         this.context = context;
-        this.courses = courses;
+        this.setCourses(courses);
     }
 
     public static List<Course> getCourses() {
         return courses;
+    }
+
+    public static void setCourses(List<Course> courses) {
+        CoursesAdapter.courses = courses;
     }
 
     @NonNull
@@ -38,7 +37,6 @@ public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.CourseVi
     public CourseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_course,parent, false);
         CourseViewHolder courseViewHolder = new CourseViewHolder(v);
-        System.out.println("in onCreateViewHolder");
         return courseViewHolder;
     }
 
@@ -47,16 +45,16 @@ public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.CourseVi
     @Override
     public void onBindViewHolder(final CourseViewHolder holder, final int position) {
         Course course = getCourses().get(position);
-        holder.courseNumber.setText("Portata: "+courses.get(position).getCourseNumber());
+        holder.courseNumber.setText("Portata: "+ getCourses().get(position).getCourseNumber());
         holder.courses.setHasFixedSize(false);
-        holder.courses.setLayoutManager(new GridLayoutManager(context, 2));
+        holder.courses.setLayoutManager(new GridLayoutManager(context, GlobalVariableApplication.NUMBER_COLUMN_REPORT));
         final SelectedDishesAdapter selectedDishesAdapter = new SelectedDishesAdapter(context, course);
         holder.courses.setAdapter(selectedDishesAdapter);
     }
 
     @Override
     public int getItemCount() {
-        return  courses.size();
+        return  getCourses().size();
     }
 
     public class CourseViewHolder extends RecyclerView.ViewHolder {
@@ -64,8 +62,8 @@ public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.CourseVi
         RecyclerView courses;
         public CourseViewHolder(View itemView) {
             super(itemView);
-            courseNumber = (TextView) itemView.findViewById(R.id.courseNumber);
-            courses= (RecyclerView) itemView.findViewById(R.id.recyclerViewSelectedDishes);
+            courseNumber = itemView.findViewById(R.id.courseNumber);
+            courses = itemView.findViewById(R.id.recyclerViewSelectedDishes);
         }
         public RecyclerView getRecyclerViewCourse() {
             return courses;

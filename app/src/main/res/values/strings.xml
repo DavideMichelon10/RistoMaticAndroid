@@ -15,4 +15,6 @@
     <string name="id_tavolo">idTavolo</string>
     <string name="coperti">coperti</string>
     <string name="comandaInviata">COMANDA INVIATA</string>
+    <string name="richiamaTavolo">RICHIAMA TAVOLO</string>
+    <string name="richiama">richiama</string>
 </resources>

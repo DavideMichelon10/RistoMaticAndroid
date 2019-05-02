@@ -99,13 +99,13 @@ public class SelectVariantsDialog extends DialogFragment {
                         int dishPosition = getArguments().getInt("dishPosition");
                         int timeSelected = Integer.parseInt(timeSelectedEditText.getText().toString());
                         if (noteEditText.getText().toString().compareTo("") != 0){
-                            selectedVariants.add(new SelectedVariant(noteEditText.getText().toString(), -1));
+                            selectedVariants.add(new SelectedVariant(-1,noteEditText.getText().toString()));
                         }
                         InsertDishUtilities.modifyDishInCourse(courseNumber, dishPosition, recyclerViewCourses, timeSelected,(ArrayList<SelectedVariant>) selectedVariants);
 
                     } else {
                         if (noteEditText.getText().toString().compareTo("") != 0)
-                            selectedVariants.add(new SelectedVariant(noteEditText.getText().toString(), -1));
+                            selectedVariants.add(new SelectedVariant( -1,noteEditText.getText().toString()));
                         SelectedDish insertedDish = new SelectedDish(dishName, dishId, selectedVariants);
                         //Se la portata non esiste ne viene creata una nuova con il numero di portata e viene aggiunta alla lista
                         //successivamente viene chiamato il notifyItemInserted sulla recyclerViewCourses
