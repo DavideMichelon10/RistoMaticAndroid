@@ -19,4 +19,7 @@ public interface VariantModelDao {
 
     @Query("DELETE FROM VariantModel")
     void nukeTableVariant();
+
+    @Query("select VariantModel.variantName from VariantModel where idVariant = :idVariant")
+    String getVariantName(int idVariant);
 }

@@ -30,8 +30,8 @@ public class SelectedDish {
         this.selectedDishId = selectedDishId;
     }
 
-    public SelectedDish(String selectedDishName, List<String> selectedVariantName, int timeSelected){
-        this.setSelectedDishName(selectedDishName); this.setSelectedVariantName(selectedVariantName);
+    public SelectedDish(String selectedDishName, List<SelectedVariant> selectedVariantName, int timeSelected){
+        this.setSelectedDishName(selectedDishName); this.setSelectedVariants(selectedVariantName);
         this.timeSelected = timeSelected;
     }
 

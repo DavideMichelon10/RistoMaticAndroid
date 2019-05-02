@@ -12,6 +12,7 @@ import com.test.ristomatic.ristomaticandroid.LoginPackage.LoginViewModel;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.CoursesAdapter;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.Course;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.SelectedDish;
+import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.SelectedVariant;
 import com.test.ristomatic.ristomaticandroid.R;
 
 import org.json.JSONArray;
@@ -150,13 +151,15 @@ public class OrderViewModel extends AndroidViewModel {
     }
 
     private SelectedDish getSelectedDishFromJson(JSONArray selectedDishes, int j) throws JSONException {
+        Gson gson = new Gson();
         SelectedDish selDish;
         JSONObject selectedDish = selectedDishes.getJSONObject(j);
-        JSONArray selectedVariants = selectedDish.getJSONArray("selectedVariantName");
-        List<String> variants = new ArrayList<>();
+        JSONArray selectedVariants = selectedDish.getJSONArray("selectedVariants");
+        List<SelectedVariant> variants = new ArrayList<>();
 
         for (int z = 0; z < selectedVariants.length(); z++) {
-            String variant = selectedVariants.get(z).toString();
+            SelectedVariant variant = gson.fromJson(selectedVariants.get(z).toString(), SelectedVariant.class);
+            variant.setVariantName(getInitDB().getVariantModelDao().getVariantName(variant.getIdVariant()));
             variants.add(variant);
         }
         int timeSelected = selectedDish.getInt("timeSelected");
