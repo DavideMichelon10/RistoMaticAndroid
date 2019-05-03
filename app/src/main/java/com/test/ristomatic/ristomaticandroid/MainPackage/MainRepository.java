@@ -48,23 +48,6 @@ public class MainRepository {
         SingeltonVolley.getInstance(ContextApplication.getAppContext()).addToRequestQueue(jsonArrayTableRoom);
     }
 
-    public void changeTableState(final VolleyCallbackObject volleyCallback, final JSONObject jsonToSend){
-
-        JsonObjectRequest changeState = new JsonObjectRequest(Request.Method.PUT, VolleyCallApplication.changeTableState(), jsonToSend,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        volleyCallback.onSuccess(response);
-                    }
-                }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                changeTableState(volleyCallback,jsonToSend);
-            }
-        });
-        SingeltonVolley.getInstance(ContextApplication.getAppContext()).addToRequestQueue(changeState);
-    }
 
     //manda 5 date da confrontare e riceve jsonArray con tabelle da aggiornare
     public void updateTablesDate(final JSONArray currentDates, final VolleyCallback volleyCallback){

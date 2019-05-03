@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.test.ristomatic.ristomaticandroid.Application.GlobalVariableApplication;
 import com.test.ristomatic.ristomaticandroid.Application.VolleyCallbackObject;
+import com.test.ristomatic.ristomaticandroid.MainPackage.MainActivity;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.InsertDishUtilities.InsertDishUtilities;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.SelectedDish;
 import com.test.ristomatic.ristomaticandroid.R;
@@ -204,6 +205,9 @@ public class OrderActivity extends AppCompatActivity {
         protected Void doInBackground(Void... voids) {
             try {
                 orderViewModel.sendReport();
+                if(getIntent().getIntExtra("coperti", -1) != -1)
+                    orderViewModel.changeTableState(idTable, "Occupato");
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }

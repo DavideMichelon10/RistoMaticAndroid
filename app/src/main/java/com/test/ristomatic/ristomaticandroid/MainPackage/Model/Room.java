@@ -1,7 +1,6 @@
-package com.test.ristomatic.ristomaticandroid.Model;
+package com.test.ristomatic.ristomaticandroid.MainPackage.Model;
 
 
-import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 

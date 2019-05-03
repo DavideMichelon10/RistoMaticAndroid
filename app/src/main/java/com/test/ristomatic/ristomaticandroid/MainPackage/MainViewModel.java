@@ -2,18 +2,16 @@ package com.test.ristomatic.ristomaticandroid.MainPackage;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.v7.widget.RecyclerView;
 
 import com.google.gson.Gson;
 import com.test.ristomatic.ristomaticandroid.Application.ContextApplication;
 import com.test.ristomatic.ristomaticandroid.Application.VolleyCallback;
-import com.test.ristomatic.ristomaticandroid.Application.VolleyCallbackObject;
 import com.test.ristomatic.ristomaticandroid.MainPackage.GraphicDirectory.PagerAdapter;
 import com.test.ristomatic.ristomaticandroid.MainPackage.GraphicDirectory.RoomAdapter;
 import com.test.ristomatic.ristomaticandroid.MainPackage.GraphicDirectory.RoomFragment;
-import com.test.ristomatic.ristomaticandroid.Model.Table;
+import com.test.ristomatic.ristomaticandroid.MainPackage.Model.Table;
 import com.test.ristomatic.ristomaticandroid.RoomDatabase.AppDatabase;
 import com.test.ristomatic.ristomaticandroid.RoomDatabase.Category.CategoryModel;
 import com.test.ristomatic.ristomaticandroid.RoomDatabase.Category.CategoryModelDao;
@@ -94,6 +92,7 @@ public class MainViewModel extends AndroidViewModel {
         for(int j=0; j<tablesRoomFromCallback.length(); j++){
             JSONObject jsonObject = tablesRoomFromCallback.getJSONObject(j);
             Table table = new Gson().fromJson(jsonObject.toString(), Table.class);
+            System.out.println("TABLE STATE " + j + ": " + table.getOccupied());
             tablesRoom.add(table);
         }
     }
@@ -218,32 +217,9 @@ public class MainViewModel extends AndroidViewModel {
             RoomAdapter roomAdapter = pagerAdapter.getItem(room).getRoom().getRoomAdapter();
             Table currentTable = roomAdapter.getTables().get(j);
             if (newTable.hashCode() != currentTable.hashCode()) {
-                roomAdapter.getTables().get(j).setState(newTable.getState());
+                roomAdapter.getTables().get(j).setOccupied(newTable.getOccupied());
                 roomAdapter.notifyItemChanged(j);
             }
         }
-    }
-
-    //Cambia lo stato del tavolo indicato nello stato specificato
-    public void changeTableState(final int idTable, final String state){
-        JSONObject objectToSend = new JSONObject();
-        try {
-            objectToSend = createJsonToSend(idTable, state);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        mainRepository.changeTableState(new VolleyCallbackObject() {
-            @Override
-            public void onSuccess(JSONObject result) { }
-        },objectToSend);
-    }
-
-    public JSONObject createJsonToSend(int idTable, String state) throws JSONException {
-        JSONObject valuesToChange = new JSONObject();
-        valuesToChange.put("idTavolo", idTable);
-        valuesToChange.put("stato", state);
-        return valuesToChange;
-
     }
 }

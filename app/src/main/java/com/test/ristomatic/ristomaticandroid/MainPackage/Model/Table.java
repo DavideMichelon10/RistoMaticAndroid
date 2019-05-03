@@ -1,26 +1,26 @@
-package com.test.ristomatic.ristomaticandroid.Model;
+package com.test.ristomatic.ristomaticandroid.MainPackage.Model;
 
 
 import java.util.Objects;
 
 public class Table {
     private int idTable;
-    private String state;
+    private boolean isOccupied;
     private int idRoom;
 
 
-    public Table(int idTable, String state){
+    public Table(int idTable, boolean isOccupied){
         setIdTable(idTable);
-        setState(state);
+        setOccupied(isOccupied);
     }
 
 
-    public String getState() {
-        return state;
+    public boolean getOccupied() {
+        return isOccupied;
     }
 
-    public void setState(String state) {
-        this.state = state;
+    public void setOccupied(boolean occupied) {
+        this.isOccupied = occupied;
     }
 
 
@@ -49,12 +49,12 @@ public class Table {
         Table table = (Table) o;
         return getIdTable() == table.idTable &&
                 getIdRoom() == table.idRoom &&
-                Objects.equals(getState(), table.state);
+                Objects.equals(getOccupied(), table.isOccupied);
     }
 
 
     @Override
     public int hashCode() {
-        return Objects.hash(idTable, state, idRoom);
+        return Objects.hash(idTable, isOccupied, idRoom);
     }
 }

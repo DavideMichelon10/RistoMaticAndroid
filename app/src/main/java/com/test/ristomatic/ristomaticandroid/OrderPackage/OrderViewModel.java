@@ -3,12 +3,14 @@ package com.test.ristomatic.ristomaticandroid.OrderPackage;
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
 
 import com.google.gson.Gson;
 import com.test.ristomatic.ristomaticandroid.Application.VolleyCallbackObject;
 import com.test.ristomatic.ristomaticandroid.LoginPackage.LoginViewModel;
+import com.test.ristomatic.ristomaticandroid.MainPackage.MainActivity;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.CoursesAdapter;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.Course;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.SelectedDish;
@@ -174,6 +176,30 @@ public class OrderViewModel extends AndroidViewModel {
         String importo = result.getString("importo");
         jsonObject.put("importo", importo);
         return jsonObject;
+    }
+
+
+    //Cambia lo stato del tavolo indicato nello stato specificato
+    public void changeTableState(final int idTable, final String state){
+        JSONObject objectToSend = new JSONObject();
+        try {
+            objectToSend = createJsonToSend(idTable, state);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        orderRepository.changeTableState(new VolleyCallbackObject() {
+            @Override
+            public void onSuccess(JSONObject result) { }
+        },objectToSend);
+    }
+
+
+    public JSONObject createJsonToSend(int idTable, String state) throws JSONException {
+        JSONObject valuesToChange = new JSONObject();
+        valuesToChange.put("idTavolo", idTable);
+        valuesToChange.put("stato", state);
+        return valuesToChange;
     }
 
 }

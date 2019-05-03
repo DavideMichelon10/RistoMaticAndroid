@@ -1,6 +1,5 @@
 package com.test.ristomatic.ristomaticandroid.MainPackage.GraphicDirectory;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -13,8 +12,8 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.test.ristomatic.ristomaticandroid.MainPackage.MainActivity;
-import com.test.ristomatic.ristomaticandroid.Model.Room;
-import com.test.ristomatic.ristomaticandroid.Model.Table;
+import com.test.ristomatic.ristomaticandroid.MainPackage.Model.Room;
+import com.test.ristomatic.ristomaticandroid.MainPackage.Model.Table;
 import com.test.ristomatic.ristomaticandroid.R;
 
 import java.util.List;
