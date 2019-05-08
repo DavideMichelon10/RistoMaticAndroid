@@ -7,8 +7,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
+import android.text.InputType;
+import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -28,23 +30,26 @@ public class SelectSeatsDialog extends DialogFragment {
         final int idTable = getArguments().getInt("idTavolo");
 
         //Crea il numberPicker per i coperti e il tasto "ok"
-        final NumberPicker seatsPicker = new NumberPicker(getContext());
-        builder.setView(seatsPicker);
-        seatsPicker.setMinValue(1);
-        seatsPicker.setMaxValue(100);
-        seatsPicker.setValue(GlobalVariableApplication.VALUE_NUMBER_PICKER_COPERTI_START);
+        final EditText seatsEditText = new EditText(getContext());
+        seatsEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
+        seatsEditText.setText(Integer.toString(GlobalVariableApplication.VALUE_NUMBER_PICKER_COPERTI_START));
+        seatsEditText.setTextSize(50);
+        builder.setView(seatsEditText);
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Intent intent = new Intent(ContextApplication.getAppContext(), OrderActivity.class);
                 intent.putExtra("idTable", idTable);
-                intent.putExtra("coperti", seatsPicker.getValue());
+                intent.putExtra("coperti", Integer.parseInt(seatsEditText.getText().toString()));
                 intent.putExtra("richiama",false);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 ContextApplication.getAppContext().startActivity(intent);
             }
         });
-        return builder.create();
+        Dialog d = builder.create();
+        d.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        seatsEditText.selectAll();
+        return d;
     }
 
 

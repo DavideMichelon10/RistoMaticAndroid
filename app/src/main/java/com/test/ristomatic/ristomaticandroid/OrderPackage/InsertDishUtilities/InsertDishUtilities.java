@@ -47,12 +47,30 @@ public final class InsertDishUtilities {
         notifyItemChanged(recyclerViewCourses, coursePosition, dishPosition);
     }
 
+
     //Cambia timeSelectedDish nel caso sia specificato
     public static void changeTimeSelectedDish(int coursePosition, int dishPosition, RecyclerView recyclerViewCourses, int timeSelected) {
         int currentTimeSelected = CoursesAdapter.getCourses().get(coursePosition).getAllSelectedDishes().get(dishPosition).getTimeSelected();
-        CoursesAdapter.getCourses().get(coursePosition).getAllSelectedDishes().get(dishPosition).setTimeSelected(currentTimeSelected + timeSelected);
-        notifyItemChanged(recyclerViewCourses, coursePosition, dishPosition);
+        if(currentTimeSelected + timeSelected <= 0){
+            //evita crash se non arriva a rimuovere elemento prima di notifyù
+            List<SelectedDish> selectedDishes = CoursesAdapter.getCourses().get(coursePosition).getAllSelectedDishes();
+            try{
+                selectedDishes.remove(dishPosition);
+                notifyItemRemoved(recyclerViewCourses, coursePosition, dishPosition);
+            }catch (ArrayIndexOutOfBoundsException exception){ }
+            RecyclerView s = (RecyclerView)((OrderActivity)context).findViewById(R.id.recyclerViewCourses);
+            //elimina portata se vuota
+            if(selectedDishes.size() == 0){
+                CoursesAdapter.getCourses().remove(coursePosition);
+                s.getAdapter().notifyItemRemoved(coursePosition);
+            }
+        }
+        else{
+            CoursesAdapter.getCourses().get(coursePosition).getAllSelectedDishes().get(dishPosition).setTimeSelected(currentTimeSelected + timeSelected);
+            notifyItemChanged(recyclerViewCourses, coursePosition, dishPosition);
+        }
     }
+
 
     //Inserisce il piatto all'interno della portata
     public static void insertDishInCourse(int coursePosition, SelectedDish insertedDish, RecyclerView recyclerViewCourses) {
@@ -94,16 +112,32 @@ public final class InsertDishUtilities {
                 break;
             }
         }
-        CoursesAdapter.getCourses().get(coursePosition).getAllSelectedDishes().get(dishPosition).setTimeSelected(timeSelected);
-        CoursesAdapter.getCourses().get(coursePosition).getAllSelectedDishes().get(dishPosition).setSelectedVariants(selectedVariants);
-        //ricava la posizione della portata esistente nella lista
-        for (int i = 0; i < CoursesAdapter.getCourses().size(); i++) {
-            if (CoursesAdapter.getCourses().get(i).getCourseNumber() == (courseNumber)) {
-                coursePosition = i;
-                break;
+        if(timeSelected <= 0){
+            //evita crash se non arriva a rimuovere elemento prima di notifyù
+            List<SelectedDish> selectedDishes = CoursesAdapter.getCourses().get(coursePosition).getAllSelectedDishes();
+            try{
+                selectedDishes.remove(dishPosition);
+                notifyItemRemoved(recyclerViewCourses, coursePosition, dishPosition);
+            }catch (ArrayIndexOutOfBoundsException exception){ }
+            RecyclerView s = (RecyclerView)((OrderActivity)context).findViewById(R.id.recyclerViewCourses);
+            //elimina portata se vuota
+            if(selectedDishes.size() == 0){
+                CoursesAdapter.getCourses().remove(coursePosition);
+                s.getAdapter().notifyItemRemoved(coursePosition);
             }
         }
-        notifyItemChanged(recyclerViewCourses, coursePosition, dishPosition);
+        else{
+            CoursesAdapter.getCourses().get(coursePosition).getAllSelectedDishes().get(dishPosition).setTimeSelected(timeSelected);
+            CoursesAdapter.getCourses().get(coursePosition).getAllSelectedDishes().get(dishPosition).setSelectedVariants(selectedVariants);
+            //ricava la posizione della portata esistente nella lista
+            for (int i = 0; i < CoursesAdapter.getCourses().size(); i++) {
+                if (CoursesAdapter.getCourses().get(i).getCourseNumber() == (courseNumber)) {
+                    coursePosition = i;
+                    break;
+                }
+            }
+            notifyItemChanged(recyclerViewCourses, coursePosition, dishPosition);
+        }
     }
 
 
@@ -245,9 +279,19 @@ public final class InsertDishUtilities {
         return false;
     }
 
-    //Ritorna -1 se la portata va aggiunta in fondo e l'indice di dova va inserito se non va in fondo
+
+    public static int getCoursePositionFromNumber(int courseNumber){
+        for (int i = 0; i < CoursesAdapter.getCourses().size(); i++) {
+            if (courseNumber == CoursesAdapter.getCourses().get(i).getCourseNumber()) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+
+    //Ritorna -1 se la portata va aggiunta in fondo e l'indice di dove va inserita se non va in fondo
     public static int isCoursePositionOccupied(int courseNumber) {
-        System.out.println("isCoursePositionOccupied");
         for (int i = 0; i < CoursesAdapter.getCourses().size(); i++) {
             if (courseNumber < CoursesAdapter.getCourses().get(i).getCourseNumber()) {
                 return i;
@@ -269,7 +313,20 @@ public final class InsertDishUtilities {
             System.out.println(e.getMessage());
             notifyItemChanged(recyclerViewCourses, coursePosition, dishPosition);
         }
+    }
 
+    private static void notifyItemRemoved(RecyclerView recyclerViewCourses, int coursePosition, int dishPosition){
+        try {
+            //Chiamo il notifyItemChanged sull'adapter della portata e come position passo dishPosition
+            ((CoursesAdapter.CourseViewHolder) recyclerViewCourses
+                    .findViewHolderForAdapterPosition(coursePosition))
+                    .getRecyclerViewCourse()
+                    .getAdapter()
+                    .notifyItemRemoved(dishPosition);
+        } catch (NullPointerException e) {
+            System.out.println(e.getMessage());
+            notifyItemRemoved(recyclerViewCourses, coursePosition, dishPosition);
+        }
     }
 
 

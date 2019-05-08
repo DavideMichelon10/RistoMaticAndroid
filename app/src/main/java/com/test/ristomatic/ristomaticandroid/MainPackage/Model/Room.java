@@ -5,13 +5,14 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.test.ristomatic.ristomaticandroid.Application.ContextApplication;
+import com.test.ristomatic.ristomaticandroid.Application.GlobalVariableApplication;
 import com.test.ristomatic.ristomaticandroid.MainPackage.GraphicDirectory.RoomAdapter;
 import com.test.ristomatic.ristomaticandroid.MainPackage.MainActivity;
 
 import java.util.List;
 
 public class Room {
-    private final static int COLUMN_NUMBER = 3;
+    private static int COLUMN_NUMBER = GlobalVariableApplication.COLUMN_NUMBER;
     private RoomAdapter roomAdapter;
     private RecyclerView roomRecyclerView;
     //statico per rendere l'id univoco?
@@ -25,7 +26,6 @@ public class Room {
         this.roomRecyclerView.setLayoutManager(new GridLayoutManager(ContextApplication.getAppContext(), COLUMN_NUMBER));
         this.roomRecyclerView.setId(index++);
     }
-
 
     public RoomAdapter getRoomAdapter() {
         return roomAdapter;
