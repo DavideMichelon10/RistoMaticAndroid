@@ -51,7 +51,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-
     }
 
     private void showSnackBar(String text) {
@@ -97,6 +96,11 @@ public class LoginActivity extends AppCompatActivity {
                 showSnackBar("Inserisci un numero di 4 cifre");
             }
         }
+    }
+
+    public void setSettings(View view){
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
     }
 
 

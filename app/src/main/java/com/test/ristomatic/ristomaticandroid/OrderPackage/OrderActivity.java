@@ -20,7 +20,6 @@ import android.widget.Toast;
 
 import com.test.ristomatic.ristomaticandroid.Application.GlobalVariableApplication;
 import com.test.ristomatic.ristomaticandroid.Application.VolleyCallbackObject;
-import com.test.ristomatic.ristomaticandroid.MainPackage.MainActivity;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.InsertDishUtilities.InsertDishUtilities;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.SelectedDish;
 import com.test.ristomatic.ristomaticandroid.R;
@@ -110,8 +109,7 @@ public class OrderActivity extends AppCompatActivity {
     }
 
 
-    private void createCourseSelection()
-    {
+    private void createCourseSelection() {
         rgp = findViewById(R.id.flow_group);
         RadioGroup.LayoutParams rprms;
         for(int i = 0; i< GlobalVariableApplication.getCoursesNumber(); i++){

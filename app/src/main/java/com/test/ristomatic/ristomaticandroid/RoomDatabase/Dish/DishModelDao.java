@@ -20,7 +20,8 @@ public interface DishModelDao {
 
     @Query("select * from DishModel " +
             "join DishCategoryJoin on DishModel.idDish = DishCategoryJoin.idDish " +
-            "where idCategory = :idCategory")
+            "where idCategory = :idCategory " +
+            "order by DishModel.dish_name")
     List<DishModel> getSelectedDishes(int idCategory);
 
     @Query("select * from DishModel where idDish = :idDish")

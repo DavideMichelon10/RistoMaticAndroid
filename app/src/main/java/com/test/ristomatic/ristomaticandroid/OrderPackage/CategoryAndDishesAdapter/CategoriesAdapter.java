@@ -47,7 +47,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ca
 
         public CategoryViewHolder(View v) {
             super(v);
-            this.button = (Button) v.findViewById(R.id.button);
+            this.button = v.findViewById(R.id.button);
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

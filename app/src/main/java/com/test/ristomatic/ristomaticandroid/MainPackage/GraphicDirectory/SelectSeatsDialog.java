@@ -32,7 +32,7 @@ public class SelectSeatsDialog extends DialogFragment {
         //Crea il numberPicker per i coperti e il tasto "ok"
         final EditText seatsEditText = new EditText(getContext());
         seatsEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
-        seatsEditText.setText(Integer.toString(GlobalVariableApplication.VALUE_NUMBER_PICKER_COPERTI_START));
+        seatsEditText.setText(Integer.toString(GlobalVariableApplication.getValueCopertiStart()));
         seatsEditText.setTextSize(50);
         builder.setView(seatsEditText);
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
