@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.test.ristomatic.ristomaticandroid.Application.ContextApplication;
 import com.test.ristomatic.ristomaticandroid.MainPackage.MainActivity;
-import com.test.ristomatic.ristomaticandroid.Model.Table;
+import com.test.ristomatic.ristomaticandroid.MainPackage.Model.Table;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.OrderActivity;
 import com.test.ristomatic.ristomaticandroid.R;
 
@@ -50,14 +50,14 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
 
     public void setStateViewHolder(ViewHolder tableViewHolder){
         if (tableViewHolder.getAdapterPosition() >= 0)
-            tableViewHolder.setState(tables.get(tableViewHolder.getAdapterPosition()).getState());
+            tableViewHolder.setOccupied(tables.get(tableViewHolder.getAdapterPosition()).getOccupied());
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Table table = getTables().get(position);
         holder.textViewId.setText(Integer.toString(table.getIdTable()));
-        holder.setState(table.getState());
+        holder.setOccupied(table.getOccupied());
     }
 
 
@@ -69,7 +69,7 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView textViewId;
-        public String State;
+        public boolean isOccupied;
         View itemView;
 
 
@@ -81,7 +81,7 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
             textViewId.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (getState().compareTo("Occupato") != 0) {
+                    if (!getOccupied()) {
                         showSelectSeatsDialog();
                     } else {
                         Intent intent = new Intent(ContextApplication.getAppContext(), OrderActivity.class);
@@ -115,15 +115,15 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
         }
 
 
-        public String getState() {
-            return State;
+        public boolean getOccupied() {
+            return isOccupied;
         }
 
-        public void setState(String state) {
-            State = state;
-            if (State.compareTo("Occupato") == 0)
+        public void setOccupied(boolean occupied) {
+            isOccupied = occupied;
+            if (isOccupied)
                 textViewId.setBackgroundColor(0xFFAFAFAF);
-            else if(State.compareTo("Libero") == 0)
+            else
                 this.textViewId.setBackgroundColor(0xFF32E567);
         }
     }

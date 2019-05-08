@@ -28,7 +28,7 @@ public class InfoTableDialog extends DialogFragment {
 
     private Button createRichiamaButton(final int idTable) {
         Button b = new Button(getContext());
-        b.setText(R.string.richiamaTavolo);
+        b.setText(R.string.richiama_tavolo);
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

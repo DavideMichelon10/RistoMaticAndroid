@@ -20,7 +20,9 @@ import android.widget.Toast;
 
 import com.test.ristomatic.ristomaticandroid.Application.GlobalVariableApplication;
 import com.test.ristomatic.ristomaticandroid.Application.VolleyCallbackObject;
+import com.test.ristomatic.ristomaticandroid.MainPackage.MainActivity;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.InsertDishUtilities.InsertDishUtilities;
+import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.SelectedDish;
 import com.test.ristomatic.ristomaticandroid.R;
 
 import org.json.JSONException;
@@ -60,7 +62,7 @@ public class OrderActivity extends AppCompatActivity {
         initializeVM(richiama,seatsNumber,this);
         createCourseSelection();
 
-
+        addSeatsNumberToReport();
     }
 
     public void initializeVM(boolean richiama, int seatsNumber, final Context context){
@@ -114,10 +116,10 @@ public class OrderActivity extends AppCompatActivity {
         RadioGroup.LayoutParams rprms;
         for(int i = 0; i< GlobalVariableApplication.getCoursesNumber(); i++){
             RadioButton radioButton = new RadioButton(this);
-            radioButton.setText(""+(i+1));
+            radioButton.setText(""+i);
             rprms= new RadioGroup.LayoutParams(RadioGroup.LayoutParams.WRAP_CONTENT, RadioGroup.LayoutParams.MATCH_PARENT);
             rgp.addView(radioButton, -1, rprms);
-            if(i==0) {
+            if(i==1) {
                 radioButton.performClick();
             }
         }
@@ -187,17 +189,31 @@ public class OrderActivity extends AppCompatActivity {
     }
 
 
+    private void addSeatsNumberToReport(){
+        /*TODO: aggiornare con id articolo riferito al coperto*/
+        int seatsNumber = getIntent().getIntExtra("coperti", -1);
+        if(seatsNumber != -1){
+            SelectedDish testSeats = new SelectedDish("COPERTI", 0);
+            InsertDishUtilities.insertDishInNewCourse(0, testSeats, seatsNumber);
+        }
+    }
+
+
     private class SendReport extends AsyncTask<Void, String ,Void>{
 
         @Override
         protected Void doInBackground(Void... voids) {
             try {
                 orderViewModel.sendReport();
+                if(getIntent().getIntExtra("coperti", -1) != -1)
+                    orderViewModel.changeTableState(idTable, "Occupato");
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
             return(null);
         }
+
 
         @Override
         protected void onPostExecute(Void aVoid) {

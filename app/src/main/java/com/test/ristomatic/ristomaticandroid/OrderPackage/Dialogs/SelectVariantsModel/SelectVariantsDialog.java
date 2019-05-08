@@ -56,7 +56,6 @@ public class SelectVariantsDialog extends DialogFragment {
         };
         timeSelectedEditText.setFilters(new InputFilter[]{spaceFilter});
 
-
         final RecyclerView multiChoiceItems = new RecyclerView(getContext());
         multiChoiceItems.setHasFixedSize(true);
         multiChoiceItems.setLayoutManager(new GridLayoutManager(getContext(),1));
@@ -101,6 +100,7 @@ public class SelectVariantsDialog extends DialogFragment {
                         if (noteEditText.getText().toString().compareTo("") != 0){
                             selectedVariants.add(new SelectedVariant(-1,noteEditText.getText().toString()));
                         }
+                        courseNumber = getArguments().getInt("courseNumber");
                         InsertDishUtilities.modifyDishInCourse(courseNumber, dishPosition, recyclerViewCourses, timeSelected,(ArrayList<SelectedVariant>) selectedVariants);
 
                     } else {
@@ -156,10 +156,11 @@ public class SelectVariantsDialog extends DialogFragment {
     }
 
     //Aggiunge a arguments la lista di varianti, varianti selezionata da mostrare e note, ritorna l'istanza del Dialog
-    public static SelectVariantsDialog newModificationInstance(int dishPosition, ArrayList<SelectedVariant> variants, String timeSelected, ArrayList<SelectedVariant> selectedVariants, String note, Context orderActivityContext) {
+    public static SelectVariantsDialog newModificationInstance(int dishPosition, ArrayList<SelectedVariant> variants, String timeSelected, ArrayList<SelectedVariant> selectedVariants, String note, int courseNumber, Context orderActivityContext) {
         SelectVariantsDialog.orderActivityContext = orderActivityContext;
         SelectVariantsDialog frag = new SelectVariantsDialog();
         Bundle args = new Bundle();
+        args.putInt("courseNumber", courseNumber);
         args.putParcelableArrayList("variants", variants);
         args.putInt("dishPosition", dishPosition);
         //Gli elementi saranno true se la checkbox corrispondente è selezionata false altrimenti

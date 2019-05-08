@@ -8,10 +8,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.test.ristomatic.ristomaticandroid.OrderPackage.Dialogs.SelectVariantsModel.SelectVariantsDialog;
+import com.test.ristomatic.ristomaticandroid.OrderPackage.InsertDishUtilities.InsertDishUtilities;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.OrderActivity;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.OrderViewModel;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.Course;
@@ -59,13 +61,17 @@ public class SelectedDishesAdapter extends RecyclerView.Adapter<SelectedDishesAd
         TextView dishName;
         ImageView deleteImage;
         RecyclerView selectedVariants;
+        ImageButton plusDishButton;
+        ImageButton minsuDishButton;
+
         public SelectedDishViewHolder(final View itemView) {
             super(itemView);
             dishName = (TextView) itemView.findViewById(R.id.dishName);
             timeSelected = (TextView) itemView.findViewById(R.id.timeSelected);
             selectedVariants = (RecyclerView) itemView.findViewById(R.id.recyclerViewVariants);
             deleteImage = (ImageView) itemView.findViewById(R.id.deleteImage);
-
+            minsuDishButton = itemView.findViewById(R.id.plus_dish_button);
+            plusDishButton= itemView.findViewById(R.id.minus_dish_button);
             deleteImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -82,11 +88,27 @@ public class SelectedDishesAdapter extends RecyclerView.Adapter<SelectedDishesAd
                         CoursesAdapter.getCourses().remove(pos);
                         s.getAdapter().notifyItemRemoved(pos);
                     }
-
-                    //s.getAdapter().notifyDataSetChanged();
-
                 }
             });
+
+            minsuDishButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int coursePosition = InsertDishUtilities.getCoursePositionFromNumber(course.getCourseNumber());
+                    RecyclerView recyclerViewCourses = ((OrderActivity)context).findViewById(R.id.recyclerViewCourses);
+                    InsertDishUtilities.changeTimeSelectedDish(coursePosition, getAdapterPosition(), recyclerViewCourses, -1);
+                }
+            });
+
+            plusDishButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int coursePosition = InsertDishUtilities.getCoursePositionFromNumber(course.getCourseNumber());
+                    RecyclerView recyclerViewCourses = ((OrderActivity)context).findViewById(R.id.recyclerViewCourses);
+                    InsertDishUtilities.changeTimeSelectedDish(coursePosition, getAdapterPosition(), recyclerViewCourses, 1);
+                }
+            });
+
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -101,7 +123,7 @@ public class SelectedDishesAdapter extends RecyclerView.Adapter<SelectedDishesAd
                         note = selectedVariantsList.remove(selectedVariantsList.size()-1).getVariantName();
                     String timeSelectedString = timeSelected.getText().toString();
                     SelectVariantsDialog selectVariantsDialog = SelectVariantsDialog.newModificationInstance(getAdapterPosition(),
-                            variants, timeSelectedString, selectedVariantsList, note, context);
+                            variants, timeSelectedString, selectedVariantsList, note, course.getCourseNumber(), context);
                     FragmentManager fm = ((OrderActivity)context).getSupportFragmentManager();
                     selectVariantsDialog.show(fm, "fragment_alert");
                 }
