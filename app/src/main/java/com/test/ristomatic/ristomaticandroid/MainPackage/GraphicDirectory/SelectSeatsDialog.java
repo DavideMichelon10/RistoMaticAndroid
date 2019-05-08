@@ -32,7 +32,7 @@ public class SelectSeatsDialog extends DialogFragment {
         builder.setView(seatsPicker);
         seatsPicker.setMinValue(1);
         seatsPicker.setMaxValue(100);
-        seatsPicker.setValue(GlobalVariableApplication.VALUE_NUMBER_PICKER_COPERTI_START);
+        seatsPicker.setValue(GlobalVariableApplication.getValueCopertiStart());
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {

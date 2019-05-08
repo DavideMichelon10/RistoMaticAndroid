@@ -1,38 +1,34 @@
 package com.test.ristomatic.ristomaticandroid.Application;
 
 import android.app.Application;
+import android.content.Context;
+import android.content.SharedPreferences;
+
+import com.test.ristomatic.ristomaticandroid.LoginPackage.SettingsActivity;
 
 //variabli globali
 public class GlobalVariableApplication extends Application {
     public static final int DELAY_REQUEST_TIME = 3000;
-    public static final int COURSES_NUMBER = 4;
-    public static final int VALUE_NUMBER_PICKER_COPERTI_START = 2;
+    private static int COURSES_NUMBER;
+    private static int NUMBER_COLUMN_TABLES;
+    private static int VALUE_COPERTI_START;
     public static final int NUMBER_COLUMN_REPORT = 1;
-    public static boolean firstTime = false;
-    private static String ipServer;
-    private static String port;
-    public static String getIpServer() {
-        return ipServer;
-    }
-
-    public static void setIpServer(String ipServer) {
-        GlobalVariableApplication.ipServer = ipServer;
-    }
 
     public static int getCoursesNumber() {
-        return COURSES_NUMBER;
+        return SettingsActivity.userPreferences.getInt("COURSES_NUMBER",4);
     }
 
-    public static String getPort() {
-        return port;
+    public static int getNumberColumnTables() {
+        return SettingsActivity.userPreferences.getInt("NUMBER_COLUMN_TABLES",3);
     }
 
-    public static void setPort(String port) {
-        GlobalVariableApplication.port = port;
+    public static int getValueCopertiStart() {
+        return SettingsActivity.userPreferences.getInt("VALUE_COPERTI_START",3);
     }
 
     public static String serverAddress(){
         //return "http://"+ getIpServer() +":"+getPort()+"/";
-        return "http://192.168.1.104:8080/";
+        return "http://ristoserver.herokuapp.com/";
     }
+
 }

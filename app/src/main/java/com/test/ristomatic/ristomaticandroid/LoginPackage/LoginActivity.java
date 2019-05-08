@@ -101,6 +101,11 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    public void setSettings(View view){
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
+    }
+
     private class SendCode extends AsyncTask<Integer, String, Void> {
         @Override
         protected Void doInBackground(Integer... integers) {

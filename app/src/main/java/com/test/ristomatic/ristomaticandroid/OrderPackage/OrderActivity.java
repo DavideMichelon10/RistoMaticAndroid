@@ -108,8 +108,7 @@ public class OrderActivity extends AppCompatActivity {
     }
 
 
-    private void createCourseSelection()
-    {
+    private void createCourseSelection() {
         rgp = findViewById(R.id.flow_group);
         RadioGroup.LayoutParams rprms;
         for(int i = 0; i< GlobalVariableApplication.getCoursesNumber(); i++){
