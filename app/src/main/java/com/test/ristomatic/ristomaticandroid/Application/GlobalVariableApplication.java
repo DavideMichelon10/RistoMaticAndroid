@@ -27,8 +27,8 @@ public class GlobalVariableApplication extends Application {
     }
 
     public static String serverAddress(){
-        //return "http://"+ getIpServer() +":"+getPort()+"/";
-        return "http://ristoserver.herokuapp.com/";
+        return "http://192.168.1.138:3000/";
+        //return "http://ristoserver.herokuapp.com/";
     }
 
 }

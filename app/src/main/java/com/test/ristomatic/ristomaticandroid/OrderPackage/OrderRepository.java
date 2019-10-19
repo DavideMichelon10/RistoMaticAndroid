@@ -12,6 +12,7 @@ import com.test.ristomatic.ristomaticandroid.Application.VolleyCallbackObject;
 import org.json.JSONObject;
 
 public class OrderRepository {
+
     public void sendReport(final JSONObject report, final VolleyCallbackObject volleyCallback) {
         JsonObjectRequest sendRequest = new JsonObjectRequest(Request.Method.POST, VolleyCallApplication.report(), report,
                 new Response.Listener<JSONObject>() {

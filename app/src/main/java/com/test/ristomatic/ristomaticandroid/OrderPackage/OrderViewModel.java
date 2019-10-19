@@ -69,10 +69,11 @@ public class OrderViewModel extends AndroidViewModel {
 
     protected void sendReport() throws JSONException {
         JSONObject report = getReportInformation();
-        if(comandaRichiamata == null){
+        if(comandaRichiamata == null) {
             JSONArray courses = convertReportToJSON();
-            System.out.println(courses.toString());
             report.put("portate",courses);
+            System.out.println(report.toString());
+
             orderRepository.sendReport(report, new VolleyCallbackObject() {
                 @Override
                 public void onSuccess(JSONObject result) {
@@ -81,7 +82,7 @@ public class OrderViewModel extends AndroidViewModel {
         }else{
             List<Course> currentCourses = getCurrentCourses();
             List<Course> richiamaCourses = jsonObjectToCoursesList(comandaRichiamata);
-            //TODO continuare confronto liste; meglio aspettare merge
+           // TODO: continuare confronto liste; meglio aspettare mergesendReport
         }
     }
 
@@ -89,10 +90,13 @@ public class OrderViewModel extends AndroidViewModel {
     public JSONObject getReportInformation() throws JSONException {
         JSONObject report = new JSONObject();
         JSONObject user = new JSONObject(LoginViewModel.getUserFileInString());
-        report.put(getApplication().getString(R.string.Waiter),user.get("nome_cameriere"));
+        report.put(getApplication().getString(R.string.Waiter),user.get("codi"));
         report.put(getApplication().getString(R.string.id_tavolo), tableId);
-        if(seatsNumber != 0)
+        if(seatsNumber != 0){
             report.put(getApplication().getString(R.string.coperti), seatsNumber);
+        }else{
+            report.put(getApplication().getString(R.string.coperti), 0);
+        }
         return report;
     }
 

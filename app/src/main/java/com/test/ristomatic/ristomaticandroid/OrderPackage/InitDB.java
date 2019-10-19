@@ -8,6 +8,7 @@ import com.test.ristomatic.ristomaticandroid.RoomDatabase.Dish.DishModelDao;
 import com.test.ristomatic.ristomaticandroid.RoomDatabase.Variant.VariantModelDao;
 
 public class InitDB {
+
     private static AppDatabase appDatabase;
     private CategoryModelDao categoryModelDao;
     public DishModelDao dishModelDao;
