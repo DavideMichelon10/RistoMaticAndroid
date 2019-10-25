@@ -5,15 +5,24 @@ import java.util.Objects;
 
 public class Table {
     private int idTable;
+    private String tableName;
     private boolean isOccupied;
     private int idRoom;
 
 
-    public Table(int idTable, boolean isOccupied){
+    public Table(int idTable, String tableName, boolean isOccupied){
         setIdTable(idTable);
+        setTableName(tableName);
         setOccupied(isOccupied);
     }
 
+    public int getIdTable() {
+        return idTable;
+    }
+
+    public void setIdTable(int idTable) {
+        this.idTable = idTable;
+    }
 
     public boolean getOccupied() {
         return isOccupied;
@@ -24,12 +33,12 @@ public class Table {
     }
 
 
-    public int getIdTable() {
-        return idTable;
+    public String getTableName() {
+        return tableName;
     }
 
-    public void setIdTable(int idTable) {
-        this.idTable = idTable;
+    public void setTableName(String tableName) {
+        this.tableName = tableName;
     }
 
 
@@ -47,14 +56,23 @@ public class Table {
         if (this == o) return true;
         if (!(o instanceof Table)) return false;
         Table table = (Table) o;
-        return getIdTable() == table.idTable &&
+        return getTableName() == table.tableName &&
                 getIdRoom() == table.idRoom &&
                 Objects.equals(getOccupied(), table.isOccupied);
     }
 
+    @Override
+    public String toString() {
+        return "Table{" +
+                "idTable=" + idTable +
+                ", tableName='" + tableName + '\'' +
+                ", isOccupied=" + isOccupied +
+                ", idRoom=" + idRoom +
+                '}';
+    }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idTable, isOccupied, idRoom);
+        return Objects.hash(tableName, isOccupied, idRoom);
     }
 }

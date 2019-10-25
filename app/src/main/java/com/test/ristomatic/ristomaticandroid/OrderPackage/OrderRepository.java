@@ -9,28 +9,40 @@ import com.test.ristomatic.ristomaticandroid.Application.SingeltonVolley;
 import com.test.ristomatic.ristomaticandroid.Application.VolleyCallApplication;
 import com.test.ristomatic.ristomaticandroid.Application.VolleyCallbackObject;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class OrderRepository {
-    public void sendReport(final JSONObject report, final VolleyCallbackObject volleyCallback) {
-        JsonObjectRequest sendRequest = new JsonObjectRequest(Request.Method.POST, VolleyCallApplication.report(), report,
+    public void sendReport(final JSONObject report, final boolean richiama, final VolleyCallbackObject volleyCallback) {
+        int method;
+        if(richiama)
+            method = Request.Method.PUT;
+        else
+            method = Request.Method.POST;
+
+        JsonObjectRequest sendRequest = new JsonObjectRequest(method, VolleyCallApplication.report(), report,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+                        try {
+                            System.out.println(report.toString(1));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                         volleyCallback.onSuccess(response);
                     }
 
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                sendReport(report, volleyCallback);
+                sendReport(report, richiama, volleyCallback);
             }
         });
         SingeltonVolley.getInstance(ContextApplication.getAppContext()).addToRequestQueue(sendRequest);
     }
 
-    public void getRichiama(final VolleyCallbackObject volleyCallbackObject, final int idTable){
-        final JsonObjectRequest getRichiama = new JsonObjectRequest(Request.Method.GET, VolleyCallApplication.report()+"/"+idTable, null,
+    public void getRichiama(final VolleyCallbackObject volleyCallbackObject, final int idTable) {
+        final JsonObjectRequest getRichiama = new JsonObjectRequest(Request.Method.GET, VolleyCallApplication.report() + "/" + idTable, null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -39,15 +51,15 @@ public class OrderRepository {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                System.err.println(error.getMessage());
                 getRichiama(volleyCallbackObject, idTable);
             }
         });
-
         SingeltonVolley.getInstance(ContextApplication.getAppContext()).addToRequestQueue(getRichiama);
     }
 
 
-    public void changeTableState(final VolleyCallbackObject volleyCallback, final JSONObject jsonToSend){
+    public void changeTableState(final VolleyCallbackObject volleyCallback, final JSONObject jsonToSend) {
 
         JsonObjectRequest changeState = new JsonObjectRequest(Request.Method.PUT, VolleyCallApplication.changeTableState(), jsonToSend,
                 new Response.Listener<JSONObject>() {
@@ -59,7 +71,7 @@ public class OrderRepository {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                changeTableState(volleyCallback,jsonToSend);
+                changeTableState(volleyCallback, jsonToSend);
             }
         });
         SingeltonVolley.getInstance(ContextApplication.getAppContext()).addToRequestQueue(changeState);

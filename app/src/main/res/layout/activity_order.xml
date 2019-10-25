@@ -154,7 +154,7 @@
         app:layout_constraintTop_toBottomOf="@+id/recyclerViewDishes" />
 
     <TextView
-        android:id="@+id/idTable"
+        android:id="@+id/tableName"
         android:layout_width="64dp"
         android:layout_height="32dp"
         android:layout_marginStart="8dp"

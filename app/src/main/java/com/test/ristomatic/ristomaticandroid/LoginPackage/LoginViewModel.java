@@ -105,8 +105,8 @@ public class LoginViewModel extends AndroidViewModel {
     private Intent moveToMain(String userInString, Intent moveToActivityIntent) throws JSONException {
         JSONObject UserLoggedJSON = new JSONObject(userInString);
         moveToActivityIntent = new Intent(getApplication().getApplicationContext(), MainActivity.class);
-        moveToActivityIntent.putExtra("Id", UserLoggedJSON.getString("cameriere_id"));
-        moveToActivityIntent.putExtra("Waiter", UserLoggedJSON.getString("nome_cameriere"));
+        moveToActivityIntent.putExtra("Id", UserLoggedJSON.getString("codi"));
+        moveToActivityIntent.putExtra("Waiter", UserLoggedJSON.getString("nome"));
         return moveToActivityIntent;
     }
 
@@ -123,6 +123,7 @@ public class LoginViewModel extends AndroidViewModel {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        System.out.println("STRING IN JSON FILE: " + jsonString);
         return jsonString;
     }
 }
