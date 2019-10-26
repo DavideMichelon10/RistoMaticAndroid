@@ -143,7 +143,6 @@ public class SelectVariantsDialog extends DialogFragment {
                 return false;
         }
         catch (NullPointerException e){
-            System.out.println("EXEPTION: " + e.getMessage());
             return true;
         }
     }

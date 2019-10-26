@@ -35,6 +35,11 @@ public class SelectedDish {
         this.timeSelected = timeSelected;
     }
 
+    public SelectedDish(int selectedDishId,String selectedDishName, List<SelectedVariant> selectedVariantName, int timeSelected){
+        this.setSelectedDishName(selectedDishName); this.setSelectedVariants(selectedVariantName);
+        this.timeSelected = timeSelected; this.selectedDishId = selectedDishId;
+    }
+
     public int getTimeSelected() {
         return timeSelected;
     }
@@ -60,21 +65,25 @@ public class SelectedDish {
     }
 
     //compara due oggetti, vera solo se varianti uguali
+    //N.B Non viene considerato il timeSelecte --> per fare modifica
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null) return false;
         if (this.getClass() != o.getClass()) return false;
         SelectedDish selectedDish = (SelectedDish) o;
-        if( this.getSelectedDishName().compareTo(selectedDish.getSelectedDishName()) == 0 &&
-                this.getSelectedVariants().equals(selectedDish.getSelectedVariants())){
-                return true;
-        }
-        return false;
+
+        return this.getSelectedDishId() == selectedDish.getSelectedDishId() &&
+                this.getSelectedVariants().equals(selectedDish.getSelectedVariants());
     }
 
     @Override
     public String toString() {
-        return ""+timeSelected+" name: "+selectedDishName;
+        StringBuilder var = new StringBuilder();
+        var.append(" name: ").append(selectedDishName).append("  Volte selezionato: ").append(timeSelected).append("\n");
+        for(SelectedVariant selectedVariant : selectedVariants){
+            var.append(selectedVariant.toString());
+        }
+        return var.toString();
     }
 }

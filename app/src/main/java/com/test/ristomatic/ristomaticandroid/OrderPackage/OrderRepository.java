@@ -8,9 +8,12 @@ import com.test.ristomatic.ristomaticandroid.Application.ContextApplication;
 import com.test.ristomatic.ristomaticandroid.Application.SingeltonVolley;
 import com.test.ristomatic.ristomaticandroid.Application.VolleyCallApplication;
 import com.test.ristomatic.ristomaticandroid.Application.VolleyCallbackObject;
+import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.ElementModified;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.List;
 
 public class OrderRepository {
 
@@ -57,6 +60,24 @@ public class OrderRepository {
             }
         });
         SingeltonVolley.getInstance(ContextApplication.getAppContext()).addToRequestQueue(getRichiama);
+    }
+
+    public void sendModificaRichiamo(final JSONObject modifiche, final VolleyCallbackObject volleyCallbackObject) {
+        final JsonObjectRequest sendModificaRichiamo = new JsonObjectRequest(Request.Method.POST, VolleyCallApplication.sendModificaRichiamo(), modifiche,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        volleyCallbackObject.onSuccess(response);
+                    }
+                }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                System.err.println(error.getMessage());
+                sendModificaRichiamo(modifiche, volleyCallbackObject);
+            }
+        });
+        SingeltonVolley.getInstance(ContextApplication.getAppContext()).addToRequestQueue(sendModificaRichiamo);
     }
 
 }

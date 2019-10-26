@@ -41,9 +41,8 @@ public class SelectedVariant implements Parcelable{
     @Override
     public boolean equals(Object obj) {
         SelectedVariant newVariant = (SelectedVariant) obj;
-        if(this.isPlus() == newVariant.isPlus && this.getVariantName().compareTo(newVariant.getVariantName()) == 0)
-            return true;
-        return false;
+
+        return this.isPlus() == newVariant.isPlus && this.getIdVariant() == newVariant.getIdVariant();
     }
 
     public String getVariantName() {
@@ -80,5 +79,10 @@ public class SelectedVariant implements Parcelable{
         dest.writeString(variantName);
         dest.writeInt(idVariant);
         dest.writeByte((byte) (isPlus ? 1 : 0));
+    }
+
+    @Override
+    public String toString() {
+        return "ID variante"+idVariant+ "Varianta name: "+variantName+"is plus: "+isPlus+"\n";
     }
 }

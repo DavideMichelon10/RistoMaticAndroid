@@ -42,7 +42,6 @@ public class SelectSeatsDialog extends DialogFragment {
             public void onClick(DialogInterface dialog, int which) {
                 String seatsEditTextString = seatsEditText.getText().toString();
                 if(seatsEditTextString.matches("")){
-                    System.out.println("VUOTO");
                     seatsEditText.setText("0");
                 }
                     Intent intent = new Intent(ContextApplication.getAppContext(), OrderActivity.class);

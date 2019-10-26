@@ -13,6 +13,7 @@ import com.test.ristomatic.ristomaticandroid.LoginPackage.LoginViewModel;
 import com.test.ristomatic.ristomaticandroid.MainPackage.MainActivity;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.CoursesAdapter;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.Course;
+import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.ElementModified;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.SelectedDish;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.SelectedVariant;
 import com.test.ristomatic.ristomaticandroid.R;
@@ -87,13 +88,103 @@ public class OrderViewModel extends AndroidViewModel {
                 }
             });
         }else{
-            List<Course> currentCourses = getCurrentCourses();
-            List<Course> richiamaCourses = jsonObjectToCoursesList(comandaRichiamata);
-           // TODO: continuare confronto liste; meglio aspettare mergesendReport
+            // TODO: continuare confronto liste; meglio aspettare mergesendReport
+
+            List<ElementModified> elementModifiedList = new ArrayList<>();
+            List<Course> comandaModificataList = getCurrentCourses();
+            List<Course> comandaRichiamataList = jsonObjectToCoursesList(comandaRichiamata);
+
+            for(Course course : comandaRichiamataList){
+                //LA PORTATA E' PRESENTE
+                List<SelectedDish> piattiComandaModificata = checkIfCoursePresent(comandaModificataList, course.getCourseNumber());
+                if(piattiComandaModificata != null){
+                    for(SelectedDish selectedDish : course.getAllSelectedDishes()){
+                        if(checkIfDishPresentEqual(elementModifiedList, selectedDish, piattiComandaModificata, course.getCourseNumber()) == 2){
+                            //SELEZIONARE PIATTI CON LO STESSO ID
+
+                        }
+                    }
+                }else{//LA PORTATA NON E PRESENTE
+                    addAllElementsInCourseToModifiedList(elementModifiedList, course.getAllSelectedDishes(), course.getCourseNumber());
+                }
+
+            }
+
+            JSONArray courses = new JSONArray();
+
+            for(ElementModified e : elementModifiedList){
+                Gson gson = new Gson();
+                String json = gson.toJson(e);
+                try {
+                    courses.put(new JSONObject(json));
+                } catch (JSONException ex) {
+                    ex.printStackTrace();
+                }
+            }
+            report.put("modifiche", courses);
+
+            orderRepository.sendModificaRichiamo(report, new VolleyCallbackObject() {
+                @Override
+                public void onSuccess(JSONObject result) {
+
+                }
+            });
         }
     }
 
 
+    // 1 : PIATTO UGALE CON STESSE VARIAZIONI TROVATO
+    // 2 : STESSO PIATTO MA CON VARIAZIONI DIVERSE
+    // 3 : PIATTO CON ID NON MATCHATO
+    //SE TROVA PIATTO UGALE, controlla se quantita e ritorna vero
+    private int checkIfDishPresentEqual(List<ElementModified> elementModifiedList,SelectedDish selectedDish, List<SelectedDish> piattiComandaModificata, int portata) {
+        int result = 3;
+        for(SelectedDish d : piattiComandaModificata){
+            //PIATTO UGUALE CON VARIANTI UGUALI
+            if(d.equals(selectedDish)){
+
+                if(d.getTimeSelected() != selectedDish.getTimeSelected()){
+                    elementModifiedList.add(new ElementModified(d.getSelectedDishId(),d.getSelectedDishName(), portata,selectedDish.getTimeSelected(),d.getTimeSelected()));
+                }
+                return 1;
+            }else if(d.getSelectedDishId() == selectedDish.getSelectedDishId()){
+                result = 2;
+            }
+        }
+        //NON E' STATO TROVATO NESSUN PIATTO CON QUESTO ID --> E' STATO ELIMINATO
+        if (result == 3){
+            int quantitaModificata = selectedDish.getTimeSelected() * -1;
+            elementModifiedList.add(new ElementModified(selectedDish.getSelectedDishId(), selectedDish.getSelectedDishName(), portata, selectedDish.getTimeSelected(), quantitaModificata));
+        }
+        return result;
+
+    }
+
+    private List<SelectedDish> checkIfCoursePresent(List<Course> comandaModificata, int numeroComanda){
+
+        for(Course course : comandaModificata){
+            if(course.getCourseNumber() == numeroComanda){
+                return course.getAllSelectedDishes();
+            }
+        }
+        return null;
+    }
+
+
+    private void addAllElementsInCourseToModifiedList(List<ElementModified> elementModifiedList, List<SelectedDish> piattiEliminati, int numeroPortata){
+        for(SelectedDish selectedDish : piattiEliminati){
+            int quantitaModificata = selectedDish.getTimeSelected() * -1;
+
+            elementModifiedList.add(new ElementModified(selectedDish.getSelectedDishId(), selectedDish.getSelectedDishName(), numeroPortata, selectedDish.getTimeSelected(),quantitaModificata));
+
+            //SE CI SONO VARIANTI
+            if(!selectedDish.getSelectedVariants().isEmpty()) {
+                for(SelectedVariant v : selectedDish.getSelectedVariants()){
+                    elementModifiedList.add(new ElementModified(v.getIdVariant(), v.getVariantName(), numeroPortata, 1, -1));
+                }
+            }
+        }
+    }
 
 
 
@@ -180,10 +271,11 @@ public class OrderViewModel extends AndroidViewModel {
             variant.setVariantName(getInitDB().getVariantModelDao().getVariantName(variant.getIdVariant()));
             variants.add(variant);
         }
+        int idDish = selectedDish.getInt("selectedDishId");
         int timeSelected = selectedDish.getInt("timeSelected");
         String dishName = selectedDish.getString("selectedDishName");
 
-        selDish = new SelectedDish(dishName, variants, timeSelected);
+        selDish = new SelectedDish(idDish, dishName, variants, timeSelected);
         return selDish;
     }
 

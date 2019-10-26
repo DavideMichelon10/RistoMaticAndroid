@@ -92,9 +92,6 @@ public class MainViewModel extends AndroidViewModel {
         for(int j=0; j < tablesRoomFromCallback.length(); j++){
             JSONObject jsonObject = tablesRoomFromCallback.getJSONObject(j);
             Table table = new Gson().fromJson(jsonObject.toString(), Table.class);
-            System.out.println(jsonObject.toString());
-            System.out.println("////////////////");
-            System.out.println(table.toString());
             tablesRoom.add(table);
         }
     }

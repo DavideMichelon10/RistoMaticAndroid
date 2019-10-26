@@ -20,4 +20,8 @@ public class VolleyCallApplication extends Application {
     public static String report(){
         return GlobalVariableApplication.serverAddress() + "v1/comanda";
     }
+
+    public static String sendModificaRichiamo(){
+        return GlobalVariableApplication.serverAddress() + "v1/comanda/modifica";
+    }
 }

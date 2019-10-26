@@ -39,4 +39,15 @@ public class Course {
     public void addSelectedDish(SelectedDish selectedDish){
         selectedDishes.add(selectedDish);
     }
+
+    @Override
+    public String toString() {
+        String var = "";
+        var += "Portata numero: "+courseNumber+"\n";
+        for(SelectedDish selectedDish: selectedDishes){
+            var += selectedDish.toString()+"\n";
+        }
+
+        return var;
+    }
 }
