@@ -56,7 +56,7 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Table table = getTables().get(position);
-        holder.textViewId.setText(Integer.toString(table.getIdTable()));
+        holder.textViewId.setText(table.getTableName());
         holder.setOccupied(table.getOccupied());
     }
 
@@ -81,12 +81,16 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
             textViewId.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    int idTable = tables.get(getAdapterPosition()).getIdTable();
+                    String tableName = textViewId.getText().toString();
+                    int idRoom = tables.get(getAdapterPosition()).getIdRoom();
                     if (!getOccupied()) {
-                        showSelectSeatsDialog();
+                        showSelectSeatsDialog(idTable, tableName, idRoom);
                     } else {
                         Intent intent = new Intent(ContextApplication.getAppContext(), OrderActivity.class);
-                        int idTable = Integer.parseInt(textViewId.getText().toString());
                         intent.putExtra("idTable", idTable);
+                        intent.putExtra("tableName", tableName);
+                        intent.putExtra("idRoom", idRoom);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         ContextApplication.getAppContext().startActivity(intent);
                     }
@@ -95,8 +99,16 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
             textViewId.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
+
                     if (getOccupied()) {
                         infoTableDialog();}
+                    else{
+                        int idTable = tables.get(getAdapterPosition()).getIdTable();
+                        String tableName = textViewId.getText().toString();
+                        int idRoom = tables.get(getAdapterPosition()).getIdRoom();
+                        infoTableDialog(idTable, tableName, idRoom);
+                    }
+
 
                     return false;
                 }
@@ -104,15 +116,15 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
         }
 
 
-        public void showSelectSeatsDialog(){
+        public void showSelectSeatsDialog(int idTable, String tableName, int idRoom){
             FragmentManager fm = ((MainActivity) context).getSupportFragmentManager();
-            SelectSeatsDialog selectSeatsDialog = SelectSeatsDialog.newInstance(Integer.parseInt(textViewId.getText().toString()));
+            SelectSeatsDialog selectSeatsDialog = SelectSeatsDialog.newInstance(idTable, tableName, idRoom);
             selectSeatsDialog.show(fm, "selected_seats_fragment");
         }
 
-        public void infoTableDialog(){
+        public void infoTableDialog(int idTable, String tableName, int idRoom){
             FragmentManager fm = ((MainActivity) context).getSupportFragmentManager();
-            InfoTableDialog infoTableDialog = InfoTableDialog.newIstance(Integer.parseInt(textViewId.getText().toString()));
+            InfoTableDialog infoTableDialog = InfoTableDialog.newIstance(idTable, tableName, idRoom);
             infoTableDialog.show(fm, "info_table_dialog");
         }
 

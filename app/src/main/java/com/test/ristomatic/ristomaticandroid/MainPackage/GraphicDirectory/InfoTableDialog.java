@@ -18,15 +18,17 @@ public class InfoTableDialog extends DialogFragment {
 
     public Dialog onCreateDialog(final Bundle savedInstanceState) {
         int idTable = getArguments().getInt("idTavolo");
+        String tableName = getArguments().getString("tableName");
+        int idRoom = getArguments().getInt("idRoom");
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         LinearLayout linearLayout = new LinearLayout(getContext());
         builder.setView(linearLayout);
-        Button richiama = createRichiamaButton(idTable);
+        Button richiama = createRichiamaButton(idTable, tableName, idRoom);
         linearLayout.addView(richiama);
         return builder.create();
     }
 
-    private Button createRichiamaButton(final int idTable) {
+    private Button createRichiamaButton(final int idTable, final String tableName, final int idRom) {
         Button b = new Button(getContext());
         b.setText(R.string.richiama_tavolo);
         b.setOnClickListener(new View.OnClickListener() {
@@ -34,16 +36,23 @@ public class InfoTableDialog extends DialogFragment {
             public void onClick(View view) {
                 Intent intent = new Intent(getContext(), OrderActivity.class);
                 intent.putExtra("idTable",idTable);
+<<<<<<< HEAD
+=======
+                intent.putExtra("tableName", tableName);
+                intent.putExtra("idRoom", idRom);
+>>>>>>> Grassi
                 intent.putExtra("richiama",true);
                 startActivity(intent);
             }
         });
         return b;
     }
-    public static InfoTableDialog newIstance(int idTable) {
+    public static InfoTableDialog newIstance(int idTable, String tableName, int idRoom) {
         InfoTableDialog frag = new InfoTableDialog();
         Bundle args = new Bundle();
+        args.putString("tableName", tableName);
         args.putInt("idTavolo", idTable);
+        args.putInt("idRoom", idRoom);
         frag.setArguments(args);
         return frag;
     }

@@ -66,5 +66,4 @@ public class MainRepository {
         });
         SingeltonVolley.getInstance(ContextApplication.getAppContext()).addToRequestQueue(jsonArrayDateUpdated);
     }
-
 }

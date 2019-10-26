@@ -28,6 +28,8 @@ public class SelectSeatsDialog extends DialogFragment {
         builder.setTitle("Numero coperti: ");
         //Assegna gli argomenti
         final int idTable = getArguments().getInt("idTavolo");
+        final String tableName = getArguments().getString("tableName");
+        final int idRoom = getArguments().getInt("idRoom");
 
         //Crea il numberPicker per i coperti e il tasto "ok"
         final EditText seatsEditText = new EditText(getContext());
@@ -40,6 +42,8 @@ public class SelectSeatsDialog extends DialogFragment {
             public void onClick(DialogInterface dialog, int which) {
                 Intent intent = new Intent(ContextApplication.getAppContext(), OrderActivity.class);
                 intent.putExtra("idTable", idTable);
+                intent.putExtra("idRoom", idRoom);
+                intent.putExtra("tableName", tableName);
                 intent.putExtra("coperti", Integer.parseInt(seatsEditText.getText().toString()));
                 intent.putExtra("richiama",false);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -53,10 +57,12 @@ public class SelectSeatsDialog extends DialogFragment {
     }
 
 
-    public static SelectSeatsDialog newInstance(int idTavolo) {
+    public static SelectSeatsDialog newInstance(int idTavolo, String tableName, int idRoom) {
         SelectSeatsDialog frag = new SelectSeatsDialog();
         Bundle args = new Bundle();
         args.putInt("idTavolo", idTavolo);
+        args.putString("tableName", tableName);
+        args.putInt("idRoom", idRoom);
         frag.setArguments(args);
         return frag;
     }
