@@ -27,10 +27,12 @@ import java.util.List;
 public class OrderViewModel extends AndroidViewModel {
     private OrderRepository orderRepository;
     private int tableId, seatsNumber;
+    private int idRoom;
 
     private static AdaptersContainer adaptersContainer;
     private static InitDB initDB;
 
+    private boolean richiama;
     private List<Course> courses;
     private JSONObject comandaRichiamata = null;
 
@@ -55,13 +57,19 @@ public class OrderViewModel extends AndroidViewModel {
     public void setInitDB(InitDB initDB) {
         this.initDB = initDB;
     }
+
+
     public void initRichiama(int tableId, Context context){
+        this.richiama = true;
         this.tableId = tableId;
         this.seatsNumber = 0;
         setAdaptersContainer(new AdaptersContainer(context, getInitDB()));
     }
 
-    public void init(int tableId, int seatsNumber, Context context) {
+    public void init(int tableId, int seatsNumber, int idRoom, Context context) {
+        this.idRoom = idRoom;
+        this.richiama = false;
+        this.richiama = richiama;
         this.seatsNumber = seatsNumber;
         this.tableId = tableId;
         setAdaptersContainer(new AdaptersContainer(context,courses, getInitDB()));
@@ -69,12 +77,11 @@ public class OrderViewModel extends AndroidViewModel {
 
     protected void sendReport() throws JSONException {
         JSONObject report = getReportInformation();
-        if(comandaRichiamata == null) {
+        if(comandaRichiamata == null){
             JSONArray courses = convertReportToJSON();
+            System.out.println(courses.toString());
             report.put("portate",courses);
-            System.out.println(report.toString());
-
-            orderRepository.sendReport(report, new VolleyCallbackObject() {
+            orderRepository.sendReport(report, richiama, new VolleyCallbackObject() {
                 @Override
                 public void onSuccess(JSONObject result) {
                 }
@@ -82,21 +89,22 @@ public class OrderViewModel extends AndroidViewModel {
         }else{
             List<Course> currentCourses = getCurrentCourses();
             List<Course> richiamaCourses = jsonObjectToCoursesList(comandaRichiamata);
-           // TODO: continuare confronto liste; meglio aspettare mergesendReport
+            //TODO continuare confronto liste; meglio aspettare merge
         }
     }
+
+
+
 
 
     public JSONObject getReportInformation() throws JSONException {
         JSONObject report = new JSONObject();
         JSONObject user = new JSONObject(LoginViewModel.getUserFileInString());
         report.put(getApplication().getString(R.string.Waiter),user.get("codi"));
+        report.put("idSala", idRoom);
         report.put(getApplication().getString(R.string.id_tavolo), tableId);
-        if(seatsNumber != 0){
+        if(seatsNumber != 0)
             report.put(getApplication().getString(R.string.coperti), seatsNumber);
-        }else{
-            report.put(getApplication().getString(R.string.coperti), 0);
-        }
         return report;
     }
 

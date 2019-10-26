@@ -10,7 +10,7 @@ public class VolleyCallApplication extends Application {
     }
     //sale con tavoli
     public static String getTablesRooms(){
-        return GlobalVariableApplication.serverAddress() + "v1/rooms";
+        return GlobalVariableApplication.serverAddress() + "v1/tavoli";
     }
     //cambiare stato tavolo
     public static String changeTableState(){

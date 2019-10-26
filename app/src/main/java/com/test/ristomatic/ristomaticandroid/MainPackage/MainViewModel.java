@@ -89,10 +89,12 @@ public class MainViewModel extends AndroidViewModel {
     }
 
     public void convertJsonToTableList(JSONArray tablesRoomFromCallback, List<Table> tablesRoom) throws JSONException {
-        for(int j=0; j<tablesRoomFromCallback.length(); j++){
+        for(int j=0; j < tablesRoomFromCallback.length(); j++){
             JSONObject jsonObject = tablesRoomFromCallback.getJSONObject(j);
             Table table = new Gson().fromJson(jsonObject.toString(), Table.class);
-            System.out.println("TABLE STATE " + j + ": " + table.getOccupied());
+            System.out.println(jsonObject.toString());
+            System.out.println("////////////////");
+            System.out.println(table.toString());
             tablesRoom.add(table);
         }
     }
@@ -134,9 +136,7 @@ public class MainViewModel extends AndroidViewModel {
         switch (index){
             case 0:
                 VariantModelDao variantModelDao = appDatabase.getVariantModelDao();
-                System.out.println("PRIMA DEL NUKE TABLE");
                 variantModelDao.nukeTableVariant();
-                System.out.println("DOPO NUKE TABLE");
                 for(int i =0; i<jsonTable.getJSONArray("table").length(); i++){
                     String variantInString = jsonTable.getJSONArray("table").get(i).toString();
                     VariantModel variantModel = gson.fromJson(variantInString, VariantModel.class);
@@ -148,7 +148,7 @@ public class MainViewModel extends AndroidViewModel {
             case 1:
                 DishModelDao dishModelDao = appDatabase.getDishModelDao();
                 dishModelDao.nukeTableDish();
-                for(int i=0; i<jsonTable.getJSONArray("table").length(); i++){
+                for(int i=0; i<jsonTable.getJSONArray("table").length(); i++) {
                     String dishInString = jsonTable.getJSONArray("table").get(i).toString();
                     DishModel dishModel = gson.fromJson(dishInString, DishModel.class);
                     dishModelDao.addDish(dishModel);

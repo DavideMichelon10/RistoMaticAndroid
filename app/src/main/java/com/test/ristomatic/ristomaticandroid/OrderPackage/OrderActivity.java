@@ -38,7 +38,8 @@ public class OrderActivity extends AppCompatActivity {
     private ProgressBar progress;
     private TextView tIdTable, tImporto;
     private Button b;
-    private int seatsNumber, idTable;
+    private int seatsNumber, idTable, idRoom;
+    private String tableName;
 
 
     @Override
@@ -48,13 +49,15 @@ public class OrderActivity extends AppCompatActivity {
         InsertDishUtilities.setContext(this);
         orderViewModel = ViewModelProviders.of(this).get(OrderViewModel.class);
         progress = findViewById(R.id.progressBar);
-        tIdTable = findViewById(R.id.idTable);
+        tIdTable = findViewById(R.id.tableName);
         tImporto = findViewById(R.id.importo);
         Intent intent = getIntent();
+        idRoom = intent.getIntExtra("idRoom", -1);
+        tableName = intent.getStringExtra("tableName");
         idTable = intent.getIntExtra("idTable", 0);
         seatsNumber = intent.getIntExtra("coperti",0);
 
-        tIdTable.setText(Integer.toString(idTable));
+        tIdTable.setText(tableName);
 
         boolean richiama = intent.getBooleanExtra("richiama",false);
 
@@ -94,12 +97,12 @@ public class OrderActivity extends AppCompatActivity {
                                 }
                             });
                         }
-                    }, idTable,context);
+                    }, idTable, context);
                 }
             }).start();
         }else{
 
-            orderViewModel.init(idTable, seatsNumber,this);
+            orderViewModel.init(idTable, seatsNumber, idRoom,this);
             initializeRecyclerViewCourses(context);
             initializeRecyclerViewCategories();
             initializeRecyclerViewDishes();
