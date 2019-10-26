@@ -48,7 +48,7 @@ public class DishesAdapter extends RecyclerView.Adapter<DishesAdapter.DishViewHo
 
     @Override
     public void onBindViewHolder(DishViewHolder holder, int position) {
-        holder.button.setText(dishes.get(position).getDishName()+"\n"+dishes.get(position).getDishPrice());
+        holder.button.setText(dishes.get(position).getDishName());
     }
 
 
