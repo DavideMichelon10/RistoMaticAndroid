@@ -206,9 +206,6 @@ public class OrderActivity extends AppCompatActivity {
         protected Void doInBackground(Void... voids) {
             try {
                 orderViewModel.sendReport();
-                if(getIntent().getIntExtra("coperti", -1) != -1)
-                    orderViewModel.changeTableState(idTable, "Occupato");
-
             } catch (JSONException e) {
                 e.printStackTrace();
             }

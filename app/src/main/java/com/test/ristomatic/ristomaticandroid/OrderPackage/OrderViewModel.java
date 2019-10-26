@@ -195,22 +195,6 @@ public class OrderViewModel extends AndroidViewModel {
     }
 
 
-    //Cambia lo stato del tavolo indicato nello stato specificato
-    public void changeTableState(final int idTable, final String state){
-        JSONObject objectToSend = new JSONObject();
-        try {
-            objectToSend = createJsonToSend(idTable, state);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        orderRepository.changeTableState(new VolleyCallbackObject() {
-            @Override
-            public void onSuccess(JSONObject result) { }
-        },objectToSend);
-    }
-
-
     public JSONObject createJsonToSend(int idTable, String state) throws JSONException {
         JSONObject valuesToChange = new JSONObject();
         valuesToChange.put("idTavolo", idTable);
