@@ -263,7 +263,6 @@ public final class InsertDishUtilities {
                     .getAdapter()
                     .notifyItemInserted(indexCoursePosition);
         } catch (NullPointerException e) {
-            System.out.println(e.getMessage());
             notifyItemInserted(indexCoursePosition);
         }
     }
@@ -310,7 +309,6 @@ public final class InsertDishUtilities {
                     .getAdapter()
                     .notifyItemChanged(dishPosition);
         } catch (NullPointerException e) {
-            System.out.println(e.getMessage());
             notifyItemChanged(recyclerViewCourses, coursePosition, dishPosition);
         }
     }
@@ -324,7 +322,6 @@ public final class InsertDishUtilities {
                     .getAdapter()
                     .notifyItemRemoved(dishPosition);
         } catch (NullPointerException e) {
-            System.out.println(e.getMessage());
             notifyItemRemoved(recyclerViewCourses, coursePosition, dishPosition);
         }
     }

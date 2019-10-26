@@ -34,7 +34,6 @@ public class InfoTableDialog extends DialogFragment {
             public void onClick(View view) {
                 Intent intent = new Intent(getContext(), OrderActivity.class);
                 intent.putExtra("idTable",idTable);
-                System.out.println("ID TABLE: "+idTable);
                 intent.putExtra("richiama",true);
                 startActivity(intent);
             }

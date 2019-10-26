@@ -72,7 +72,6 @@ public class OrderViewModel extends AndroidViewModel {
         if(comandaRichiamata == null) {
             JSONArray courses = convertReportToJSON();
             report.put("portate",courses);
-            System.out.println(report.toString());
 
             orderRepository.sendReport(report, new VolleyCallbackObject() {
                 @Override
