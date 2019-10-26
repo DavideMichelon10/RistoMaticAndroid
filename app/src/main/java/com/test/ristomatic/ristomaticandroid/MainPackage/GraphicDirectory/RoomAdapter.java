@@ -101,12 +101,13 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
                 public boolean onLongClick(View v) {
 
                     if (getOccupied()) {
-                        infoTableDialog();}
-                    else{
                         int idTable = tables.get(getAdapterPosition()).getIdTable();
                         String tableName = textViewId.getText().toString();
                         int idRoom = tables.get(getAdapterPosition()).getIdRoom();
                         infoTableDialog(idTable, tableName, idRoom);
+                    }
+                    else{
+
                     }
 
 

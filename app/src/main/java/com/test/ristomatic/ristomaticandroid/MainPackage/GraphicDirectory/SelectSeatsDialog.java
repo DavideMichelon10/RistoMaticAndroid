@@ -40,14 +40,21 @@ public class SelectSeatsDialog extends DialogFragment {
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Intent intent = new Intent(ContextApplication.getAppContext(), OrderActivity.class);
-                intent.putExtra("idTable", idTable);
-                intent.putExtra("idRoom", idRoom);
-                intent.putExtra("tableName", tableName);
-                intent.putExtra("coperti", Integer.parseInt(seatsEditText.getText().toString()));
-                intent.putExtra("richiama",false);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                ContextApplication.getAppContext().startActivity(intent);
+                String seatsEditTextString = seatsEditText.getText().toString();
+                if(seatsEditTextString.matches("")){
+                    System.out.println("VUOTO");
+                    seatsEditText.setText("0");
+                }
+                    Intent intent = new Intent(ContextApplication.getAppContext(), OrderActivity.class);
+                    intent.putExtra("idTable", idTable);
+                    intent.putExtra("idRoom", idRoom);
+                    intent.putExtra("tableName", tableName);
+                    intent.putExtra("coperti", Integer.parseInt(seatsEditText.getText().toString()));
+                    intent.putExtra("richiama",false);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    ContextApplication.getAppContext().startActivity(intent);
+
+
             }
         });
         Dialog d = builder.create();
