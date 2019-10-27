@@ -81,34 +81,55 @@ public class OrderViewModel extends AndroidViewModel {
         if(comandaRichiamata == null) {
             JSONArray courses = convertReportToJSON();
             report.put("portate",courses);
-
             orderRepository.sendReport(report, richiama, new VolleyCallbackObject() {
                 @Override
                 public void onSuccess(JSONObject result) {
                 }
             });
         }else{
-            // TODO: continuare confronto liste; meglio aspettare mergesendReport
 
             List<ElementModified> elementModifiedList = new ArrayList<>();
             List<Course> comandaModificataList = getCurrentCourses();
             List<Course> comandaRichiamataList = jsonObjectToCoursesList(comandaRichiamata);
 
+            //SCORRI DA COMANDA RICHIAMATA E SE ELEMENTI NON PRESENTI AGGIUNGI CON -
             for(Course course : comandaRichiamataList){
+                List<SelectedDish> piattiComandaModificata = checkIfCoursePresentInModificata(comandaModificataList, course.getCourseNumber());
                 //LA PORTATA E' PRESENTE
-                List<SelectedDish> piattiComandaModificata = checkIfCoursePresent(comandaModificataList, course.getCourseNumber());
                 if(piattiComandaModificata != null){
                     for(SelectedDish selectedDish : course.getAllSelectedDishes()){
-                        if(checkIfDishPresentEqual(elementModifiedList, selectedDish, piattiComandaModificata, course.getCourseNumber()) == 2){
+                        //TODO: da rivedere discorso varianti
+                        if(checkIfDishPresentEqual(elementModifiedList, selectedDish, piattiComandaModificata, course.getCourseNumber(), true) == 2){
                             //SELEZIONARE PIATTI CON LO STESSO ID
 
                         }
                     }
                 }else{//LA PORTATA NON E PRESENTE
-                    addAllElementsInCourseToModifiedList(elementModifiedList, course.getAllSelectedDishes(), course.getCourseNumber());
+                    addAllElementsInCourseToModifiedList(elementModifiedList, course.getAllSelectedDishes(), course.getCourseNumber(), true);
                 }
 
             }
+
+            //SCORRI DA COMANDA MODIFICATA E SE ELEMENTI NON PRESENTI AGGIUNGI CON +
+            for (Course course : comandaModificataList){
+
+                List<SelectedDish> piattiComandaModificata = checkIfCoursePresentInModificata(comandaRichiamataList, course.getCourseNumber());
+                if(piattiComandaModificata != null){
+                    for(SelectedDish s : course.getAllSelectedDishes()){
+                        if(checkIfDishPresentEqual(elementModifiedList, s, piattiComandaModificata, course.getCourseNumber(), false) == 2){
+                            //SELEZIONARE PIATTI CON LO STESSO ID
+
+                        }
+                    }
+
+                }else{//AGGIUNGO TUTTO
+                    addAllElementsInCourseToModifiedList(elementModifiedList, course.getAllSelectedDishes(), course.getCourseNumber(), false);
+
+                }
+            }
+
+
+
 
             JSONArray courses = new JSONArray();
 
@@ -123,6 +144,7 @@ public class OrderViewModel extends AndroidViewModel {
             }
             report.put("modifiche", courses);
 
+
             orderRepository.sendModificaRichiamo(report, new VolleyCallbackObject() {
                 @Override
                 public void onSuccess(JSONObject result) {
@@ -133,11 +155,13 @@ public class OrderViewModel extends AndroidViewModel {
     }
 
 
+
+
     // 1 : PIATTO UGALE CON STESSE VARIAZIONI TROVATO
     // 2 : STESSO PIATTO MA CON VARIAZIONI DIVERSE
     // 3 : PIATTO CON ID NON MATCHATO
     //SE TROVA PIATTO UGALE, controlla se quantita e ritorna vero
-    private int checkIfDishPresentEqual(List<ElementModified> elementModifiedList,SelectedDish selectedDish, List<SelectedDish> piattiComandaModificata, int portata) {
+    private int checkIfDishPresentEqual(List<ElementModified> elementModifiedList,SelectedDish selectedDish, List<SelectedDish> piattiComandaModificata, int portata, boolean isRichiama) {
         int result = 3;
         for(SelectedDish d : piattiComandaModificata){
             //PIATTO UGUALE CON VARIANTI UGUALI
@@ -153,14 +177,18 @@ public class OrderViewModel extends AndroidViewModel {
         }
         //NON E' STATO TROVATO NESSUN PIATTO CON QUESTO ID --> E' STATO ELIMINATO
         if (result == 3){
-            int quantitaModificata = selectedDish.getTimeSelected() * -1;
-            elementModifiedList.add(new ElementModified(selectedDish.getSelectedDishId(), selectedDish.getSelectedDishName(), portata, selectedDish.getTimeSelected(), quantitaModificata));
+            if(isRichiama){
+                int quantitaModificata = selectedDish.getTimeSelected() * -1;
+                elementModifiedList.add(new ElementModified(selectedDish.getSelectedDishId(), selectedDish.getSelectedDishName(), portata, selectedDish.getTimeSelected(), quantitaModificata));
+            }else{
+                elementModifiedList.add(new ElementModified(selectedDish.getSelectedDishId(), selectedDish.getSelectedDishName(), portata, 0, selectedDish.getTimeSelected()));
+            }
         }
         return result;
 
     }
 
-    private List<SelectedDish> checkIfCoursePresent(List<Course> comandaModificata, int numeroComanda){
+    private List<SelectedDish> checkIfCoursePresentInModificata(List<Course> comandaModificata, int numeroComanda){
 
         for(Course course : comandaModificata){
             if(course.getCourseNumber() == numeroComanda){
@@ -171,18 +199,28 @@ public class OrderViewModel extends AndroidViewModel {
     }
 
 
-    private void addAllElementsInCourseToModifiedList(List<ElementModified> elementModifiedList, List<SelectedDish> piattiEliminati, int numeroPortata){
+    private void addAllElementsInCourseToModifiedList(List<ElementModified> elementModifiedList, List<SelectedDish> piattiEliminati, int numeroPortata, boolean isRichiama){
         for(SelectedDish selectedDish : piattiEliminati){
-            int quantitaModificata = selectedDish.getTimeSelected() * -1;
+            //IF PER NON FARE DUE METODI DIVERSI
+            if(isRichiama){
+                int quantitaModificata = selectedDish.getTimeSelected() * -1;
 
-            elementModifiedList.add(new ElementModified(selectedDish.getSelectedDishId(), selectedDish.getSelectedDishName(), numeroPortata, selectedDish.getTimeSelected(),quantitaModificata));
+                elementModifiedList.add(new ElementModified(selectedDish.getSelectedDishId(), selectedDish.getSelectedDishName(), numeroPortata, selectedDish.getTimeSelected(),quantitaModificata));
 
-            //SE CI SONO VARIANTI
-            if(!selectedDish.getSelectedVariants().isEmpty()) {
-                for(SelectedVariant v : selectedDish.getSelectedVariants()){
-                    elementModifiedList.add(new ElementModified(v.getIdVariant(), v.getVariantName(), numeroPortata, 1, -1));
+                //SE CI SONO VARIANTI
+                //TODO: da rivedere discorso varianti
+                if(!selectedDish.getSelectedVariants().isEmpty()) {
+                    for(SelectedVariant v : selectedDish.getSelectedVariants()){
+                        elementModifiedList.add(new ElementModified(v.getIdVariant(), v.getVariantName(), numeroPortata, 1, -1));
+                    }
+                }
+            }else{
+                elementModifiedList.add(new ElementModified(selectedDish.getSelectedDishId(), selectedDish.getSelectedDishName(), numeroPortata,0, selectedDish.getTimeSelected()));
+                if(!selectedDish.getSelectedVariants().isEmpty()){
+
                 }
             }
+
         }
     }
 
