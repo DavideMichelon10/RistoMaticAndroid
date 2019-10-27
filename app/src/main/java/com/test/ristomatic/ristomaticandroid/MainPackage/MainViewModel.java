@@ -11,6 +11,7 @@ import com.test.ristomatic.ristomaticandroid.Application.VolleyCallback;
 import com.test.ristomatic.ristomaticandroid.MainPackage.GraphicDirectory.PagerAdapter;
 import com.test.ristomatic.ristomaticandroid.MainPackage.GraphicDirectory.RoomAdapter;
 import com.test.ristomatic.ristomaticandroid.MainPackage.GraphicDirectory.RoomFragment;
+import com.test.ristomatic.ristomaticandroid.MainPackage.Model.Room;
 import com.test.ristomatic.ristomaticandroid.MainPackage.Model.Table;
 import com.test.ristomatic.ristomaticandroid.RoomDatabase.AppDatabase;
 import com.test.ristomatic.ristomaticandroid.RoomDatabase.Category.CategoryModel;
@@ -82,6 +83,7 @@ public class MainViewModel extends AndroidViewModel {
             convertJsonToTableList(tablesRoomFromCallback, tablesRoom);
 
             RoomFragment roomFragment = new RoomFragment();
+            System.out.println("FragmentId: " + i);
             roomFragment.setFragmentId(i);
             pagerAdapter.getRooms().add(roomFragment);
             roomFragment.init(tablesRoom, new RecyclerView(ContextApplication.getAppContext()), mainActivity);
@@ -196,7 +198,8 @@ public class MainViewModel extends AndroidViewModel {
 
 
     //Richiede le informazioni di tutti i tavoli
-    public void getTablesUpToDate(final int room){
+    public void getTablesUpToDate(final Room room){
+        int idRoom = room.getIdRoom();
         mainRepository.getTablesInRoom(new VolleyCallback() {
             @Override
             public void onSuccess(JSONArray result) {
@@ -205,16 +208,16 @@ public class MainViewModel extends AndroidViewModel {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
             }
-        }, room);
+        }, idRoom);
     }
 
-    private void changeTableStateOnGraphic(JSONArray result, int room) throws JSONException {
+    private void changeTableStateOnGraphic(JSONArray result, Room room) throws JSONException {
         //cicla per ogni sala
         for(int j=0;j<result.length();j++) {
             Table newTable = new Gson().fromJson(result.getJSONObject(j).toString(), Table.class);
-            RoomAdapter roomAdapter = pagerAdapter.getItem(room).getRoom().getRoomAdapter();
+            int indexRoom = room.getRoomRecyclerView().getId();
+            RoomAdapter roomAdapter = pagerAdapter.getItem(indexRoom).getRoom().getRoomAdapter();
             Table currentTable = roomAdapter.getTables().get(j);
             if (newTable.hashCode() != currentTable.hashCode()) {
                 roomAdapter.getTables().get(j).setOccupied(newTable.getOccupied());
@@ -222,4 +225,4 @@ public class MainViewModel extends AndroidViewModel {
             }
         }
     }
-}
+}   

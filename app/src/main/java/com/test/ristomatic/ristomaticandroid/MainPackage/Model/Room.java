@@ -15,13 +15,23 @@ public class Room {
     private RoomAdapter roomAdapter;
     private RecyclerView roomRecyclerView;
     public static int index;
+    private int idRoom;
 
-    public Room(List<Table> newTableList, RecyclerView roomRecyclerView, MainActivity mainActivityContext) {
+    public Room(List<Table> newTableList, RecyclerView roomRecyclerView, int idRoom, MainActivity mainActivityContext) {
         this.roomAdapter = new RoomAdapter(newTableList, mainActivityContext);
         this.roomRecyclerView = roomRecyclerView;
         this.roomRecyclerView.setAdapter(this.roomAdapter);
         this.roomRecyclerView.setLayoutManager(new GridLayoutManager(ContextApplication.getAppContext(), GlobalVariableApplication.getNumberColumnTables()));
         this.roomRecyclerView.setId(index++);
+        this.idRoom = idRoom;
+    }
+
+    public int getIdRoom() {
+        return idRoom;
+    }
+
+    public void setIdRoom(int idRoom) {
+        this.idRoom = idRoom;
     }
 
     public RoomAdapter getRoomAdapter() {
