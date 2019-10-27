@@ -10,7 +10,6 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.test.ristomatic.ristomaticandroid.Application.ContextApplication;
-import com.test.ristomatic.ristomaticandroid.Application.GlobalVariableApplication;
 import com.test.ristomatic.ristomaticandroid.R;
 
 public class SettingsActivity extends AppCompatActivity {

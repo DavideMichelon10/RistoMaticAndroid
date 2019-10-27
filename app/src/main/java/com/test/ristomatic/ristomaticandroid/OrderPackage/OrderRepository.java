@@ -8,12 +8,9 @@ import com.test.ristomatic.ristomaticandroid.Application.ContextApplication;
 import com.test.ristomatic.ristomaticandroid.Application.SingeltonVolley;
 import com.test.ristomatic.ristomaticandroid.Application.VolleyCallApplication;
 import com.test.ristomatic.ristomaticandroid.Application.VolleyCallbackObject;
-import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.ElementModified;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.List;
 
 public class OrderRepository {
 

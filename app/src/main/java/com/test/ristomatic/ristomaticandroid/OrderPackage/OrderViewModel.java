@@ -3,14 +3,11 @@ package com.test.ristomatic.ristomaticandroid.OrderPackage;
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
-import android.widget.Toast;
 
 
 import com.google.gson.Gson;
 import com.test.ristomatic.ristomaticandroid.Application.VolleyCallbackObject;
 import com.test.ristomatic.ristomaticandroid.LoginPackage.LoginViewModel;
-import com.test.ristomatic.ristomaticandroid.MainPackage.MainActivity;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.CoursesAdapter;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.Course;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.ElementModified;
@@ -60,10 +57,11 @@ public class OrderViewModel extends AndroidViewModel {
     }
 
 
-    public void initRichiama(int tableId, Context context){
+    public void initRichiama(int tableId, int idRoom,Context context){
         this.richiama = true;
         this.tableId = tableId;
         this.seatsNumber = 0;
+        this.idRoom = idRoom;
         setAdaptersContainer(new AdaptersContainer(context, getInitDB()));
     }
 
@@ -168,7 +166,7 @@ public class OrderViewModel extends AndroidViewModel {
             if(d.equals(selectedDish)){
 
                 if(d.getTimeSelected() != selectedDish.getTimeSelected()){
-                    elementModifiedList.add(new ElementModified(d.getSelectedDishId(),d.getSelectedDishName(), portata,selectedDish.getTimeSelected(),d.getTimeSelected()));
+                    elementModifiedList.add(new ElementModified(d.getSelectedDishId(),d.getSelectedDishName(), portata,d.getTimeSelected(),selectedDish.getTimeSelected()));
                 }
                 return 1;
             }else if(d.getSelectedDishId() == selectedDish.getSelectedDishId()){
@@ -323,13 +321,4 @@ public class OrderViewModel extends AndroidViewModel {
         jsonObject.put("importo", importo);
         return jsonObject;
     }
-
-
-    public JSONObject createJsonToSend(int idTable, String state) throws JSONException {
-        JSONObject valuesToChange = new JSONObject();
-        valuesToChange.put("idTavolo", idTable);
-        valuesToChange.put("stato", state);
-        return valuesToChange;
-    }
-
 }

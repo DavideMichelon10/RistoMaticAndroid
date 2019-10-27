@@ -5,21 +5,15 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.text.InputType;
 import android.view.WindowManager;
 import android.widget.EditText;
-import android.widget.NumberPicker;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 
 import com.test.ristomatic.ristomaticandroid.Application.ContextApplication;
 import com.test.ristomatic.ristomaticandroid.Application.GlobalVariableApplication;
-import com.test.ristomatic.ristomaticandroid.MainPackage.MainActivity;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.OrderActivity;
-import com.test.ristomatic.ristomaticandroid.R;
 
 public class SelectSeatsDialog extends DialogFragment {
     public Dialog onCreateDialog(final Bundle savedInstanceState) {

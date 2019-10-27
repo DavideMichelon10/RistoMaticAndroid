@@ -4,15 +4,12 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.test.ristomatic.ristomaticandroid.Application.ContextApplication;
 import com.test.ristomatic.ristomaticandroid.Application.SingeltonVolley;
 import com.test.ristomatic.ristomaticandroid.Application.VolleyCallApplication;
 import com.test.ristomatic.ristomaticandroid.Application.VolleyCallback;
-import com.test.ristomatic.ristomaticandroid.Application.VolleyCallbackObject;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
 
 public class MainRepository {
     //riceve json con tutte sale e tavoli, ricorsivo

@@ -1,8 +1,6 @@
 package com.test.ristomatic.ristomaticandroid.Application;
 
 import android.app.Application;
-import android.content.Context;
-import android.content.SharedPreferences;
 
 import com.test.ristomatic.ristomaticandroid.LoginPackage.SettingsActivity;
 

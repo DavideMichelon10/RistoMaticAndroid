@@ -10,7 +10,6 @@ import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelRep
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.SelectedVariant;
 import com.test.ristomatic.ristomaticandroid.R;
 
-import java.nio.channels.SeekableByteChannel;
 import java.util.ArrayList;
 import java.util.List;
 

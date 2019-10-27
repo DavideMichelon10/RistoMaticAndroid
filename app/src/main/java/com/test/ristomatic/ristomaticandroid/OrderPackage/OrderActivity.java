@@ -72,7 +72,7 @@ public class OrderActivity extends AppCompatActivity {
         b.setEnabled(false);
 
         if(richiama){
-            orderViewModel.initRichiama(idTable,this);
+            orderViewModel.initRichiama(idTable, idRoom,this);
             new Thread(new Runnable() {
                 @Override
                 public void run() {
