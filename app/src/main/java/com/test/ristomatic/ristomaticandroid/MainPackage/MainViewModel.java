@@ -211,6 +211,7 @@ public class MainViewModel extends AndroidViewModel {
         //cicla per ogni sala
         for(int j=0;j<result.length();j++) {
             Table newTable = new Gson().fromJson(result.getJSONObject(j).toString(), Table.class);
+            System.out.println(newTable.toString());
             RoomAdapter roomAdapter = pagerAdapter.getItem(room).getRoom().getRoomAdapter();
             Table currentTable = roomAdapter.getTables().get(j);
             if (newTable.hashCode() != currentTable.hashCode()) {

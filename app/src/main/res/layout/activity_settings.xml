@@ -8,25 +8,30 @@
 
     <EditText
         android:id="@+id/editTextCoursesNumber"
-        android:layout_width="68dp"
-        android:layout_height="46dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="12dp"
+        android:layout_width="44dp"
+        android:layout_height="54dp"
+        android:layout_marginTop="52dp"
+        android:layout_marginEnd="48dp"
         android:ems="10"
         android:inputType="number"
-        android:textColor="@color/colorAccent"
+        android:textColor="@color/cardview_dark_background"
+        android:textSize="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textViewCoursesNumber"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="184dp"
+        android:layout_height="42dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="64dp"
         android:layout_marginEnd="8dp"
         android:text="TextView"
+        android:textSize="20dp"
+
+        android:textColor="@color/cardview_dark_background"
         app:layout_constraintEnd_toStartOf="@+id/editTextCoursesNumber"
+        app:layout_constraintHorizontal_bias="0.109"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -35,13 +40,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
         android:text="TextView"
+        android:textSize="20dp"
+        android:textColor="@color/cardview_dark_background"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.38"
+        app:layout_constraintHorizontal_bias="0.458"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewCopertiStart" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextIp" />
 
     <RadioGroup
         android:id="@+id/flow_group"
@@ -63,35 +70,70 @@
         android:layout_height="63dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="260dp"
+        android:layout_marginBottom="164dp"
         android:onClick="saveSettings"
         android:text="MODIFICA"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.55"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textViewCopertiStart"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="184dp"
+        android:layout_height="36dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="8dp"
         android:text="TextView"
+        android:textColor="@color/cardview_dark_background"
+        android:textSize="20dp"
         app:layout_constraintEnd_toStartOf="@+id/editTextCopertiStart"
+        app:layout_constraintHorizontal_bias="0.11"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewCoursesNumber" />
 
+    <TextView
+        android:id="@+id/textViewIp"
+        android:layout_width="162dp"
+        android:layout_height="45dp"
+        android:layout_marginEnd="32dp"
+        android:text="IP SERVER: "
+
+        android:textColor="@color/cardview_dark_background"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/textViewColumnTables"
+        app:layout_constraintEnd_toStartOf="@+id/editTextIp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewCopertiStart"
+        app:layout_constraintVertical_bias="0.632" />
+
     <EditText
         android:id="@+id/editTextCopertiStart"
-        android:layout_width="75dp"
-        android:layout_height="41dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_width="45dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="48dp"
         android:ems="10"
         android:inputType="number"
+
+        android:textColor="@color/cardview_dark_background"
+        android:textSize="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextCoursesNumber" />
+
+    <EditText
+        android:id="@+id/editTextIp"
+        android:layout_width="163dp"
+        android:layout_height="59dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="12dp"
+        android:digits="0123456789."
+        android:ems="10"
+        android:textSize="20dp"
+        android:inputType="number"
+        android:textColor="@color/cardview_dark_background"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextCopertiStart" />
 
 </android.support.constraint.ConstraintLayout>

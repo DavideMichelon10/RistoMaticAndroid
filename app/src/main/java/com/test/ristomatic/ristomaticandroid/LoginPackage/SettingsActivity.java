@@ -19,6 +19,7 @@ public class SettingsActivity extends AppCompatActivity {
     TextView textViewCopertiStart;
     EditText editTextCoursesNumber;
     EditText editTextCopertiStart;
+    EditText editTextIp;
     RadioGroup radioGroupColumnTables;
     public static SharedPreferences userPreferences = ContextApplication.getAppContext().getSharedPreferences("userPreferences", MODE_PRIVATE);;
 
@@ -35,6 +36,7 @@ public class SettingsActivity extends AppCompatActivity {
         textViewCopertiStart = findViewById(R.id.textViewCopertiStart);
         textViewCopertiStart.setText("COPERTI INIZIALI: ");
         editTextCopertiStart = findViewById(R.id.editTextCopertiStart);
+        editTextIp = findViewById(R.id.editTextIp);
         setRadioButton();
         setDefaultSettings();
 
@@ -54,6 +56,7 @@ public class SettingsActivity extends AppCompatActivity {
     public void setDefaultSettings(){
         editTextCoursesNumber.setText(Integer.toString(userPreferences.getInt("COURSES_NUMBER", 3)));
         editTextCopertiStart.setText(Integer.toString(userPreferences.getInt("VALUE_COPERTI_START", 2)));
+        editTextIp.setText((userPreferences.getString("VALUE_IP", "192.168.1.1")));
         radioGroupColumnTables.check(userPreferences.getInt("NUMBER_COLUMN_TABLES", 4));
     }
 
@@ -62,12 +65,12 @@ public class SettingsActivity extends AppCompatActivity {
         int selectedId = radioGroupColumnTables.getCheckedRadioButtonId();
         int courseNumber = setEditText(editTextCoursesNumber);
         int copertiStart = setEditText(editTextCopertiStart);
-
-
+        String ip = String.valueOf(editTextIp.getText());
 
         editor.putInt("COURSES_NUMBER", courseNumber);
         editor.putInt("NUMBER_COLUMN_TABLES", selectedId);
         editor.putInt("VALUE_COPERTI_START", copertiStart);
+        editor.putString("VALUE_IP", ip);
         editor.commit();
         onBackPressed();
     }

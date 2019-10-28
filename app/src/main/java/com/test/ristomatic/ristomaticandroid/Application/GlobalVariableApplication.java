@@ -6,6 +6,7 @@ import com.test.ristomatic.ristomaticandroid.LoginPackage.SettingsActivity;
 
 //variabli globali
 public class GlobalVariableApplication extends Application {
+
     public static final int DELAY_REQUEST_TIME = 3000;
     private static int COURSES_NUMBER;
     private static int NUMBER_COLUMN_TABLES;
@@ -25,7 +26,7 @@ public class GlobalVariableApplication extends Application {
     }
 
     public static String serverAddress(){
-        return "http://45.78.15.106:3000/";
+        return "http://"+SettingsActivity.userPreferences.getString("VALUE_IP", "192.168.1.1")+":3000/";
         //return "http://ristoserver.herokuapp.com/";
 
     }
