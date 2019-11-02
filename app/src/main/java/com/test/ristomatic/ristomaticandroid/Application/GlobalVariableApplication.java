@@ -30,4 +30,5 @@ public class GlobalVariableApplication extends Application {
         //return "http://ristoserver.herokuapp.com/";
 
     }
+
 }

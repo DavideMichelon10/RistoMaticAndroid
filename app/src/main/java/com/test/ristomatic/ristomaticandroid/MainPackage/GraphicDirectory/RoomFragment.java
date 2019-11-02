@@ -56,7 +56,8 @@ public class RoomFragment extends Fragment {
 
 
     public void init(List<Table> roomTables, RecyclerView recyclerView, MainActivity mainActivityContext) {
-        room = new Room(roomTables, recyclerView, mainActivityContext);
+        int idRoom = roomTables.get(0).getIdRoom();
+        room = new Room(roomTables, recyclerView, idRoom, mainActivityContext);
     }
 
 
@@ -67,7 +68,7 @@ public class RoomFragment extends Fragment {
         runnable = new Runnable() {
             @Override
             public void run() {
-                MainActivity.getMainViewModel().getTablesUpToDate(getFragmentId());
+                MainActivity.getMainViewModel().getTablesUpToDate(room);
                 handler.postDelayed(runnable, DELAY_REQUEST_TIME);
             }
         };

@@ -76,8 +76,9 @@ public class OrderViewModel extends AndroidViewModel {
 
     protected void sendReport() throws JSONException {
         JSONObject report = getReportInformation();
-        if(comandaRichiamata == null) {
+        if(comandaRichiamata == null){
             JSONArray courses = convertReportToJSON();
+            System.out.println(courses.toString());
             report.put("portate",courses);
             orderRepository.sendReport(report, richiama, new VolleyCallbackObject() {
                 @Override
@@ -85,7 +86,6 @@ public class OrderViewModel extends AndroidViewModel {
                 }
             });
         }else{
-
             List<ElementModified> elementModifiedList = new ArrayList<>();
             List<Course> comandaModificataList = getCurrentCourses();
             List<Course> comandaRichiamataList = jsonObjectToCoursesList(comandaRichiamata);
@@ -231,11 +231,8 @@ public class OrderViewModel extends AndroidViewModel {
 
         report.put("idSala", idRoom);
         report.put(getApplication().getString(R.string.id_tavolo), tableId);
-        if(seatsNumber != 0){
+        if(seatsNumber != 0)
             report.put(getApplication().getString(R.string.coperti), seatsNumber);
-        }else{
-            report.put(getApplication().getString(R.string.coperti), 0);
-        }
         return report;
     }
 
