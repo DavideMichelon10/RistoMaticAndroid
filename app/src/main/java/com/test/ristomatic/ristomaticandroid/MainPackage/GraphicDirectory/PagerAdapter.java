@@ -19,6 +19,7 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public RoomFragment getItem(int position) {
+        System.out.println("IN GET ITEM, POSITION: " + position);
         return getRooms().get(position);
     }
 

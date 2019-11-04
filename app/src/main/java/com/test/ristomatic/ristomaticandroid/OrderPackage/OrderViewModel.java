@@ -59,7 +59,8 @@ public class OrderViewModel extends AndroidViewModel {
     }
 
 
-    public void initRichiama(int tableId, Context context){
+    public void initRichiama(int tableId, int idRoom, Context context){
+        this.idRoom = idRoom;
         this.richiama = true;
         this.tableId = tableId;
         this.seatsNumber = 0;
@@ -128,6 +129,13 @@ public class OrderViewModel extends AndroidViewModel {
     }
 
     public void getRichiama(final VolleyCallbackObject callbackObject, int idTable, final Context context) {
+        JSONObject richiamaRequest = new JSONObject();
+        try {
+            richiamaRequest.put("idTavolo", idTable);
+            richiamaRequest.put("idSala", idRoom);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         orderRepository.getRichiama(new VolleyCallbackObject() {
             @Override
             public void onSuccess(JSONObject result) {
@@ -140,7 +148,7 @@ public class OrderViewModel extends AndroidViewModel {
                     e.printStackTrace();
                 }
             }
-        }, idTable);
+        }, richiamaRequest);
     }
 
     private List<Course> jsonObjectToCoursesList(JSONObject result) throws JSONException {

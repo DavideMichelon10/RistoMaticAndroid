@@ -17,6 +17,7 @@ import com.test.ristomatic.ristomaticandroid.Application.ContextApplication;
 import com.test.ristomatic.ristomaticandroid.LoginPackage.LoginViewModel;
 import com.test.ristomatic.ristomaticandroid.MainPackage.GraphicDirectory.GraphicComponents;
 import com.test.ristomatic.ristomaticandroid.MainPackage.GraphicDirectory.PagerAdapter;
+import com.test.ristomatic.ristomaticandroid.MainPackage.Model.Room;
 import com.test.ristomatic.ristomaticandroid.R;
 
 import java.io.FileNotFoundException;
@@ -69,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialogInterface, int i) {
                 try {
                     //svuota file login e torna a pagina login
+                    Room.index = 0;
                     FileOutputStream outputStream ;
                     outputStream = ContextApplication.getAppContext().openFileOutput(LoginViewModel.filename, Context.MODE_PRIVATE);
                     outputStream.write("".getBytes());

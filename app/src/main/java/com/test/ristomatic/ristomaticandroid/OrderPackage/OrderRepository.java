@@ -1,5 +1,9 @@
 package com.test.ristomatic.ristomaticandroid.OrderPackage;
 
+import android.os.CountDownTimer;
+import android.widget.Toast;
+
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -41,21 +45,29 @@ public class OrderRepository {
         SingeltonVolley.getInstance(ContextApplication.getAppContext()).addToRequestQueue(sendRequest);
     }
 
-    public void getRichiama(final VolleyCallbackObject volleyCallbackObject, final int idTable) {
-        final JsonObjectRequest getRichiama = new JsonObjectRequest(Request.Method.GET, VolleyCallApplication.report() + "/" + idTable, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        volleyCallbackObject.onSuccess(response);
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                System.err.println(error.getMessage());
-                getRichiama(volleyCallbackObject, idTable);
-            }
-        });
-        SingeltonVolley.getInstance(ContextApplication.getAppContext()).addToRequestQueue(getRichiama);
+    public void getRichiama(final VolleyCallbackObject volleyCallbackObject, final JSONObject request) {
+        final JsonObjectRequest getRichiama;
+        try {
+            getRichiama = new JsonObjectRequest(Request.Method.GET, VolleyCallApplication.report() + "?idSala="
+                    + request.getString("idSala") + "&idTavolo=" + request.getString("idTavolo"), request,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            volleyCallbackObject.onSuccess(response);
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    System.err.println("ERROR: " + error.getMessage());
+                    getRichiama(volleyCallbackObject, request);
+                }
+            });
+            getRichiama.setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS*5, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            SingeltonVolley.getInstance(ContextApplication.getAppContext()).addToRequestQueue(getRichiama);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
 
 
