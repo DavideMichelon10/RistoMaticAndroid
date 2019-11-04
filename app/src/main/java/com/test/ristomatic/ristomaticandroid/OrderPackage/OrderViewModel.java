@@ -32,13 +32,13 @@ public class OrderViewModel extends AndroidViewModel {
 
     private boolean richiama;
     private List<Course> courses;
-    private JSONObject comandaRichiamata = null;
+    public JSONObject comandaRichiamata = null;
 
     public OrderViewModel(Application application) {
         super(application);
         setInitDB(new InitDB(this.getApplication()));
         courses = new ArrayList<>();
-        orderRepository = new OrderRepository();
+        setOrderRepository(new OrderRepository());
         setAdaptersContainer(new AdaptersContainer());
     }
 
@@ -80,7 +80,7 @@ public class OrderViewModel extends AndroidViewModel {
             JSONArray courses = convertReportToJSON();
             System.out.println(courses.toString());
             report.put("portate",courses);
-            orderRepository.sendReport(report, richiama, new VolleyCallbackObject() {
+            getOrderRepository().sendReport(report, richiama, new VolleyCallbackObject() {
                 @Override
                 public void onSuccess(JSONObject result) {
 
@@ -144,7 +144,7 @@ public class OrderViewModel extends AndroidViewModel {
             report.put("modifiche", courses);
 
 
-            orderRepository.sendModificaRichiamo(report, new VolleyCallbackObject() {
+            getOrderRepository().sendModificaRichiamo(report, new VolleyCallbackObject() {
                 @Override
                 public void onSuccess(JSONObject result) {
 
@@ -256,7 +256,7 @@ public class OrderViewModel extends AndroidViewModel {
     }
 
     public void getRichiama(final VolleyCallbackObject callbackObject, int idTable, final Context context) {
-        orderRepository.getRichiama(new VolleyCallbackObject() {
+        getOrderRepository().getRichiama(new VolleyCallbackObject() {
             @Override
             public void onSuccess(JSONObject result) {
                 try {
@@ -317,5 +317,13 @@ public class OrderViewModel extends AndroidViewModel {
         String importo = result.getString("importo");
         jsonObject.put("importo", importo);
         return jsonObject;
+    }
+
+    public OrderRepository getOrderRepository() {
+        return orderRepository;
+    }
+
+    public void setOrderRepository(OrderRepository orderRepository) {
+        this.orderRepository = orderRepository;
     }
 }

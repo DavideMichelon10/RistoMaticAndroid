@@ -40,6 +40,7 @@ public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.CourseVi
         return courseViewHolder;
     }
 
+
     //creare lista con elementi in position di array course e passarlo a SelectedDishesAdapter
     //Si occuperà SelectedDishesAdapter di creare la lista di piatti selezionati per quella portata
     @Override

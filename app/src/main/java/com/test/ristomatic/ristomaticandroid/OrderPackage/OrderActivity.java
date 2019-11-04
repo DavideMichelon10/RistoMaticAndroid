@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,8 +19,10 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.test.ristomatic.ristomaticandroid.Application.ContextApplication;
 import com.test.ristomatic.ristomaticandroid.Application.GlobalVariableApplication;
 import com.test.ristomatic.ristomaticandroid.Application.VolleyCallbackObject;
+import com.test.ristomatic.ristomaticandroid.MainPackage.GraphicDirectory.SelectSeatsDialog;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.InsertDishUtilities.InsertDishUtilities;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.SelectedDish;
 import com.test.ristomatic.ristomaticandroid.R;
@@ -66,6 +69,21 @@ public class OrderActivity extends AppCompatActivity {
         createCourseSelection();
 
         addSeatsNumberToReport();
+
+        b.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                System.out.println("ON LONG CLICK");
+                showDialogGetScontrino(idTable, idRoom, orderViewModel.getOrderRepository());
+                return true;
+            }
+        });
+    }
+
+    public void showDialogGetScontrino(int idTable, int idRoom, OrderRepository orderRepository){
+        FragmentManager fm = this.getSupportFragmentManager();
+        GetScontriniDialog scontrinoDialog = GetScontriniDialog.newInstance(idTable, idRoom, orderRepository);
+        scontrinoDialog.show(fm, "selected_scontrini_fragment");
     }
 
     public void initializeVM(boolean richiama, int seatsNumber, final Context context){

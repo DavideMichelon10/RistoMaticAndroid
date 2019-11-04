@@ -16,6 +16,7 @@ import com.test.ristomatic.ristomaticandroid.Application.GlobalVariableApplicati
 import com.test.ristomatic.ristomaticandroid.OrderPackage.OrderActivity;
 
 public class SelectSeatsDialog extends DialogFragment {
+
     public Dialog onCreateDialog(final Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
