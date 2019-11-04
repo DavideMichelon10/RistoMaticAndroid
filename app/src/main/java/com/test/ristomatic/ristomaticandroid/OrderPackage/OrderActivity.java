@@ -53,6 +53,7 @@ public class OrderActivity extends AppCompatActivity {
         tImporto = findViewById(R.id.importo);
         Intent intent = getIntent();
         idRoom = intent.getIntExtra("idRoom", -1);
+
         tableName = intent.getStringExtra("tableName");
         idTable = intent.getIntExtra("idTable", 0);
         seatsNumber = intent.getIntExtra("coperti",0);

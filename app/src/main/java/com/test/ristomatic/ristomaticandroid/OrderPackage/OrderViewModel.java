@@ -83,6 +83,7 @@ public class OrderViewModel extends AndroidViewModel {
             orderRepository.sendReport(report, richiama, new VolleyCallbackObject() {
                 @Override
                 public void onSuccess(JSONObject result) {
+
                 }
             });
         }else{
@@ -228,7 +229,6 @@ public class OrderViewModel extends AndroidViewModel {
         JSONObject report = new JSONObject();
         JSONObject user = new JSONObject(LoginViewModel.getUserFileInString());
         report.put(getApplication().getString(R.string.Waiter),user.get("codi"));
-
         report.put("idSala", idRoom);
         report.put(getApplication().getString(R.string.id_tavolo), tableId);
         if(seatsNumber != 0)
