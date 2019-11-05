@@ -83,7 +83,6 @@ public class MainViewModel extends AndroidViewModel {
             convertJsonToTableList(tablesRoomFromCallback, tablesRoom);
 
             RoomFragment roomFragment = new RoomFragment();
-            System.out.println("FragmentId: " + i);
             roomFragment.setFragmentId(i);
             pagerAdapter.getRooms().add(roomFragment);
             roomFragment.init(tablesRoom, new RecyclerView(ContextApplication.getAppContext()), mainActivity);

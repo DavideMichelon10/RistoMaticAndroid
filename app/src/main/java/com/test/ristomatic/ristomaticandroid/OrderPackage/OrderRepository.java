@@ -43,13 +43,14 @@ public class OrderRepository implements Parcelable {
     };
 
     public void sendReport(final JSONObject report, final boolean richiama, final VolleyCallbackObject volleyCallback) {
-        int method;
+        System.out.println("IN SEND REPORT");
+        /*int method;
         if (richiama)
             method = Request.Method.PUT;
         else
-            method = Request.Method.POST;
+            method = Request.Method.POST;*/
 
-        JsonObjectRequest sendRequest = new JsonObjectRequest(method, VolleyCallApplication.report(), report,
+        JsonObjectRequest sendRequest = new JsonObjectRequest(Request.Method.POST, VolleyCallApplication.report(), report,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -67,6 +68,11 @@ public class OrderRepository implements Parcelable {
                 sendReport(report, richiama, volleyCallback);
             }
         });
+
+        sendRequest.setRetryPolicy(new DefaultRetryPolicy(
+                0,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         SingeltonVolley.getInstance(ContextApplication.getAppContext()).addToRequestQueue(sendRequest);
     }
 
@@ -87,7 +93,7 @@ public class OrderRepository implements Parcelable {
                     if (getStatusCode(error) == 500) {
                         OrderViewModel.setStatusCodeCases(OrderViewModel.StatusCodeCases.STATUS_CODE_500);
                         String body = new String(error.networkResponse.data, UTF_8);
-                        printMessageInJSON(body);
+                        printMessageFromJSON(body);
                     }
                 }
             }) {
@@ -113,12 +119,10 @@ public class OrderRepository implements Parcelable {
     }
 
     public void sendModificaRichiamo(final JSONObject modifiche, final VolleyCallbackObject volleyCallbackObject) {
-        System.out.println("IN SEND MODIFICA RICHIAMO");
         final JsonObjectRequest sendModificaRichiamo = new JsonObjectRequest(Request.Method.POST, VolleyCallApplication.sendModificaRichiamo(), modifiche,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        System.out.println("IN ONRESPONSE");
                         System.out.println(response.toString());
                         volleyCallbackObject.onSuccess(response);
                     }
@@ -143,7 +147,6 @@ public class OrderRepository implements Parcelable {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        System.out.println("IN STAMPA SCONTRINO");
                         OrderViewModel.setStatusCodeCases(OrderViewModel.StatusCodeCases.STATUS_CODE_SCONTRINO_200);
 
                         showToast("Scontrino stampato", true);
@@ -156,7 +159,7 @@ public class OrderRepository implements Parcelable {
 
                 if (getStatusCode(error) == 500) {
                     String body = new String(error.networkResponse.data, UTF_8);
-                    printMessageInJSON(body);
+                    printMessageFromJSON(body);
 
                     System.out.println("BODY: "+body);
                 }
@@ -176,6 +179,8 @@ public class OrderRepository implements Parcelable {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+                        OrderViewModel.setStatusCodeCases(OrderViewModel.StatusCodeCases.STATUS_CODE_SCONTRINO_200);
+
                         showToast("Estratto conto stampato", true);
 
                         volleyCallbackObject.onSuccess(response);
@@ -186,7 +191,7 @@ public class OrderRepository implements Parcelable {
                 OrderViewModel.setStatusCodeCases(OrderViewModel.StatusCodeCases.STATUS_CODE_SCONTRINO_500);
                 if (getStatusCode(error) == 500) {
                     String body = new String(error.networkResponse.data, UTF_8);
-                    printMessageInJSON(body);
+                    printMessageFromJSON(body);
 
                     System.out.println("BODY: "+body);
                 }
@@ -204,6 +209,8 @@ public class OrderRepository implements Parcelable {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+                        OrderViewModel.setStatusCodeCases(OrderViewModel.StatusCodeCases.STATUS_CODE_SCONTRINO_200);
+
                         showToast("Estratto conto stampato, conto non cancellato", true);
 
                         volleyCallbackObject.onSuccess(response);
@@ -214,7 +221,7 @@ public class OrderRepository implements Parcelable {
                 OrderViewModel.setStatusCodeCases(OrderViewModel.StatusCodeCases.STATUS_CODE_SCONTRINO_500);
                 if (getStatusCode(error) == 500) {
                     String body = new String(error.networkResponse.data, UTF_8);
-                    printMessageInJSON(body);
+                    printMessageFromJSON(body);
 
                     System.out.println("BODY: "+body);
                 }
@@ -248,7 +255,7 @@ public class OrderRepository implements Parcelable {
 
     }
 
-    private void printMessageInJSON(String body) {
+    private void printMessageFromJSON(String body) {
         try {
             JSONObject msg = new JSONObject(body);
             String msgString = msg.getString("MSG");
