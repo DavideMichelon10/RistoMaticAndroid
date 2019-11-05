@@ -46,6 +46,7 @@
                     android:scaleType="fitCenter"
                     android:scaleX="0.8"
                     android:scaleY="0.8"
+                    android:visibility="visible"
                     app:srcCompat="@mipmap/minus_one_dish_image_round" />
 
                 <ImageButton
@@ -58,6 +59,7 @@
                     android:scaleType="fitCenter"
                     android:scaleX="0.8"
                     android:scaleY="0.8"
+                    android:visibility="visible"
                     app:srcCompat="@mipmap/plus_one_dish_image_round" />
 
                 <ImageView

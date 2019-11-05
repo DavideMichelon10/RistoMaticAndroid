@@ -2,6 +2,7 @@ package com.test.ristomatic.ristomaticandroid.OrderPackage;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
+import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
 
 
@@ -34,11 +35,19 @@ public class OrderViewModel extends AndroidViewModel {
     private List<Course> courses;
     public JSONObject comandaRichiamata = null;
 
+
+
+    public enum StatusCodeCases {
+        STATUS_CODE_500
+    }
+    private static MutableLiveData<StatusCodeCases> statusCodeCases;
+
     public OrderViewModel(Application application) {
         super(application);
         setInitDB(new InitDB(this.getApplication()));
         courses = new ArrayList<>();
-        setOrderRepository(new OrderRepository());
+        orderRepository = new OrderRepository();
+        statusCodeCases = new MutableLiveData<StatusCodeCases>();
         setAdaptersContainer(new AdaptersContainer());
     }
 
@@ -46,6 +55,16 @@ public class OrderViewModel extends AndroidViewModel {
     public static AdaptersContainer getAdaptersContainer() {
         return adaptersContainer;
     }
+
+
+    public static MutableLiveData<StatusCodeCases> getStatusCodeCases() {
+        return statusCodeCases;
+    }
+
+    public static void setStatusCodeCases(StatusCodeCases statusCodeCase) {
+        statusCodeCases.setValue(statusCodeCase);
+    }
+
     public void setAdaptersContainer(AdaptersContainer adaptersContainer) {
         this.adaptersContainer = adaptersContainer;
     }
@@ -57,7 +76,9 @@ public class OrderViewModel extends AndroidViewModel {
     }
 
 
-    public void initRichiama(int tableId, int idRoom,Context context){
+
+    public void initRichiama(int tableId, int idRoom, Context context){
+        this.idRoom = idRoom;
         this.richiama = true;
         this.tableId = tableId;
         this.seatsNumber = 0;
@@ -256,7 +277,15 @@ public class OrderViewModel extends AndroidViewModel {
     }
 
     public void getRichiama(final VolleyCallbackObject callbackObject, int idTable, final Context context) {
-        getOrderRepository().getRichiama(new VolleyCallbackObject() {
+
+        JSONObject richiamaRequest = new JSONObject();
+        try {
+            richiamaRequest.put("idTavolo", idTable);
+            richiamaRequest.put("idSala", idRoom);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        orderRepository.getRichiama(new VolleyCallbackObject() {
             @Override
             public void onSuccess(JSONObject result) {
                 try {
@@ -268,7 +297,7 @@ public class OrderViewModel extends AndroidViewModel {
                     e.printStackTrace();
                 }
             }
-        }, idTable);
+        }, richiamaRequest);
     }
 
     private List<Course> jsonObjectToCoursesList(JSONObject result) throws JSONException {

@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.test.ristomatic.ristomaticandroid.Application.GlobalVariableApplication;
+import com.test.ristomatic.ristomaticandroid.OrderPackage.OrderActivity;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.Course;
 import com.test.ristomatic.ristomaticandroid.R;
 
@@ -52,6 +53,7 @@ public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.CourseVi
         final SelectedDishesAdapter selectedDishesAdapter = new SelectedDishesAdapter(context, course);
         holder.courses.setAdapter(selectedDishesAdapter);
     }
+
 
     @Override
     public int getItemCount() {
