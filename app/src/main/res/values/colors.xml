@@ -2,6 +2,8 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="myRed">#ff6666 </color>
+    <color name="myGreen">#009900 </color>
+
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#000000</color>
     <color name="backGroundCardView">#C7C5C5</color>

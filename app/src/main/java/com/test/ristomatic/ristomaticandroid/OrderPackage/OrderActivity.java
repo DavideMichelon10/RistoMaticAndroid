@@ -40,7 +40,7 @@ public class OrderActivity extends AppCompatActivity {
     private RecyclerView recyclerViewDishes;
     private  RecyclerView recyclerViewCourses;
     private RadioGroup rgp;
-    private ProgressBar progress;
+    private ProgressBar progress, progressAttendiScontrino;
     private TextView tIdTable, tImporto;
     private Button b, bRichiama;
     private int seatsNumber, idTable, idRoom;
@@ -54,7 +54,7 @@ public class OrderActivity extends AppCompatActivity {
         InsertDishUtilities.setContext(this);
         orderViewModel = ViewModelProviders.of(this).get(OrderViewModel.class);
         bRichiama = findViewById(R.id.retryRichiama);
-        progress = findViewById(R.id.progressBar);
+        progress = findViewById(R.id.progressBar); progressAttendiScontrino = findViewById(R.id.progressBarAttendiScontrino);
         tIdTable = findViewById(R.id.tableName);
         tImporto = findViewById(R.id.importo);
         Intent intent = getIntent();
@@ -88,6 +88,19 @@ public class OrderActivity extends AppCompatActivity {
                     case STATUS_CODE_500:
                         bRichiama.setVisibility(View.VISIBLE);
                         progress.setVisibility(View.INVISIBLE);
+                        break;
+                    case STATUS_CODE_SCONTRINO_500:
+                        progressAttendiScontrino.setVisibility(View.GONE);
+
+                        break;
+                    case REQUEST_SCONTRINO:
+                        progressAttendiScontrino.setVisibility(View.VISIBLE);
+
+                        break;
+
+                    case STATUS_CODE_SCONTRINO_200:
+                        progressAttendiScontrino.setVisibility(View.GONE);
+
                 }
             }
 

@@ -38,7 +38,7 @@ public class OrderViewModel extends AndroidViewModel {
 
 
     public enum StatusCodeCases {
-        STATUS_CODE_500
+        STATUS_CODE_500, STATUS_CODE_SCONTRINO_500, REQUEST_SCONTRINO,STATUS_CODE_SCONTRINO_200
     }
     private static MutableLiveData<StatusCodeCases> statusCodeCases;
 

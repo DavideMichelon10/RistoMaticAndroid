@@ -83,29 +83,12 @@ public class OrderRepository implements Parcelable {
                     }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    NetworkResponse networkResponse = error.networkResponse;
-                    int statusError = networkResponse.statusCode;
-                    if (statusError == 500) {
+
+                    if (getStatusCode(error) == 500) {
                         OrderViewModel.setStatusCodeCases(OrderViewModel.StatusCodeCases.STATUS_CODE_500);
                         String body = new String(error.networkResponse.data, UTF_8);
-                        System.out.println("BODY: " + body);
-                        try {
-                            JSONObject msg = new JSONObject(body);
-                            String msgString = msg.getString("MSG");
-                            Toast toast = Toast.makeText(ContextApplication.getAppContext(), msgString, Toast.LENGTH_LONG);
-                            View view = toast.getView();
-
-                            //Gets the actual oval background of the Toast then sets the colour filter
-                            int color = ContextCompat.getColor(ContextApplication.getAppContext(), R.color.myRed);
-                            view.getBackground().setColorFilter(color, PorterDuff.Mode.SRC_IN);
-                            toast.show();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                        printMessageInJSON(body);
                     }
-                    System.out.println("IN PARSE ERROR" + networkResponse.statusCode);
-
-                    //getRichiama(volleyCallbackObject, request);
                 }
             }) {
                 @Override
@@ -118,7 +101,6 @@ public class OrderRepository implements Parcelable {
                 @Override
                 protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
                     int statusCode = response.statusCode;
-                    System.out.println("STATUS CODE: " + statusCode);
                     return super.parseNetworkResponse(response);
                 }
             };
@@ -161,29 +143,59 @@ public class OrderRepository implements Parcelable {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+                        System.out.println("IN STAMPA SCONTRINO");
+                        OrderViewModel.setStatusCodeCases(OrderViewModel.StatusCodeCases.STATUS_CODE_SCONTRINO_200);
+
+                        showToast("Scontrino stampato", true);
                         volleyCallbackObject.onSuccess(response);
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                System.err.println(error.getMessage());
+                OrderViewModel.setStatusCodeCases(OrderViewModel.StatusCodeCases.STATUS_CODE_SCONTRINO_500);
+
+                if (getStatusCode(error) == 500) {
+                    String body = new String(error.networkResponse.data, UTF_8);
+                    printMessageInJSON(body);
+
+                    System.out.println("BODY: "+body);
+                }
             }
         });
+        stampaScontrino.setRetryPolicy(new DefaultRetryPolicy(
+                0,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         SingeltonVolley.getInstance(ContextApplication.getAppContext()).addToRequestQueue(stampaScontrino);
     }
+
+
+
     public void stampaEstratto(final int idTable, final int idSala, final VolleyCallbackObject volleyCallbackObject) {
         final JsonObjectRequest stampaEstratto = new JsonObjectRequest(Request.Method.GET, VolleyCallApplication.stampa() + "/estratto?tavolo=" + idTable+"&sala="+idSala, null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+                        showToast("Estratto conto stampato", true);
+
                         volleyCallbackObject.onSuccess(response);
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                System.err.println(error.getMessage());
+                OrderViewModel.setStatusCodeCases(OrderViewModel.StatusCodeCases.STATUS_CODE_SCONTRINO_500);
+                if (getStatusCode(error) == 500) {
+                    String body = new String(error.networkResponse.data, UTF_8);
+                    printMessageInJSON(body);
+
+                    System.out.println("BODY: "+body);
+                }
             }
         });
+        stampaEstratto.setRetryPolicy(new DefaultRetryPolicy(
+                0,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         SingeltonVolley.getInstance(ContextApplication.getAppContext()).addToRequestQueue(stampaEstratto);
     }
 
@@ -192,14 +204,26 @@ public class OrderRepository implements Parcelable {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+                        showToast("Estratto conto stampato, conto non cancellato", true);
+
                         volleyCallbackObject.onSuccess(response);
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                System.err.println(error.getMessage());
+                OrderViewModel.setStatusCodeCases(OrderViewModel.StatusCodeCases.STATUS_CODE_SCONTRINO_500);
+                if (getStatusCode(error) == 500) {
+                    String body = new String(error.networkResponse.data, UTF_8);
+                    printMessageInJSON(body);
+
+                    System.out.println("BODY: "+body);
+                }
             }
         });
+        stampaEstrattoSenzaCancellare.setRetryPolicy(new DefaultRetryPolicy(
+                0,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         SingeltonVolley.getInstance(ContextApplication.getAppContext()).addToRequestQueue(stampaEstrattoSenzaCancellare);
     }
 
@@ -211,5 +235,42 @@ public class OrderRepository implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
+    }
+
+    public int getStatusCode(VolleyError error){
+        try{
+            NetworkResponse networkResponse = error.networkResponse;
+            return networkResponse.statusCode;
+        }catch(NullPointerException ex){
+            System.out.println("IN CATCH");
+            return 0;
+        }
+
+    }
+
+    private void printMessageInJSON(String body) {
+        try {
+            JSONObject msg = new JSONObject(body);
+            String msgString = msg.getString("MSG");
+            showToast(msgString, false);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void showToast(String msg, boolean b){
+        Toast toast = Toast.makeText(ContextApplication.getAppContext(), msg, Toast.LENGTH_LONG);
+        View view = toast.getView();
+
+        //Gets the actual oval background of the Toast then sets the colour filter
+        int color = ContextCompat.getColor(ContextApplication.getAppContext(), R.color.myRed);
+        if(b){
+            color = ContextCompat.getColor(ContextApplication.getAppContext(), R.color.myGreen);
+        }else{
+            color = ContextCompat.getColor(ContextApplication.getAppContext(), R.color.myRed);
+        }
+        view.getBackground().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+        toast.show();
     }
 }

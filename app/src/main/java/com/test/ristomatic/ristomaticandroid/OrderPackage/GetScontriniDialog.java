@@ -69,6 +69,9 @@ public class GetScontriniDialog extends DialogFragment {
         buttons[0].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                getDialog().dismiss();
+                OrderViewModel.setStatusCodeCases(OrderViewModel.StatusCodeCases.REQUEST_SCONTRINO);
+
                 orderRepository.stampaScontrino(idTable, idRoom, new VolleyCallbackObject() {
                     @Override
                     public void onSuccess(JSONObject result) {
@@ -79,8 +82,12 @@ public class GetScontriniDialog extends DialogFragment {
         });
 
         buttons[1].setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
+                getDialog().dismiss();
+                OrderViewModel.setStatusCodeCases(OrderViewModel.StatusCodeCases.REQUEST_SCONTRINO);
+
                 orderRepository.stampaEstratto(idTable, idRoom, new VolleyCallbackObject() {
                     @Override
                     public void onSuccess(JSONObject result) {
@@ -93,6 +100,9 @@ public class GetScontriniDialog extends DialogFragment {
         buttons[2].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                getDialog().dismiss();
+                OrderViewModel.setStatusCodeCases(OrderViewModel.StatusCodeCases.REQUEST_SCONTRINO);
+
                 orderRepository.stampaEstrattoSenzaCancellare(idTable, idRoom, new VolleyCallbackObject() {
                     @Override
                     public void onSuccess(JSONObject result) {
