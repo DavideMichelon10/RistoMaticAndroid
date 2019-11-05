@@ -1,9 +1,12 @@
 package com.test.ristomatic.ristomaticandroid.OrderPackage;
 
-import android.os.CountDownTimer;
+import android.graphics.PorterDuff;
+import android.support.v4.content.ContextCompat;
+import android.view.View;
 import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -12,14 +15,17 @@ import com.test.ristomatic.ristomaticandroid.Application.ContextApplication;
 import com.test.ristomatic.ristomaticandroid.Application.SingeltonVolley;
 import com.test.ristomatic.ristomaticandroid.Application.VolleyCallApplication;
 import com.test.ristomatic.ristomaticandroid.Application.VolleyCallbackObject;
+import com.test.ristomatic.ristomaticandroid.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 public class OrderRepository {
     public void sendReport(final JSONObject report, final boolean richiama, final VolleyCallbackObject volleyCallback) {
         int method;
-        if(richiama)
+        if (richiama)
             method = Request.Method.PUT;
         else
             method = Request.Method.POST;
@@ -58,11 +64,46 @@ public class OrderRepository {
                     }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    System.err.println("ERROR: " + error.getMessage());
-                    getRichiama(volleyCallbackObject, request);
+                    NetworkResponse networkResponse = error.networkResponse;
+                    int statusError = networkResponse.statusCode;
+                    if (statusError == 500) {
+                        OrderViewModel.setStatusCodeCases(OrderViewModel.StatusCodeCases.STATUS_CODE_500);
+                        String body = new String(error.networkResponse.data, UTF_8);
+                        System.out.println("BODY: " + body);
+                        try {
+                            JSONObject msg = new JSONObject(body);
+                            String msgString = msg.getString("MSG");
+                            Toast toast = Toast.makeText(ContextApplication.getAppContext(), msgString, Toast.LENGTH_LONG);
+                            View view = toast.getView();
+
+                            //Gets the actual oval background of the Toast then sets the colour filter
+                            int color = ContextCompat.getColor(ContextApplication.getAppContext(), R.color.myRed);
+                            view.getBackground().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+                            toast.show();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    System.out.println("IN PARSE ERROR" + networkResponse.statusCode);
+
+                    //getRichiama(volleyCallbackObject, request);
                 }
-            });
-            getRichiama.setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS*5, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            }) {
+                @Override
+                protected VolleyError parseNetworkError(VolleyError volleyError) {
+
+
+                    return super.parseNetworkError(volleyError);
+                }
+
+                @Override
+                protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
+                    int statusCode = response.statusCode;
+                    System.out.println("STATUS CODE: " + statusCode);
+                    return super.parseNetworkResponse(response);
+                }
+            };
+            getRichiama.setRetryPolicy(new DefaultRetryPolicy(0, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
             SingeltonVolley.getInstance(ContextApplication.getAppContext()).addToRequestQueue(getRichiama);
         } catch (JSONException e) {
             e.printStackTrace();

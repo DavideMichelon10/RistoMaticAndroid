@@ -2,6 +2,7 @@ package com.test.ristomatic.ristomaticandroid.OrderPackage;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
+import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
@@ -36,11 +37,19 @@ public class OrderViewModel extends AndroidViewModel {
     private List<Course> courses;
     private JSONObject comandaRichiamata = null;
 
+
+
+    public enum StatusCodeCases {
+        STATUS_CODE_500
+    }
+    private static MutableLiveData<StatusCodeCases> statusCodeCases;
+
     public OrderViewModel(Application application) {
         super(application);
         setInitDB(new InitDB(this.getApplication()));
         courses = new ArrayList<>();
         orderRepository = new OrderRepository();
+        statusCodeCases = new MutableLiveData<StatusCodeCases>();
         setAdaptersContainer(new AdaptersContainer());
     }
 
@@ -48,6 +57,16 @@ public class OrderViewModel extends AndroidViewModel {
     public static AdaptersContainer getAdaptersContainer() {
         return adaptersContainer;
     }
+
+
+    public static MutableLiveData<StatusCodeCases> getStatusCodeCases() {
+        return statusCodeCases;
+    }
+
+    public static void setStatusCodeCases(StatusCodeCases statusCodeCase) {
+        statusCodeCases.setValue(statusCodeCase);
+    }
+
     public void setAdaptersContainer(AdaptersContainer adaptersContainer) {
         this.adaptersContainer = adaptersContainer;
     }

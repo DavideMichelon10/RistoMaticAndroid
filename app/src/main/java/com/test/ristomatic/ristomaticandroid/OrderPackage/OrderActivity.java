@@ -1,10 +1,12 @@
 package com.test.ristomatic.ristomaticandroid.OrderPackage;
 
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,6 +20,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.test.ristomatic.ristomaticandroid.Application.ContextApplication;
 import com.test.ristomatic.ristomaticandroid.Application.GlobalVariableApplication;
 import com.test.ristomatic.ristomaticandroid.Application.VolleyCallbackObject;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.InsertDishUtilities.InsertDishUtilities;
@@ -37,7 +40,7 @@ public class OrderActivity extends AppCompatActivity {
     private RadioGroup rgp;
     private ProgressBar progress;
     private TextView tIdTable, tImporto;
-    private Button b;
+    private Button b, bRichiama;
     private int seatsNumber, idTable, idRoom;
     private String tableName;
 
@@ -48,6 +51,7 @@ public class OrderActivity extends AppCompatActivity {
         setContentView(R.layout.activity_order);
         InsertDishUtilities.setContext(this);
         orderViewModel = ViewModelProviders.of(this).get(OrderViewModel.class);
+        bRichiama = findViewById(R.id.retryRichiama);
         progress = findViewById(R.id.progressBar);
         tIdTable = findViewById(R.id.tableName);
         tImporto = findViewById(R.id.importo);
@@ -59,12 +63,33 @@ public class OrderActivity extends AppCompatActivity {
 
         tIdTable.setText(tableName);
 
-        boolean richiama = intent.getBooleanExtra("richiama",false);
+        final boolean richiama = intent.getBooleanExtra("richiama",false);
 
         initializeVM(richiama,seatsNumber,this);
         createCourseSelection();
 
         addSeatsNumberToReport();
+
+        bRichiama.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bRichiama.setVisibility(View.INVISIBLE);
+                progress.setVisibility(View.VISIBLE);
+                initializeVM(richiama,seatsNumber, ContextApplication.getAppContext());
+            }
+        });
+        OrderViewModel.getStatusCodeCases().observe(this, new Observer<OrderViewModel.StatusCodeCases>() {
+            @Override
+            public void onChanged(@Nullable OrderViewModel.StatusCodeCases statusCodeCases) {
+                switch (statusCodeCases){
+                    case STATUS_CODE_500:
+                        bRichiama.setVisibility(View.VISIBLE);
+                        progress.setVisibility(View.INVISIBLE);
+                }
+            }
+
+
+        });
     }
 
     public void initializeVM(boolean richiama, int seatsNumber, final Context context){
@@ -101,7 +126,6 @@ public class OrderActivity extends AppCompatActivity {
                 }
             }).start();
         }else{
-
             orderViewModel.init(idTable, seatsNumber, idRoom,this);
             initializeRecyclerViewCourses(context);
             initializeRecyclerViewCategories();
