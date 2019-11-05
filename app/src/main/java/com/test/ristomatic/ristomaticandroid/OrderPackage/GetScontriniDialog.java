@@ -16,7 +16,6 @@ import android.widget.TextView;
 
 import com.test.ristomatic.ristomaticandroid.Application.ContextApplication;
 import com.test.ristomatic.ristomaticandroid.Application.VolleyCallbackObject;
-import com.test.ristomatic.ristomaticandroid.MainPackage.GraphicDirectory.SelectSeatsDialog;
 import com.test.ristomatic.ristomaticandroid.R;
 
 import org.json.JSONObject;
@@ -73,7 +72,7 @@ public class GetScontriniDialog extends DialogFragment {
                 orderRepository.stampaScontrino(idTable, idRoom, new VolleyCallbackObject() {
                     @Override
                     public void onSuccess(JSONObject result) {
-
+                        
                     }
                 });
             }
