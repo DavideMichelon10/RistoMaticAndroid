@@ -255,7 +255,7 @@ public class OrderRepository implements Parcelable {
 
     }
 
-    private void printMessageFromJSON(String body) {
+    protected void printMessageFromJSON(String body) {
         try {
             JSONObject msg = new JSONObject(body);
             String msgString = msg.getString("MSG");
@@ -266,7 +266,7 @@ public class OrderRepository implements Parcelable {
         }
     }
 
-    public void showToast(String msg, boolean b){
+    protected void showToast(String msg, boolean b){
         Toast toast = Toast.makeText(ContextApplication.getAppContext(), msg, Toast.LENGTH_LONG);
         View view = toast.getView();
 
