@@ -274,11 +274,5 @@ public class OrderActivity extends AppCompatActivity {
             }
             return(null);
         }
-
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            Toast.makeText(getApplication(),getApplication().getString(R.string.comandaInviata), Toast.LENGTH_SHORT).show();
-        }
     }
 }

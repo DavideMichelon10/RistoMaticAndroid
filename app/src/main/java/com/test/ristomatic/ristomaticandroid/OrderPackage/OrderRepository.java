@@ -1,5 +1,6 @@
 package com.test.ristomatic.ristomaticandroid.OrderPackage;
 
+import android.os.Handler;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -26,7 +27,10 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class OrderRepository implements Parcelable {
 
-    public OrderRepository(){}
+    private static int contatore;
+    public OrderRepository(){
+        this.contatore = 0;
+    }
     protected OrderRepository(Parcel in) {
     }
 
@@ -42,30 +46,44 @@ public class OrderRepository implements Parcelable {
         }
     };
 
-    public void sendReport(final JSONObject report, final boolean richiama, final VolleyCallbackObject volleyCallback) {
-        System.out.println("IN SEND REPORT");
-        /*int method;
-        if (richiama)
-            method = Request.Method.PUT;
-        else
-            method = Request.Method.POST;*/
+    public void sendReport(final JSONObject report, final VolleyCallbackObject volleyCallback) {
 
-        JsonObjectRequest sendRequest = new JsonObjectRequest(Request.Method.POST, VolleyCallApplication.report(), report,
+        final JsonObjectRequest sendRequest = new JsonObjectRequest(Request.Method.POST, VolleyCallApplication.report(), report,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        try {
-                            System.out.println(report.toString(1));
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                        System.out.println("IN ON RESPONSE");
+                        contatore = 0;
                         volleyCallback.onSuccess(response);
                     }
 
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                sendReport(report, richiama, volleyCallback);
+
+                System.out.println("ERROR MESSAGE: "+error.getMessage());
+                //COMANDA MAI ARRIVATA AL SERVER
+                try{
+                    if(error.getMessage().matches("java.net.SocketException: Software caused connection abort"));{
+                        sendReport(report, volleyCallback);
+                    }
+                }catch (NullPointerException ex){
+                    System.out.println("IN NULL POINTER");
+                }
+
+                /*if(contatore == 0){
+                    showToast("COMANDA IN CODA", false);
+                }
+                contatore++;
+                final Handler handler = new Handler();
+                final int delay = 5000; //milliseconds
+
+                handler.postDelayed(new Runnable(){
+                    public void run(){
+                        sendReport(report, volleyCallback);
+                        handler.postDelayed(this, delay);
+                    }
+                }, delay);*/
             }
         });
 

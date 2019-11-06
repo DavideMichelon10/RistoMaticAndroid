@@ -4,9 +4,14 @@ import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
+import android.graphics.PorterDuff;
+import android.support.v4.content.ContextCompat;
+import android.view.View;
+import android.widget.Toast;
 
 
 import com.google.gson.Gson;
+import com.test.ristomatic.ristomaticandroid.Application.ContextApplication;
 import com.test.ristomatic.ristomaticandroid.Application.VolleyCallbackObject;
 import com.test.ristomatic.ristomaticandroid.LoginPackage.LoginViewModel;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.CoursesAdapter;
@@ -101,10 +106,17 @@ public class OrderViewModel extends AndroidViewModel {
             JSONArray courses = convertReportToJSON();
             System.out.println(courses.toString());
             report.put("portate",courses);
-            getOrderRepository().sendReport(report, richiama, new VolleyCallbackObject() {
+            getOrderRepository().sendReport(report, new VolleyCallbackObject() {
                 @Override
                 public void onSuccess(JSONObject result) {
+                    Toast toast = Toast.makeText(ContextApplication.getAppContext(), "COMANDA ESEGUITA", Toast.LENGTH_SHORT);
+                    View view = toast.getView();
 
+                    //Gets the actual oval background of the Toast then sets the colour filter
+                    int color = ContextCompat.getColor(ContextApplication.getAppContext(), R.color.myGreen);
+
+                    view.getBackground().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+                    toast.show();
                 }
             });
         }else{
