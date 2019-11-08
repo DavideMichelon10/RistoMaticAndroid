@@ -104,7 +104,7 @@ public class OrderActivity extends AppCompatActivity {
 
                     case STATUS_CODE_SCONTRINO_200:
                         progressAttendiScontrino.setVisibility(View.GONE);
-                        OrderActivity.super.onBackPressed();
+                        //OrderActivity.super.onBackPressed();
 
 
                 }
@@ -215,7 +215,8 @@ public class OrderActivity extends AppCompatActivity {
 
 
     public void sendReport(View view) throws JSONException {
-        new SendReport().execute();
+        orderViewModel.sendReport();
+        //new SendReport().execute();
         super.onBackPressed();
     }
 

@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.test.ristomatic.ristomaticandroid.Application.ContextApplication;
@@ -27,10 +28,8 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class OrderRepository implements Parcelable {
 
-    private static int contatore;
-    public OrderRepository(){
-        this.contatore = 0;
-    }
+    public OrderRepository() { }
+
     protected OrderRepository(Parcel in) {
     }
 
@@ -52,38 +51,26 @@ public class OrderRepository implements Parcelable {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        System.out.println("IN ON RESPONSE");
-                        contatore = 0;
+
                         volleyCallback.onSuccess(response);
                     }
 
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                //Toast.makeText(ContextApplication.getAppContext()," IN ON ERROR", Toast.LENGTH_LONG).show();
+                System.out.println("IN ONERROR" + error.getMessage());
 
-                System.out.println("ERROR MESSAGE: "+error.getMessage());
+
                 //COMANDA MAI ARRIVATA AL SERVER
                 try{
-                    if(error.getMessage().matches("java.net.SocketException: Software caused connection abort"));{
+                    if(error.getMessage().matches("java.net.SocketException: Software caused connection abort")){
+                        System.out.println("IN ERRO SOCKET");
                         sendReport(report, volleyCallback);
                     }
                 }catch (NullPointerException ex){
                     System.out.println("IN NULL POINTER");
                 }
-
-                /*if(contatore == 0){
-                    showToast("COMANDA IN CODA", false);
-                }
-                contatore++;
-                final Handler handler = new Handler();
-                final int delay = 5000; //milliseconds
-
-                handler.postDelayed(new Runnable(){
-                    public void run(){
-                        sendReport(report, volleyCallback);
-                        handler.postDelayed(this, delay);
-                    }
-                }, delay);*/
             }
         });
 
@@ -91,8 +78,13 @@ public class OrderRepository implements Parcelable {
                 0,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+
+        Toast.makeText(ContextApplication.getAppContext(), "COMANDA IN CODA", Toast.LENGTH_LONG).show();
         SingeltonVolley.getInstance(ContextApplication.getAppContext()).addToRequestQueue(sendRequest);
     }
+
+
 
     public void getRichiama(final VolleyCallbackObject volleyCallbackObject, final JSONObject request) {
         final JsonObjectRequest getRichiama;
@@ -298,4 +290,6 @@ public class OrderRepository implements Parcelable {
         view.getBackground().setColorFilter(color, PorterDuff.Mode.SRC_IN);
         toast.show();
     }
+
+
 }
