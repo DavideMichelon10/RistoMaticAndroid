@@ -119,48 +119,40 @@ public class OrderViewModel extends AndroidViewModel {
                     toast.show();
                 }
             });
-        }else{
+        }else {
             List<ElementModified> elementModifiedList = new ArrayList<>();
             List<Course> comandaModificataList = getCurrentCourses();
+
+
             List<Course> comandaRichiamataList = jsonObjectToCoursesList(comandaRichiamata);
+            System.out.println("COMANDA RICHIAMATA: ");
+            for (Course c : comandaRichiamataList) {
+                System.out.println(c.toString());
+            }
+            System.out.println("COMANDA MODIFICATA: ");
+            for (Course c : comandaModificataList) {
+                System.out.println(c.toString());
+            }
 
-            //SCORRI DA COMANDA RICHIAMATA E SE ELEMENTI NON PRESENTI AGGIUNGI CON -
-            for(Course course : comandaRichiamataList){
-                List<SelectedDish> piattiComandaModificata = checkIfCoursePresentInModificata(comandaModificataList, course.getCourseNumber());
-                //LA PORTATA E' PRESENTE
-                if(piattiComandaModificata != null){
-                    for(SelectedDish selectedDish : course.getAllSelectedDishes()){
-                        //TODO: da rivedere discorso varianti
-                        if(checkIfDishPresentEqual(elementModifiedList, selectedDish, piattiComandaModificata, course.getCourseNumber(), true) == 2){
-                            //SELEZIONARE PIATTI CON LO STESSO ID
-
-                        }
-                    }
-                }else{//LA PORTATA NON E PRESENTE
-                    addAllElementsInCourseToModifiedList(elementModifiedList, course.getAllSelectedDishes(), course.getCourseNumber(), true);
+            for(Course comandaRichiama : comandaRichiamataList){
+                Course modifiedCourse = isSameCourse(comandaModificataList, comandaRichiama);
+                if(modifiedCourse != null){
+                    elementModifiedList.addAll(addOrDeleteDishesInSameCourse(modifiedCourse, comandaRichiama));
+                }else{
+                    //LA PORTATA NON ESISTE
+                    elementModifiedList.addAll(addOrDeleteDishesInSameCourse(new Course(), comandaRichiama));
                 }
 
             }
 
-            //SCORRI DA COMANDA MODIFICATA E SE ELEMENTI NON PRESENTI AGGIUNGI CON +
-            for (Course course : comandaModificataList){
-
-                List<SelectedDish> piattiComandaModificata = checkIfCoursePresentInModificata(comandaRichiamataList, course.getCourseNumber());
-                if(piattiComandaModificata != null){
-                    for(SelectedDish s : course.getAllSelectedDishes()){
-                        if(checkIfDishPresentEqual(elementModifiedList, s, piattiComandaModificata, course.getCourseNumber(), false) == 2){
-                            //SELEZIONARE PIATTI CON LO STESSO ID
-
-                        }
-                    }
-
-                }else{//AGGIUNGO TUTTO
-                    addAllElementsInCourseToModifiedList(elementModifiedList, course.getAllSelectedDishes(), course.getCourseNumber(), false);
-
+            for(Course modifiedCourse : comandaModificataList){
+                Course comandaRichiama = isSameCourse(comandaRichiamataList, modifiedCourse);
+                if(comandaRichiama == null){
+                    elementModifiedList.addAll(addOrDeleteDishesInSameCourse(modifiedCourse, new Course()));
                 }
             }
 
-
+            //SCORRERE COMANDA MODIFICATA PER TROVARE PORTATE AGGIUNTE
 
 
             JSONArray courses = new JSONArray();
@@ -186,8 +178,123 @@ public class OrderViewModel extends AndroidViewModel {
         }
     }
 
+    private List<ElementModified> addOrDeleteDishesInSameCourse(Course modifiedCourse, Course comandaRichiama){
+        List<ElementModified> elementModifiedList = new ArrayList<>();
+        int size = modifiedCourse.getAllSelectedDishes().size();
+        boolean isModifiedCourseMajor = true;
+        if(size <= comandaRichiama.getAllSelectedDishes().size()){
+            size = comandaRichiama.getAllSelectedDishes().size();
+            isModifiedCourseMajor = false;
+        }
+        for(int i = 0; i< size ; i++){
+            SelectedDish modifiedDish = modifiedCourse.getAllSelectedDishes().get(i);
+            SelectedDish selectedDish = comandaRichiama.getAllSelectedDishes().get(i);
+            if(modifiedDish.getId_rig_tavolo() == selectedDish.getId_rig_tavolo()){
+                if(modifiedDish.getTimeSelected() != selectedDish.getTimeSelected()){
+                    elementModifiedList.add(new ElementModified(modifiedDish.getSelectedDishId(), modifiedDish.getSelectedDishName(),
+                            modifiedCourse.getCourseNumber(), selectedDish.getTimeSelected(), modifiedDish.getTimeSelected(), modifiedDish.getId_rig_tavolo()));
+                }
+                elementModifiedList.addAll(addOrDeleteVariants(modifiedDish.getSelectedVariants(), selectedDish.getSelectedVariants(), modifiedCourse.getCourseNumber(), modifiedDish.getId_rig_tavolo()));
+            } else {
+                if(modifiedDish.getSelectedVariants().size() > 0){
+                    List<SelectedVariant> selectedVariants = new ArrayList<>();
+                    List<ElementModified> addedVariants = addOrDeleteVariants(modifiedDish.getSelectedVariants(), selectedVariants,
+                            modifiedCourse.getCourseNumber(), 0);
+                    elementModifiedList.add(new ElementModified(modifiedDish.getSelectedDishId(), modifiedDish.getSelectedDishName(),
+                            modifiedCourse.getCourseNumber(), 0, modifiedDish.getTimeSelected(), 0, addedVariants));
+                }else{
+                    elementModifiedList.add(new ElementModified(modifiedDish.getSelectedDishId(), modifiedDish.getSelectedDishName(),
+                            modifiedCourse.getCourseNumber(), 0, modifiedDish.getTimeSelected(), 0));
+                    elementModifiedList.add(new ElementModified(selectedDish.getSelectedDishId(), selectedDish.getSelectedDishName(),
+                            modifiedCourse.getCourseNumber(), selectedDish.getTimeSelected(), selectedDish.getTimeSelected()*-1, selectedDish.getId_rig_tavolo()));
+                }
+            }
+        }
+        if(isModifiedCourseMajor){
+            for (int i = size; i < modifiedCourse.getAllSelectedDishes().size(); i++){
+                SelectedDish modifiedDish = modifiedCourse.getAllSelectedDishes().get(i);
+                if(modifiedDish.getSelectedVariants().size() > 0){
+                    List<SelectedVariant> selectedVariants = new ArrayList<>();
+                    List<ElementModified> addedVariants = addOrDeleteVariants(modifiedDish.getSelectedVariants(), selectedVariants,
+                            modifiedCourse.getCourseNumber(), 0);
+                    elementModifiedList.add(new ElementModified(modifiedDish.getSelectedDishId(), modifiedDish.getSelectedDishName(),
+                            modifiedCourse.getCourseNumber(), 0, modifiedDish.getTimeSelected(), 0, addedVariants));
+                }else{
+                    elementModifiedList.add(new ElementModified(modifiedDish.getSelectedDishId(), modifiedDish.getSelectedDishName(),
+                            modifiedCourse.getCourseNumber(), 0, modifiedDish.getTimeSelected(), 0));
+                }
+            }
+        }else{
+            for (int i = size; i < comandaRichiama.getAllSelectedDishes().size(); i++){
+                SelectedDish selectedDish = comandaRichiama.getAllSelectedDishes().get(i);
+                elementModifiedList.add(new ElementModified(selectedDish.getSelectedDishId(), selectedDish.getSelectedDishName(),
+                        modifiedCourse.getCourseNumber(), selectedDish.getTimeSelected(), selectedDish.getTimeSelected()*-1, selectedDish.getId_rig_tavolo()));
+            }
+        }
+        return elementModifiedList;
+    }
+
+    private Course isSameCourse(List<Course> modifiedCourse, Course selectedCourse){
+        Course course = null;
+        for(Course c : modifiedCourse){
+            if(c.getCourseNumber() == selectedCourse.getCourseNumber()){
+                course = c;
+            }
+        }
+        return course;
+    }
+
+    private List<ElementModified> addOrDeleteVariants(List<SelectedVariant> modifiedVariants, List<SelectedVariant> selectedVariants, int courseNumber, int rigaVairazione) {
+        List<ElementModified> elementsModified = new ArrayList<>();
+        boolean isModifiedMajor = true;
+        int size = selectedVariants.size();
+        if(modifiedVariants.size() <= selectedVariants.size()){
+            size = modifiedVariants.size();
+            isModifiedMajor = false;
+        }
+        for(int i = 0; i < size; i++){
+            SelectedVariant modifiedVariant = modifiedVariants.get(i);
+            SelectedVariant selectedVariant = selectedVariants.get(i);
+            if(modifiedVariant.getId_rig_tavolo() == selectedVariant.getId_rig_tavolo()){
+                if(modifiedVariant.isPlus() != selectedVariant.isPlus()){
+                    if(modifiedVariant.isPlus()){
+                        elementsModified.add(new ElementModified(modifiedVariant.getIdVariant(), "--" + modifiedVariant.getVariantName(),
+                                courseNumber, 1, -1, rigaVairazione));
+                        elementsModified.add(new ElementModified(modifiedVariant.getIdVariant(), "++" + modifiedVariant.getVariantName(),
+                                courseNumber, 0, 1, rigaVairazione));
+
+                    }else{
+                        elementsModified.add(new ElementModified(modifiedVariant.getIdVariant(), "++" + modifiedVariant.getVariantName(),
+                                courseNumber, 1, -1, rigaVairazione));
+                        elementsModified.add(new ElementModified(modifiedVariant.getIdVariant(), "--" + modifiedVariant.getVariantName(),
+                                courseNumber, 0, 1, rigaVairazione));
+                    }
+                }
+            }else{
+                elementsModified.add(new ElementModified(selectedVariant.getIdVariant(), selectedVariant.getVariantName(),
+                        courseNumber, 1, -1, rigaVairazione));
+                elementsModified.add(new ElementModified(modifiedVariant.getIdVariant(), modifiedVariant.getVariantName(),
+                        courseNumber, 0, 1, rigaVairazione));
+            }
+        }
+        if(isModifiedMajor){
+            for (int i = size; i < modifiedVariants.size(); i++){
+                SelectedVariant modifiedVariant = modifiedVariants.get(i);
+                elementsModified.add(new ElementModified(modifiedVariant.getIdVariant(), modifiedVariant.getVariantName(),
+                        courseNumber, 0, 1, rigaVairazione));
+            }
+        }else{
+            for (int i = size; i < selectedVariants.size(); i++){
+                SelectedVariant selectedVariant = selectedVariants.get(i);
+                elementsModified.add(new ElementModified(selectedVariant.getIdVariant(), selectedVariant.getVariantName(),
+                        courseNumber, 1, -1, rigaVairazione));
+            }
+        }
+        return elementsModified;
+    }
 
 
+    /*
 
     // 1 : PIATTO UGALE CON STESSE VARIAZIONI TROVATO
     // 2 : STESSO PIATTO MA CON VARIAZIONI DIVERSE
@@ -254,7 +361,7 @@ public class OrderViewModel extends AndroidViewModel {
             }
 
         }
-    }
+    }*/
 
 
 
@@ -334,6 +441,7 @@ public class OrderViewModel extends AndroidViewModel {
     }
 
     private SelectedDish getSelectedDishFromJson(JSONArray selectedDishes, int j) throws JSONException {
+
         Gson gson = new Gson();
         SelectedDish selDish;
         JSONObject selectedDish = selectedDishes.getJSONObject(j);
@@ -348,8 +456,8 @@ public class OrderViewModel extends AndroidViewModel {
         int idDish = selectedDish.getInt("selectedDishId");
         int timeSelected = selectedDish.getInt("timeSelected");
         String dishName = selectedDish.getString("selectedDishName");
-
-        selDish = new SelectedDish(idDish, dishName, variants, timeSelected);
+        int id_rig_tavolo = selectedDish.getInt("id_rig_tavolo");
+        selDish = new SelectedDish(idDish, dishName, variants, timeSelected, id_rig_tavolo);
         return selDish;
     }
 

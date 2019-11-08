@@ -1,6 +1,5 @@
 package com.test.ristomatic.ristomaticandroid.OrderPackage;
 
-import android.os.Handler;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -13,7 +12,6 @@ import android.widget.Toast;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
-import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.test.ristomatic.ristomaticandroid.Application.ContextApplication;
@@ -58,29 +56,17 @@ public class OrderRepository implements Parcelable {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                //Toast.makeText(ContextApplication.getAppContext()," IN ON ERROR", Toast.LENGTH_LONG).show();
-                System.out.println("IN ONERROR" + error.getMessage());
 
 
-                //COMANDA MAI ARRIVATA AL SERVER
-                try{
-                    if(error.getMessage().matches("java.net.SocketException: Software caused connection abort")){
-                        System.out.println("IN ERRO SOCKET");
-                        sendReport(report, volleyCallback);
-                    }
-                }catch (NullPointerException ex){
-                    System.out.println("IN NULL POINTER");
+                if(error.getMessage() != null && error.getMessage().contains("Failed to connect to")){
+                    Toast.makeText(ContextApplication.getAppContext(), "COMANDA IN CODA", Toast.LENGTH_LONG).show();
+
+                    System.out.println("IN MESSAGE CONTAINS");
+                    sendReport(report, volleyCallback);
                 }
             }
         });
-
-        sendRequest.setRetryPolicy(new DefaultRetryPolicy(
-                0,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-
-
-        Toast.makeText(ContextApplication.getAppContext(), "COMANDA IN CODA", Toast.LENGTH_LONG).show();
+        sendRequest.setRetryPolicy(new DefaultRetryPolicy(0, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         SingeltonVolley.getInstance(ContextApplication.getAppContext()).addToRequestQueue(sendRequest);
     }
 
@@ -121,11 +107,11 @@ public class OrderRepository implements Parcelable {
                 }
             };
             getRichiama.setRetryPolicy(new DefaultRetryPolicy(0, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
             SingeltonVolley.getInstance(ContextApplication.getAppContext()).addToRequestQueue(getRichiama);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
     }
 
     public void sendModificaRichiamo(final JSONObject modifiche, final VolleyCallbackObject volleyCallbackObject) {

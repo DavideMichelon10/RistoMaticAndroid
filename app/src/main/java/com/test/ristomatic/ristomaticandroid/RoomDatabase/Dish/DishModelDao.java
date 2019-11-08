@@ -41,7 +41,7 @@ public interface DishModelDao {
     List<String> getVariantsNameOfDish(String dishName);
 
 
-    @Query("select VariantModel.idVariant, variantName, 1 as isPlus from VariantModel " +
+    @Query("select VariantModel.idVariant, variantName, 1 as isPlus, 0 as id_rig_tavolo from VariantModel " +
             "JOIN CategoryVariantJoin on VariantModel.idVariant = CategoryVariantJoin.idVariant " +
             "JOIN CategoryModel on CategoryModel.idCategory = CategoryVariantJoin.idCategory " +
             "JOIN DishCategoryJoin on DishCategoryJoin.idCategory = CategoryModel.idCategory " +

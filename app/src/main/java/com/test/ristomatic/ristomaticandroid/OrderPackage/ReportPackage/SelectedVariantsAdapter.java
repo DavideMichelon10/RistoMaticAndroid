@@ -32,6 +32,7 @@ public class SelectedVariantsAdapter extends RecyclerView.Adapter<SelectedVarian
 
     @Override
     public void onBindViewHolder(@NonNull SelectedVariantViewHolder holder, int position) {
+        System.out.println("ON BIND VIEW HOLDER VARIANTS");
         String plusOrMinus = "-";
         if (variantsSelected.get(position).isPlus())
             plusOrMinus = "+";

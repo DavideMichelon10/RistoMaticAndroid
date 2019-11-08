@@ -8,12 +8,23 @@ public class SelectedVariant implements Parcelable{
     private String variantName;
     private int idVariant;
     private boolean isPlus;
+    private int id_rig_tavolo;
+
 
 
     public SelectedVariant(int idVariant, String variantName){
         setVariantName(variantName);
         setIdVariant(idVariant);
+        this.setId_rig_tavolo(-1);
         isPlus = true;
+    }
+
+    @Ignore
+    public SelectedVariant(int idVariant, String variantName, int id_rig_tavolo){
+        setVariantName(variantName);
+        setIdVariant(idVariant);
+        isPlus = true;
+        this.setId_rig_tavolo(id_rig_tavolo);
     }
 
     @Ignore
@@ -41,7 +52,6 @@ public class SelectedVariant implements Parcelable{
     @Override
     public boolean equals(Object obj) {
         SelectedVariant newVariant = (SelectedVariant) obj;
-
         return this.isPlus() == newVariant.isPlus && this.getIdVariant() == newVariant.getIdVariant();
     }
 
@@ -69,6 +79,13 @@ public class SelectedVariant implements Parcelable{
         isPlus = plus;
     }
 
+    public int getId_rig_tavolo() {
+        return id_rig_tavolo;
+    }
+
+    public void setId_rig_tavolo(int id_rig_tavolo) {
+        this.id_rig_tavolo = id_rig_tavolo;
+    }
     @Override
     public int describeContents() {
         return 0;
@@ -83,6 +100,8 @@ public class SelectedVariant implements Parcelable{
 
     @Override
     public String toString() {
-        return "ID variante"+idVariant+ "Varianta name: "+variantName+"is plus: "+isPlus+"\n";
+        return "ID variante: "+idVariant+ "Varianta name: "+variantName+"is plus: "+isPlus+" id_rig_tavolo: "+id_rig_tavolo+"\n";
     }
+
+
 }

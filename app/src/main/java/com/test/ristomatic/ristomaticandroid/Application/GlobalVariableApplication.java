@@ -27,6 +27,6 @@ public class GlobalVariableApplication extends Application {
 
     public static String serverAddress(){
         return "http://"+SettingsActivity.userPreferences.getString("VALUE_IP", "192.168.1.1")+":3000/";
+        //return "http://ristoserver.herokuapp.com/";
     }
-
 }
