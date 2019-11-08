@@ -1,6 +1,7 @@
 package com.test.ristomatic.ristomaticandroid.OrderPackage;
 
 import android.graphics.PorterDuff;
+import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.Toast;
@@ -9,6 +10,7 @@ import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.test.ristomatic.ristomaticandroid.Application.ContextApplication;
@@ -24,30 +26,29 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class OrderRepository {
     public void sendReport(final JSONObject report, final boolean richiama, final VolleyCallbackObject volleyCallback) {
-        int method;
+        int method = Request.Method.POST;
         if (richiama)
             method = Request.Method.PUT;
-        else
-            method = Request.Method.POST;
 
-        JsonObjectRequest sendRequest = new JsonObjectRequest(method, VolleyCallApplication.report(), report,
+        final JsonObjectRequest sendRequest = new JsonObjectRequest(method, VolleyCallApplication.report(), report,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        try {
-                            System.out.println(report.toString(1));
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                        System.out.println(("ON POSITIVE RESPONSE"));
                         volleyCallback.onSuccess(response);
                     }
 
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                sendReport(report, richiama, volleyCallback);
+                System.out.println("ON ERROR RESPONSE: " + error.getMessage());
+                if(error.getMessage().contains("Failed to connect to")){
+                    System.out.println("IN MESSAGE CONTAINS");
+                    sendReport(report, richiama, volleyCallback);
+                }
             }
         });
+        sendRequest.setRetryPolicy(new DefaultRetryPolicy(0, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         SingeltonVolley.getInstance(ContextApplication.getAppContext()).addToRequestQueue(sendRequest);
     }
 
@@ -104,11 +105,11 @@ public class OrderRepository {
                 }
             };
             getRichiama.setRetryPolicy(new DefaultRetryPolicy(0, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
             SingeltonVolley.getInstance(ContextApplication.getAppContext()).addToRequestQueue(getRichiama);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
     }
 
 

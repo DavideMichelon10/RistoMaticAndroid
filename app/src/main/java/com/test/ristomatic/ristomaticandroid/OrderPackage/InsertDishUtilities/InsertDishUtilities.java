@@ -80,6 +80,7 @@ public final class InsertDishUtilities {
 
         //Chiamo il notifyItemInserted sull'adapter della portata e come position passo la grandezza della lista
         //di piatti selezionati meno 1
+
         ((CoursesAdapter.CourseViewHolder) recyclerViewCourses
                 .findViewHolderForAdapterPosition(coursePosition))
                 .getRecyclerViewCourse()
@@ -303,6 +304,7 @@ public final class InsertDishUtilities {
 
     private static void notifyItemChanged(RecyclerView recyclerViewCourses, int coursePosition, int dishPosition) {
         try {
+            System.out.println("COURSE POSITION: " + coursePosition);
             //Chiamo il notifyItemChanged sull'adapter della portata e come position passo dishPosition
             ((CoursesAdapter.CourseViewHolder) recyclerViewCourses
                     .findViewHolderForAdapterPosition(coursePosition))
@@ -311,7 +313,7 @@ public final class InsertDishUtilities {
                     .notifyItemChanged(dishPosition);
         } catch (NullPointerException e) {
             System.out.println(e.getMessage());
-            notifyItemChanged(recyclerViewCourses, coursePosition, dishPosition);
+            //notifyItemChanged(recyclerViewCourses, coursePosition, dishPosition);
         }
     }
 
@@ -325,7 +327,7 @@ public final class InsertDishUtilities {
                     .notifyItemRemoved(dishPosition);
         } catch (NullPointerException e) {
             System.out.println(e.getMessage());
-            notifyItemRemoved(recyclerViewCourses, coursePosition, dishPosition);
+            //notifyItemRemoved(recyclerViewCourses, coursePosition, dishPosition);
         }
     }
 

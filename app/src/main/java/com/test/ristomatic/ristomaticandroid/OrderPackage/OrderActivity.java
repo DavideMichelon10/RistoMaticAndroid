@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,12 +24,18 @@ import android.widget.Toast;
 import com.test.ristomatic.ristomaticandroid.Application.ContextApplication;
 import com.test.ristomatic.ristomaticandroid.Application.GlobalVariableApplication;
 import com.test.ristomatic.ristomaticandroid.Application.VolleyCallbackObject;
+import com.test.ristomatic.ristomaticandroid.OrderPackage.Dialogs.SelectVariantsModel.SelectVariantsDialog;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.InsertDishUtilities.InsertDishUtilities;
+import com.test.ristomatic.ristomaticandroid.OrderPackage.OrderSummaryDialog.OrderSummaryDialog;
+import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.CoursesAdapter;
+import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.Course;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.SelectedDish;
 import com.test.ristomatic.ristomaticandroid.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 
 public class OrderActivity extends AppCompatActivity {
@@ -136,6 +143,10 @@ public class OrderActivity extends AppCompatActivity {
     }
 
 
+    public void onRefreshClick(View view){
+        recyclerViewCourses.getAdapter().notifyDataSetChanged();
+    }
+
     private void createCourseSelection() {
         rgp = findViewById(R.id.flow_group);
         RadioGroup.LayoutParams rprms;
@@ -176,10 +187,16 @@ public class OrderActivity extends AppCompatActivity {
 
 
     public void sendReport(View view) throws JSONException {
-        new SendReport().execute();
-        super.onBackPressed();
+        OrderSummaryDialog orderSummaryDialog = OrderSummaryDialog.getInstance((ArrayList<Course>) CoursesAdapter.getCourses(), new SendReport(), this);
+        FragmentManager fm = this.getSupportFragmentManager();
+        orderSummaryDialog.show(fm, "order_summary_dialog");
+        //new SendReport().execute();
+        //super.onBackPressed();
     }
 
+    public void goBack(){
+        super.onBackPressed();
+    }
 
     @Override
     public void onBackPressed() {
@@ -224,7 +241,7 @@ public class OrderActivity extends AppCompatActivity {
     }
 
 
-    private class SendReport extends AsyncTask<Void, String ,Void>{
+    public class SendReport extends AsyncTask<Void, String ,Void>{
 
         @Override
         protected Void doInBackground(Void... voids) {

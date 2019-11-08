@@ -1,5 +1,8 @@
 package com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 import java.util.List;
 //portata, contiene i piatti di quella portata
@@ -20,6 +23,8 @@ public class Course {
         this.courseNumber = courseNumber;
         this.selectedDishes = selectedDishes;
     }
+
+
 
     public int getCourseNumber() {
         return courseNumber;
