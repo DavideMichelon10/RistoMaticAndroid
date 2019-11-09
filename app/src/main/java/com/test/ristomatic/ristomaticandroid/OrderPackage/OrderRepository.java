@@ -80,6 +80,7 @@ public class OrderRepository implements Parcelable {
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
+                            System.out.println(response.toString());
                             volleyCallbackObject.onSuccess(response);
                         }
                     }, new Response.ErrorListener() {
@@ -115,6 +116,7 @@ public class OrderRepository implements Parcelable {
     }
 
     public void sendModificaRichiamo(final JSONObject modifiche, final VolleyCallbackObject volleyCallbackObject) {
+        System.out.println("IN SEND MODIFICA RICHIAMo");
         final JsonObjectRequest sendModificaRichiamo = new JsonObjectRequest(Request.Method.POST, VolleyCallApplication.sendModificaRichiamo(), modifiche,
                 new Response.Listener<JSONObject>() {
                     @Override

@@ -11,7 +11,7 @@ public class Course {
     private int courseNumber;
 
     public Course(){
-        selectedDishes =new ArrayList<>();
+        selectedDishes = new ArrayList<>();
     }
 
     public Course(int courseNumber) {

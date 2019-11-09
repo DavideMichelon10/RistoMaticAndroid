@@ -73,7 +73,12 @@ public class ElementModified {
 
     @Override
     public String toString() {
-        return  "ID: "+idElement+" description: "+description+" quantita: "+quantity+" modificata: "+quantityModified+"\n";
+        String string =  "ID: "+idElement+" description: "+description+" quantita: "+quantity+" modificata: "+quantityModified+" rig tavolo: "+riga_variazione;
+
+        /*for(ElementModified e : variantsAdded){
+            string += e.toString();
+        }*/
+        return string;
     }
 
     public List<ElementModified> getVariantsAdded() {
