@@ -46,7 +46,6 @@ public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.CourseVi
     //Si occuperà SelectedDishesAdapter di creare la lista di piatti selezionati per quella portata
     @Override
     public void onBindViewHolder(final CourseViewHolder holder, final int position) {
-        System.out.println("ON BIND VIEW HOLDER COURSE");
         Course course = getCourses().get(position);
         holder.courseNumber.setText("Portata: " + getCourses().get(position).getCourseNumber());
         holder.courses.setHasFixedSize(false);

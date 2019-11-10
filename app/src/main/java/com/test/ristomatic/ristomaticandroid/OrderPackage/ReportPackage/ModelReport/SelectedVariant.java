@@ -11,7 +11,6 @@ public class SelectedVariant implements Parcelable{
     private int id_rig_tavolo;
 
 
-
     public SelectedVariant(int idVariant, String variantName){
         setVariantName(variantName);
         setIdVariant(idVariant);
@@ -28,9 +27,17 @@ public class SelectedVariant implements Parcelable{
     }
 
     @Ignore
+    public SelectedVariant(int idVariant, String variantName,boolean isPlus){
+        setVariantName(variantName);
+        setIdVariant(idVariant);
+        setPlus(isPlus);
+    }
+
+    @Ignore
     public  SelectedVariant(int idVariant, boolean isPlus){
         setIdVariant(idVariant); setPlus(isPlus);
     }
+
     protected SelectedVariant(Parcel in) {
         variantName = in.readString();
         idVariant = in.readInt();

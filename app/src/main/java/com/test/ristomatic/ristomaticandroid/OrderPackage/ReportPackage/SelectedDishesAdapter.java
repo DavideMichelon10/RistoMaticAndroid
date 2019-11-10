@@ -116,6 +116,7 @@ public class SelectedDishesAdapter extends RecyclerView.Adapter<SelectedDishesAd
                 public void onClick(View v) {
                     ArrayList<SelectedVariant> variants = (ArrayList<SelectedVariant>) OrderViewModel.getInitDB().getDishModelDao().getVariantsNameAndIdOfDish(dishName
                             .getText().toString());
+
                     ArrayList<SelectedVariant> selectedVariantsList = (ArrayList<SelectedVariant>) ((SelectedVariantsAdapter)selectedVariants
                             .getAdapter()).variantsSelected;
                     String note = "";

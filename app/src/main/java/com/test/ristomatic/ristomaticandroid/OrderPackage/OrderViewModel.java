@@ -140,7 +140,6 @@ public class OrderViewModel extends AndroidViewModel {
                 if(modifiedCourse != null){
                     elementModifiedList.addAll(addOrDeleteDishesInSameCourse(modifiedCourse, comandaRichiama));
                 }else{
-                    System.out.println("LA PORTATA NON ESISTE");
                     //LA PORTATA NON ESISTE
                     elementModifiedList.addAll(addOrDeleteDishesInSameCourse(new Course(), comandaRichiama));
                 }
@@ -230,7 +229,7 @@ public class OrderViewModel extends AndroidViewModel {
             for (int i = size; i < comandaRichiama.getAllSelectedDishes().size(); i++){
                 SelectedDish selectedDish = comandaRichiama.getAllSelectedDishes().get(i);
                 elementModifiedList.add(new ElementModified(selectedDish.getSelectedDishId(), selectedDish.getSelectedDishName(),
-                        modifiedCourse.getCourseNumber(), selectedDish.getTimeSelected(), selectedDish.getTimeSelected()*-1, selectedDish.getId_rig_tavolo()));
+                        comandaRichiama.getCourseNumber(), selectedDish.getTimeSelected(), selectedDish.getTimeSelected()*-1, selectedDish.getId_rig_tavolo()));
             }
 
         }else{
@@ -274,8 +273,11 @@ public class OrderViewModel extends AndroidViewModel {
         }
 
         for(int i = 0; i < size; i++){
+
             SelectedVariant modifiedVariant = modifiedVariants.get(i);
             SelectedVariant selectedVariant = selectedVariants.get(i);
+
+            System.out.println("MOD RIG TAVOLO: "+modifiedVariant.getId_rig_tavolo() +"SEL RIG TAVOLO: "+ selectedVariant.getId_rig_tavolo());
             if(modifiedVariant.getId_rig_tavolo() == selectedVariant.getId_rig_tavolo()){
                 if(modifiedVariant.isPlus() != selectedVariant.isPlus()){
                     if(modifiedVariant.isPlus()){
@@ -299,30 +301,30 @@ public class OrderViewModel extends AndroidViewModel {
             }
         }
         if(isModifiedMajor){
+
             for (int i = size; i < modifiedVariants.size(); i++){
                 SelectedVariant modifiedVariant = modifiedVariants.get(i);
                 if(modifiedVariant.isPlus()){
                     elementsModified.add(new ElementModified(modifiedVariant.getIdVariant(), "++"+modifiedVariant.getVariantName(),
-                            courseNumber, 1, -1, rigaVairazione));
+                            courseNumber, 0, 1, rigaVairazione));
                 }else{
                     elementsModified.add(new ElementModified(modifiedVariant.getIdVariant(), "--"+modifiedVariant.getVariantName(),
-                            courseNumber, 1, -1, rigaVairazione));
+                            courseNumber, 0, 1, rigaVairazione));
                 }
-
             }
-
         }else{
             for (int i = size; i < selectedVariants.size(); i++){
                 SelectedVariant selectedVariant = selectedVariants.get(i);
                 if(selectedVariant.isPlus()){
                     elementsModified.add(new ElementModified(selectedVariant.getIdVariant(), "++"+selectedVariant.getVariantName(),
-                            courseNumber, 0, 1, rigaVairazione));
+                            courseNumber, 1, -1, rigaVairazione));
                 }else{
                     elementsModified.add(new ElementModified(selectedVariant.getIdVariant(), "--"+selectedVariant.getVariantName(),
-                            courseNumber, 0, 1, rigaVairazione));
+                            courseNumber, 1, -1, rigaVairazione));
                 }
 
             }
+
         }
         return elementsModified;
     }
@@ -373,6 +375,10 @@ public class OrderViewModel extends AndroidViewModel {
                 try {
                     comandaRichiamata = result;
                     List<Course> courses = jsonObjectToCoursesList(result);
+
+                    for(Course c : courses){
+                        System.out.println("COURSE: " + courses.toString());
+                    }
                     adaptersContainer.setCoursesAdapter(new CoursesAdapter(context, courses));
                     callbackObject.onSuccess(getJsonToSendToOrderActivity(result));
                 } catch (JSONException e) {

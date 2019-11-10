@@ -54,6 +54,7 @@ public class SelectVariantsDialog extends DialogFragment {
                 try {
                     if (!isInsertion()) {
                         int dishPosition = getArguments().getInt("dishPosition");
+                        int id_rig_tavolo = getArguments().getInt("id_rig_tavolo");
                         int timeSelected = Integer.parseInt(timeSelectedEditText.getText().toString());
                         if (noteEditText.getText().toString().compareTo("") != 0){
                             selectedVariants.add(new SelectedVariant(-1,noteEditText.getText().toString()));
@@ -104,7 +105,13 @@ public class SelectVariantsDialog extends DialogFragment {
             multiChoiceItems.setAdapter(new MultiChoiceAdapter(variants, getContext()));
         } else {
             checkedVariants = new ArrayList<>();
+            List<Integer> indexes = new ArrayList<>();
+            int counter = 0;
             for (Boolean b : getArguments().getBooleanArray("selectedVariants")){
+                if(b){
+                    indexes.add(counter);
+                }
+                counter++;
                 checkedVariants.add(new Boolean(b));
             }
             noteEditText.setText(getArguments().getString("note"));
@@ -113,6 +120,9 @@ public class SelectVariantsDialog extends DialogFragment {
             List<Boolean> selectedVariantsPlus = new ArrayList<>();
             for (boolean selectedVariantPlus: selectedVariantsPlusArray) {
                 selectedVariantsPlus.add(selectedVariantPlus);
+            }
+            for(int index: indexes){
+                variants.get(index).setId_rig_tavolo(getArguments().getInt("id_rig_tavolo"));
             }
             multiChoiceItems.setAdapter(new MultiChoiceAdapter(variants, checkedVariants,selectedVariantsPlus, getContext()));
         }
@@ -176,9 +186,15 @@ public class SelectVariantsDialog extends DialogFragment {
         args.putInt("courseNumber", courseNumber);
         args.putParcelableArrayList("variants", variants);
         args.putInt("dishPosition", dishPosition);
+        for(SelectedVariant s : selectedVariants){
+            System.out.println("SELEC: VAR :" + s.toString());
+        }
         initializeCheckedVariants(variants, selectedVariants, args);
         args.putString("note", note);
         args.putString("timeSelected", timeSelected);
+        if(selectedVariants.size() > 0){
+            args.putInt("id_rig_tavolo", selectedVariants.get(0).getId_rig_tavolo());
+        }
         frag.setArguments(args);
         return frag;
     }
