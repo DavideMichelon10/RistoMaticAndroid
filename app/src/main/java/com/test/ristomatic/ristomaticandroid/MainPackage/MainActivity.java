@@ -8,6 +8,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.test.ristomatic.ristomaticandroid.Application.ContextApplication;
 import com.test.ristomatic.ristomaticandroid.LoginPackage.LoginViewModel;
@@ -23,6 +25,8 @@ import java.io.IOException;
 public class MainActivity extends AppCompatActivity {
     private static MainViewModel mainViewModel;
     private static GraphicComponents graphicComponents;
+    public ProgressBar p;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +36,10 @@ public class MainActivity extends AppCompatActivity {
         mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
         final ViewPager viewPager = findViewById(R.id.viewPager);
         final TabLayout tabLayout = findViewById(R.id.tabLayout);
+        p = findViewById(R.id.progressBarTavoli);
         final PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager());
         graphicComponents = new GraphicComponents(viewPager, tabLayout, pagerAdapter);
+        p.setVisibility(View.VISIBLE);
         mainViewModel.init(new MainRepository(), graphicComponents.getPagerAdapter(),this);
 
         new Thread(new Runnable() {

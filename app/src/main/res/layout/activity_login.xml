@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/login_constraint_layout"
     android:layout_width="match_parent"
+    android:background="#ffffff"
     android:layout_height="match_parent"
     tools:context=".LoginPackage.LoginActivity">
 
@@ -30,6 +31,10 @@
         android:layout_marginBottom="8dp"
         android:onClick="login"
         android:text="LOGIN"
+        android:backgroundTint="@color/colorPrimary"
+        android:textColor="@color/backGroundMainActivity"
+        android:textColorHighlight="@color/colorPrimaryDark"
+        android:textColorHint="@color/colorPrimaryDark"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/editCode"

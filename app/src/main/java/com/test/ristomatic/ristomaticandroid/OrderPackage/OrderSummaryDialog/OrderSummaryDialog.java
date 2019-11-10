@@ -48,7 +48,7 @@ public class OrderSummaryDialog extends DialogFragment {
             boolean isEven = true;
             for(SelectedDish selectedDish : course.getAllSelectedDishes()){
                 TextView dishTextView = new TextView(getContext());
-                dishTextView.setText(" " + selectedDish.getTimeSelected() + "x" + selectedDish.getSelectedDishName());
+                dishTextView.setText("   " + selectedDish.getTimeSelected() + "x" + selectedDish.getSelectedDishName());
                 if(isEven){
                     dishTextView.setBackgroundColor(0xFFa3c2c2);
                     isEven = false;
@@ -62,13 +62,13 @@ public class OrderSummaryDialog extends DialogFragment {
                 dishTextView.setLayoutParams(params);
                 boolean isVariantEven = true;
                 for (SelectedVariant selectedVariant : selectedDish.getSelectedVariants()){
-                    String sign = "--";
+                    String sign = "-- ";
                     if(selectedVariant.isPlus())
-                        sign = "++";
+                        sign = "++ ";
                     TextView variantTextView = new TextView(getContext());
-                    variantTextView.setText("   " + sign + selectedVariant.getVariantName());
+                    variantTextView.setText("     " + sign + selectedVariant.getVariantName());
                     if(isVariantEven){
-                        variantTextView.setBackgroundColor(0xFFd1e0e0);
+                        variantTextView.setBackgroundColor(0xFFf0f5f5);
                         isVariantEven = false;
                     } else {
                         variantTextView.setBackgroundColor(0xFFe0ebeb);

@@ -2,8 +2,10 @@ package com.test.ristomatic.ristomaticandroid.OrderPackage.InsertDishUtilities;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.widget.Button;
 
 import com.test.ristomatic.ristomaticandroid.OrderPackage.OrderActivity;
+import com.test.ristomatic.ristomaticandroid.OrderPackage.OrderViewModel;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.CoursesAdapter;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.Course;
 import com.test.ristomatic.ristomaticandroid.OrderPackage.ReportPackage.ModelReport.SelectedDish;
@@ -302,7 +304,6 @@ public final class InsertDishUtilities {
 
     private static void notifyItemChanged(RecyclerView recyclerViewCourses, int coursePosition, int dishPosition) {
         try {
-            System.out.println("COURSE POSITION: " + coursePosition);
             //Chiamo il notifyItemChanged sull'adapter della portata e come position passo dishPosition
             ((CoursesAdapter.CourseViewHolder) recyclerViewCourses
                     .findViewHolderForAdapterPosition(coursePosition))
@@ -310,7 +311,6 @@ public final class InsertDishUtilities {
                     .getAdapter()
                     .notifyItemChanged(dishPosition);
         } catch (NullPointerException e) {
-
             System.out.println(e.getMessage());
             //notifyItemChanged(recyclerViewCourses, coursePosition, dishPosition);
         }

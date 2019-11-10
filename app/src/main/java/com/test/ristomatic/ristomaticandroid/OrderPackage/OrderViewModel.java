@@ -42,17 +42,25 @@ public class OrderViewModel extends AndroidViewModel {
 
 
 
+
     public enum StatusCodeCases {
         STATUS_CODE_500, STATUS_CODE_SCONTRINO_500, REQUEST_SCONTRINO,STATUS_CODE_SCONTRINO_200
     }
+
+
+
+
     private static MutableLiveData<StatusCodeCases> statusCodeCases;
+
+
+
 
     public OrderViewModel(Application application) {
         super(application);
         setInitDB(new InitDB(this.getApplication()));
         courses = new ArrayList<>();
         orderRepository = new OrderRepository();
-        statusCodeCases = new MutableLiveData<StatusCodeCases>();
+        statusCodeCases = new MutableLiveData<>();
         setAdaptersContainer(new AdaptersContainer());
     }
 
@@ -175,7 +183,13 @@ public class OrderViewModel extends AndroidViewModel {
             getOrderRepository().sendModificaRichiamo(report, new VolleyCallbackObject() {
                 @Override
                 public void onSuccess(JSONObject result) {
+                    Toast toast = Toast.makeText(ContextApplication.getAppContext(), "MODIFICHE INVIATE!", Toast.LENGTH_LONG);
+                    View view = toast.getView();
 
+                    int color = ContextCompat.getColor(ContextApplication.getAppContext(), R.color.myGreen);
+
+                    view.getBackground().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+                    toast.show();
                 }
             });
         }

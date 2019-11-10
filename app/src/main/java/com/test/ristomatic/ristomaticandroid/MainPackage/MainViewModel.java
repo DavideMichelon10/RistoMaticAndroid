@@ -4,6 +4,7 @@ import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.content.SharedPreferences;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.google.gson.Gson;
 import com.test.ristomatic.ristomaticandroid.Application.ContextApplication;
@@ -67,6 +68,7 @@ public class MainViewModel extends AndroidViewModel {
                     initializeTableFragments(result, pagerAdapter, mainActivity);
                     numberRooms = result.length();
                     MainActivity.createView(numberRooms);
+                    mainActivity.p.setVisibility(View.GONE);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

@@ -137,9 +137,9 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
         public void setOccupied(boolean occupied) {
             isOccupied = occupied;
             if (isOccupied)
-                textViewId.setBackgroundColor(0xFFAFAFAF);
+                textViewId.setBackgroundColor(0xFFff704d);
             else
-                this.textViewId.setBackgroundColor(0xFF32E567);
+                this.textViewId.setBackgroundColor(0xFF80ffaa);
         }
     }
 }

@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v4.app.FragmentManager;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -283,6 +282,7 @@ public class OrderActivity extends AppCompatActivity {
 
     public class SendReport extends AsyncTask<Void, String ,Void>{
 
+
         @Override
         protected Void doInBackground(Void... voids) {
             try {
@@ -291,6 +291,14 @@ public class OrderActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
             return(null);
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+
+            //Toast.makeText(ContextApplication.getAppContext(), "MODIFICHE IN CODA", Toast.LENGTH_LONG).show();
+
         }
     }
 }

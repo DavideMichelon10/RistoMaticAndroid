@@ -93,20 +93,8 @@ public class OrderRepository implements Parcelable {
                         printMessageFromJSON(body);
                     }
                 }
-            }) {
-                @Override
-                protected VolleyError parseNetworkError(VolleyError volleyError) {
+            });
 
-
-                    return super.parseNetworkError(volleyError);
-                }
-
-                @Override
-                protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
-                    int statusCode = response.statusCode;
-                    return super.parseNetworkResponse(response);
-                }
-            };
             getRichiama.setRetryPolicy(new DefaultRetryPolicy(0, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
             SingeltonVolley.getInstance(ContextApplication.getAppContext()).addToRequestQueue(getRichiama);
@@ -116,7 +104,7 @@ public class OrderRepository implements Parcelable {
     }
 
     public void sendModificaRichiamo(final JSONObject modifiche, final VolleyCallbackObject volleyCallbackObject) {
-        System.out.println("IN SEND MODIFICA RICHIAMo");
+
         final JsonObjectRequest sendModificaRichiamo = new JsonObjectRequest(Request.Method.POST, VolleyCallApplication.sendModificaRichiamo(), modifiche,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -128,8 +116,14 @@ public class OrderRepository implements Parcelable {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                System.out.println("IN ONERROR SEND RICHIAMO: "+error.getMessage());
-                //sendModificaRichiamo(modifiche, volleyCallbackObject);
+                if(error.getMessage() != null && error.getMessage().contains("Failed to connect to")){
+                    sendModificaRichiamo(modifiche, volleyCallbackObject);
+                }
+
+                if (getStatusCode(error) == 500) {
+                    String body = new String(error.networkResponse.data, UTF_8);
+                    printMessageFromJSON(body);
+                }
             }
         });
         sendModificaRichiamo.setRetryPolicy(new DefaultRetryPolicy(
@@ -158,8 +152,6 @@ public class OrderRepository implements Parcelable {
                 if (getStatusCode(error) == 500) {
                     String body = new String(error.networkResponse.data, UTF_8);
                     printMessageFromJSON(body);
-
-                    System.out.println("BODY: "+body);
                 }
             }
         });
